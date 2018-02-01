@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/andreashuber69/ts-tutorial#readme",
   "devDependencies": {
+    "tslint": "^5.9.1",
     "typescript": "^2.7.1"
   }
 }
