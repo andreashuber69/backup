@@ -1,0 +1,22 @@
+{
+  "name": "ts-tutorial",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andreashuber69/ts-tutorial.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andreashuber69/ts-tutorial/issues"
+  },
+  "homepage": "https://github.com/andreashuber69/ts-tutorial#readme",
+  "dependencies": {
+    "typescript": "^2.7.1"
+  }
+}
