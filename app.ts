@@ -1,8 +1,8 @@
-class Startup {
+class App {
     public static main(): number {
         console.log('Hello World');
         return 0;
     }
 }
 
-Startup.main();
+App.main();
