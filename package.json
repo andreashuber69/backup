@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "tsc": "tsc"
+    "prestart": "tsc",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
