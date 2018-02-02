@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "build": "tsc",
-    "prestart": "build",
-    "start": "node server.js"
+    "predebug": "tsc",
+    "debug": "node --inspect-brk dist/app.js",
+    "prestart": "tsc",
+    "start": "node dist/app.js"
   },
   "repository": {
     "type": "git",
