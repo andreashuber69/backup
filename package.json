@@ -14,14 +14,18 @@
     "type": "git",
     "url": "git+https://github.com/andreashuber69/ts-tutorial.git"
   },
-  "author": "",
+  "author": "Andreas Huber",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/andreashuber69/ts-tutorial/issues"
   },
   "homepage": "https://github.com/andreashuber69/ts-tutorial#readme",
   "devDependencies": {
+    "typescript": "^2.7.1",
     "tslint": "^5.9.1",
-    "typescript": "^2.7.1"
+    "@types/node": "^9.4.6"
+  },
+  "dependencies": {
+    "child_process": "^1.0.2"
   }
 }

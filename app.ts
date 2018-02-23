@@ -1,15 +1,16 @@
 import { Medium } from "./Medium";
+import { exec } from "child_process";
 
 class App {
-    public static main(): number {
-        let startMilliseconds = Date.UTC(2000, 3, 10);
-        let todayMilliseconds = App.getTodayMilliseconds();
-        let final = (todayMilliseconds - startMilliseconds) / 24 / 60 / 60 / 1000;
+    private static readonly startMilliseconds = Date.UTC(2000, 3, 10); 
 
-        for (let days = 0; days < final; ++days) {
-            let medium = Medium.get(2, 7, days);
-            console.log(App.getMediumName(medium));
-        }
+    public static main(): number {
+        let daysSinceStart = (App.getTodayMilliseconds() - App.startMilliseconds) / 24 / 60 / 60 / 1000;
+        let medium = Medium.get(2, 7, daysSinceStart);
+        let mediumName = App.getMediumName(medium);
+        console.info("Please insert USB stick " + mediumName + " and press Enter.");
+        // // var input = await this.getConsoleInput();
+        // // console.info(input);
 
         return 0;
     }
@@ -27,6 +28,12 @@ class App {
         return DayOfWeek[(medium.slotNumber + 1) % 7] + (medium.cacheNumber + 1) +
             String.fromCharCode('a'.charCodeAt(0) + medium.serialNumber);
     }
+
+    // // private static async getConsoleInput(): Promise<string> {
+    // //     return new Promise<string>(resolve => process.stdin.once("data", args => {
+    // //         resolve(args.toString().trim());
+    // //     }));
+    // // }
 }
 
 enum DayOfWeek {
