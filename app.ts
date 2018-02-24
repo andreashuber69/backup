@@ -1,20 +1,40 @@
 import { Medium } from "./Medium";
-import { access } from "fs";
+import { join } from 'path';
+import { Path } from "./Path";
 import { exec } from "child_process";
 
 class App {
     private static readonly startMilliseconds = Date.UTC(2000, 3, 10); 
 
     public static async main(): Promise<number> {
-        let daysSinceStart = (App.getTodayMilliseconds() - App.startMilliseconds) / 24 / 60 / 60 / 1000;
-        let medium = Medium.get(2, 7, daysSinceStart);
-        let mediumName = App.getMediumName(medium);
- 
-        while (!await this.canAccess("/media/andreas/" + mediumName)) {
-            await this.requestInput("Please insert USB stick " + mediumName + " and press Enter: ");
-        }
+        try
+        {
+            let daysSinceStart = (App.getTodayMilliseconds() - App.startMilliseconds) / 24 / 60 / 60 / 1000;
+            let medium = Medium.get(2, 7, daysSinceStart);
+            let mediumName = App.getMediumName(medium);
+            let mediumRoot = new Path(join("/", "media", "andreas", mediumName));
+    
+            while (!await mediumRoot.canAccess() || !(await mediumRoot.getStats()).isDirectory()) {
+                await this.requestInput("Please insert " + mediumName + " and press Enter: ");
+            }
+    
+            let files = await mediumRoot.getFiles();
 
-        return 0;
+            if ((files.length === 0) ||
+                (await this.requestInput("Non-empty medium! Delete everything? [Y/n]: ")).toLowerCase() !== "n")
+            {
+                for (let file of files) {
+                    await file.delete();
+                }               
+            }
+
+            return 0;
+        }
+        catch (ex)
+        {
+            console.log(ex);
+            return 1;
+        }
     }
 
     private static getTodayMilliseconds(): number {
@@ -34,10 +54,6 @@ class App {
     private static requestInput(prompt: string): Promise<string> {
         process.stdout.write(prompt);
         return App.getConsoleInput();
-    }
-
-    private static canAccess(path: string): Promise<boolean> {
-        return new Promise<boolean>(resolve => access(path, err => resolve(err === null)));
     }
 
     private static async getConsoleInput(): Promise<string> {
