@@ -4,14 +4,12 @@ import { exec } from "child_process";
 class App {
     private static readonly startMilliseconds = Date.UTC(2000, 3, 10); 
 
-    public static main(): number {
+    public static async main(): Promise<number> {
         let daysSinceStart = (App.getTodayMilliseconds() - App.startMilliseconds) / 24 / 60 / 60 / 1000;
         let medium = Medium.get(2, 7, daysSinceStart);
         let mediumName = App.getMediumName(medium);
-        console.info("Please insert USB stick " + mediumName + " and press Enter.");
-        // // var input = await this.getConsoleInput();
-        // // console.info(input);
-
+        let input = await this.requestInput("Please insert USB stick " + mediumName + " and press Enter: ");
+        console.info(input);
         return 0;
     }
 
@@ -29,11 +27,20 @@ class App {
             String.fromCharCode('a'.charCodeAt(0) + medium.serialNumber);
     }
 
-    // // private static async getConsoleInput(): Promise<string> {
-    // //     return new Promise<string>(resolve => process.stdin.once("data", args => {
-    // //         resolve(args.toString().trim());
-    // //     }));
-    // // }
+    private static requestInput(prompt: string): Promise<string> {
+        process.stdout.write(prompt);
+        return App.getConsoleInput();
+    }
+
+    private static async getConsoleInput(): Promise<string> {
+        return new Promise<string>(resolve => {
+            let stdin = process.openStdin();
+            stdin.once("data", args => {
+                resolve(args.toString().trim());
+                stdin.pause();
+            });
+        });
+    }
 }
 
 enum DayOfWeek {
@@ -46,4 +53,4 @@ enum DayOfWeek {
     Saturday        
 }
 
-App.main();
+App.main().then(exitCode => process.exitCode = exitCode);
