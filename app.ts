@@ -1,4 +1,5 @@
 import { Medium } from "./Medium";
+import { access } from "fs";
 import { exec } from "child_process";
 
 class App {
@@ -8,8 +9,11 @@ class App {
         let daysSinceStart = (App.getTodayMilliseconds() - App.startMilliseconds) / 24 / 60 / 60 / 1000;
         let medium = Medium.get(2, 7, daysSinceStart);
         let mediumName = App.getMediumName(medium);
-        let input = await this.requestInput("Please insert USB stick " + mediumName + " and press Enter: ");
-        console.info(input);
+ 
+        while (!await this.canAccess("/media/andreas/" + mediumName)) {
+            await this.requestInput("Please insert USB stick " + mediumName + " and press Enter: ");
+        }
+
         return 0;
     }
 
@@ -30,6 +34,10 @@ class App {
     private static requestInput(prompt: string): Promise<string> {
         process.stdout.write(prompt);
         return App.getConsoleInput();
+    }
+
+    private static canAccess(path: string): Promise<boolean> {
+        return new Promise<boolean>(resolve => access(path, err => resolve(err === null)));
     }
 
     private static async getConsoleInput(): Promise<string> {
