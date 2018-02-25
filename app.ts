@@ -1,17 +1,18 @@
 import { Medium } from "./Medium";
-import { join } from 'path';
 import { Path } from "./Path";
+import { WriteStream } from "fs";
+import { join } from "path";
 import { exec } from "child_process";
+import * as https from "https";
 
 class App {
     private static readonly startMilliseconds = Date.UTC(2000, 3, 10); 
 
     public static async main(): Promise<number> {
-        try
-        {
-            let daysSinceStart = (App.getTodayMilliseconds() - App.startMilliseconds) / 24 / 60 / 60 / 1000;
+        try {
+            let daysSinceStart = (this.getTodayMilliseconds() - this.startMilliseconds) / 24 / 60 / 60 / 1000;
             let medium = Medium.get(2, 7, daysSinceStart);
-            let mediumName = App.getMediumName(medium);
+            let mediumName = this.getMediumName(medium);
             let mediumRoot = new Path(join("/", "media", "andreas", mediumName));
     
             while (!await mediumRoot.canAccess() || !(await mediumRoot.getStats()).isDirectory()) {
@@ -19,19 +20,23 @@ class App {
             }
     
             let files = await mediumRoot.getFiles();
+            const prompt = "Non-empty medium! Delete everything? [Y/n]: ";
 
-            if ((files.length === 0) ||
-                (await this.requestInput("Non-empty medium! Delete everything? [Y/n]: ")).toLowerCase() !== "n")
-            {
+            if ((files.length === 0) || (await this.requestInput(prompt)).toLowerCase() !== "n") {
                 for (let file of files) {
                     await file.delete();
-                }               
+                }
+
+                let backupScript = new Path(join(__dirname, "backup"));
+
+                if (!backupScript.canAccess()) {
+                    await this.downloadFile(
+                        "https://raw.githubusercontent.com/andreashuber69/owncloud/master/backup", backupScript);
+                }
             }
 
             return 0;
-        }
-        catch (ex)
-        {
+        } catch (ex) {
             console.log(ex);
             return 1;
         }
@@ -48,17 +53,64 @@ class App {
 
     private static getMediumName(medium: Medium): string {
         return DayOfWeek[(medium.slotNumber + 1) % 7] + (medium.cacheNumber + 1) +
-            String.fromCharCode('a'.charCodeAt(0) + medium.serialNumber);
+            String.fromCharCode("a".charCodeAt(0) + medium.serialNumber);
     }
 
     private static requestInput(prompt: string): Promise<string> {
         process.stdout.write(prompt);
-        return App.getConsoleInput();
+        return this.getConsoleInput();
+    }
+
+    private static async downloadFile(url: string, path: Path): Promise<void> {
+        try {
+            await this.downloadFileImpl(url, path.openWrite());
+        } catch (ex) {
+            path.delete();
+            throw ex;
+        }
+    }
+
+    private static downloadFileImpl(url: string, writeStream: WriteStream): Promise<void> {
+        return new Promise<void>((resolve, reject) => {
+            let error: any = "Unknown error!";
+                    
+            writeStream.on("finish", () => {
+                error = null;
+                writeStream.close();
+            });
+
+            writeStream.on("error", err => {
+                error = err;
+                writeStream.close();
+            });
+
+            writeStream.on("close", () => {
+                if (error === null) {
+                    resolve();
+                } else {
+                    reject(error);
+                }
+            });
+
+            const request = https.get(url, res => {
+                if (res.statusCode === 200) {
+                    res.pipe(writeStream);
+                } else {
+                    error = res.statusMessage; 
+                    writeStream.close();
+                }
+            });
+
+            request.on("error", err => {
+                error = err;
+                writeStream.close();
+            });
+        });
     }
 
     private static async getConsoleInput(): Promise<string> {
         return new Promise<string>(resolve => {
-            let stdin = process.openStdin();
+            const stdin = process.openStdin();
             stdin.once("data", args => {
                 resolve(args.toString().trim());
                 stdin.pause();

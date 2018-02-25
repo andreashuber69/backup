@@ -1,5 +1,5 @@
-import { access, lstat, Stats, readdir, rmdir, unlink } from "fs";
-import { join } from 'path';
+import { access, lstat, Stats, readdir, createWriteStream, rmdir, unlink, WriteStream } from "fs";
+import { join } from "path";
 
 export class Path {
     public constructor(private readonly path: string)
@@ -42,6 +42,10 @@ export class Path {
         }
     }
 
+    public openWrite(): WriteStream {
+        return createWriteStream(this.path);
+    }
+    
     private removeEmptyDirectory(): Promise<void> {
         return new Promise<void>((resolve, reject) => rmdir(this.path, err => {
             if (err === null) {
