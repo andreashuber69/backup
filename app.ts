@@ -13,13 +13,13 @@ class App {
             let daysSinceStart = (this.getTodayMilliseconds() - this.startMilliseconds) / 24 / 60 / 60 / 1000;
             let medium = Medium.get(2, 7, daysSinceStart);
             let mediumName = this.getMediumName(medium);
-            let mediumRoot = new Path(join("/", "media", "andreas", mediumName));
+            let mediumRoot = new Path(join("/", "home", "andreas", "Downloads", mediumName));
     
             while (!await mediumRoot.canAccess() || !(await mediumRoot.getStats()).isDirectory()) {
                 await this.requestInput("Please insert " + mediumName + " and press Enter: ");
             }
     
-            let files = await mediumRoot.getFiles();
+            const files = await mediumRoot.getFiles();
             const prompt = "Non-empty medium! Delete everything? [Y/n]: ";
 
             if ((files.length === 0) || (await this.requestInput(prompt)).toLowerCase() !== "n") {
@@ -29,7 +29,7 @@ class App {
 
                 let backupScript = new Path(join(__dirname, "backup"));
 
-                if (!backupScript.canAccess()) {
+                if (!await backupScript.exists()) {
                     await this.downloadFile(
                         "https://raw.githubusercontent.com/andreashuber69/owncloud/master/backup", backupScript);
                 }

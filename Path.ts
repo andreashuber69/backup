@@ -1,4 +1,4 @@
-import { access, lstat, Stats, readdir, createWriteStream, rmdir, unlink, WriteStream } from "fs";
+import { access, exists, lstat, Stats, readdir, createWriteStream, rmdir, unlink, WriteStream } from "fs";
 import { join } from "path";
 
 export class Path {
@@ -8,6 +8,10 @@ export class Path {
 
     public canAccess(): Promise<boolean> {
         return new Promise<boolean>(resolve => access(this.path, err => resolve(err === null)));
+    }
+
+    public exists(): Promise<boolean> {
+        return new Promise<boolean>(resolve => exists(this.path, resolve));
     }
 
     public getStats(): Promise<Stats> {
