@@ -3,8 +3,11 @@ import { join } from "path";
 import { EventEmitter } from "events";
 
 export class Path {
-    public constructor(private readonly path: string)
-    {       
+    private readonly path: string;
+
+    public constructor(...paths: string[])
+    {
+        this.path = join(...paths);
     }
 
     public canAccess(): Promise<boolean> {

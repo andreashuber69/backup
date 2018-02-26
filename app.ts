@@ -1,7 +1,6 @@
 import { Medium } from "./Medium";
 import { Path } from "./Path";
 import { WriteStream } from "fs";
-import { join } from "path";
 import { exec } from "child_process";
 import * as https from "https";
 
@@ -13,7 +12,7 @@ class App {
             let daysSinceStart = (this.getTodayMilliseconds() - this.startMilliseconds) / 24 / 60 / 60 / 1000;
             let medium = Medium.get(2, 7, daysSinceStart);
             let mediumName = this.getMediumName(medium);
-            let mediumRoot = new Path(join("/", "home", "andreas", "Downloads", mediumName));
+            let mediumRoot = new Path("/", "home", "andreas", "Downloads", mediumName);
     
             while (!await mediumRoot.canAccess() || !(await mediumRoot.getStats()).isDirectory()) {
                 await this.requestInput("Please insert " + mediumName + " and press Enter: ");
@@ -27,7 +26,7 @@ class App {
                     await file.delete();
                 }
 
-                let backupScript = new Path(join(__dirname, "backup"));
+                let backupScript = new Path(__dirname, "backup");
 
                 if (!await backupScript.exists()) {
                     await this.downloadFile(
