@@ -1,5 +1,6 @@
 import { access, exists, lstat, Stats, readdir, createWriteStream, rmdir, unlink, WriteStream } from "fs";
 import { join } from "path";
+import { EventEmitter } from "events";
 
 export class Path {
     public constructor(private readonly path: string)
@@ -46,10 +47,16 @@ export class Path {
         }
     }
 
-    public openWrite(): WriteStream {
-        return createWriteStream(this.path);
+    public async openWrite(): Promise<WriteStream> {
+        const factory = new StreamFactory(() => createWriteStream(this.path));
+
+        try {
+            return await factory.get();
+        } finally {
+            factory.dispose();
+        }
     }
-    
+
     private removeEmptyDirectory(): Promise<void> {
         return new Promise<void>((resolve, reject) => rmdir(this.path, err => {
             if (err === null) {
@@ -68,5 +75,27 @@ export class Path {
                 reject(err);
             }
         }));
+    }
+}
+
+class StreamFactory<T extends EventEmitter> {
+    private stream: T;
+    private onOpen: (fd: number) => void;
+    private onError: (err: Error) => void;
+    private readonly promise: Promise<T>;
+
+    public constructor(create: () => T) {
+        this.promise = new Promise<T>((resolve, reject) => {
+            this.stream = create();
+            this.onOpen = fd => resolve(this.stream);
+            this.onError = err => reject(err);
+            this.stream.on("open", this.onOpen).on("error", this.onError); 
+        });
+    }
+
+    public get() { return this.promise; }
+
+    public dispose() {
+        this.stream.removeListener("open", this.onOpen).removeListener("error", this.onError);
     }
 }

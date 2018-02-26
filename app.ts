@@ -62,8 +62,10 @@ class App {
     }
 
     private static async downloadFile(url: string, path: Path): Promise<void> {
+        const writeStream = await path.openWrite();
+
         try {
-            await this.downloadFileImpl(url, path.openWrite());
+            await this.downloadFileImpl(url, writeStream);
         } catch (ex) {
             path.delete();
             throw ex;
@@ -74,29 +76,24 @@ class App {
         return new Promise<void>((resolve, reject) => {
             let error: any = "Unknown error!";
                     
-            writeStream.on("finish", () => {
-                error = null;
-                writeStream.close();
-            });
-
-            writeStream.on("error", err => {
-                error = err;
-                writeStream.close();
-            });
-
             writeStream.on("close", () => {
-                if (error === null) {
-                    resolve();
-                } else {
+                if (error) {
                     reject(error);
+                } else {
+                    resolve();
                 }
+            });
+
+            writeStream.on("finish", () => {
+                error = undefined;
+                writeStream.close();
             });
 
             const request = https.get(url, res => {
                 if (res.statusCode === 200) {
                     res.pipe(writeStream);
                 } else {
-                    error = res.statusMessage; 
+                    error = (res.statusCode ? res.statusCode + ": " : "") + res.statusMessage; 
                     writeStream.close();
                 }
             });
