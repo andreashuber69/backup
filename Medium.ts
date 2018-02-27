@@ -17,6 +17,7 @@ export class Medium {
         let cacheNumber = Math.floor(backupCountSinceSlotStart / cacheInterval) % cacheCount;
         let backupCountSinceMediumStart = backupCountSinceSlotStart % mediaLifetime - cacheNumber * cacheInterval;
 
+        // TODO: Integrate medium name
         return new Medium(
             cacheNumber,
             slotNumber,
