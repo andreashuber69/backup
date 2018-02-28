@@ -14,7 +14,8 @@ class App {
         const daysSinceStart = (todayMilliseconds - this.startMilliseconds) / 24 / 60 / 60 / 1000;
         const medium = Medium.get(2, 7, daysSinceStart);
         const mediumName = this.getMediumName(medium);
-        const mediumRoot = new Path("/", "media", "andreas", mediumName);
+        const user = process.env["LOGNAME"];
+        const mediumRoot = new Path("/", "media", user ? user : "", mediumName);
         let logger: Logger | undefined;
 
         try {
