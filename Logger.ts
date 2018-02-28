@@ -7,8 +7,9 @@ export class Logger {
         return new Logger(await path.openWrite());
     }
 
-    public dispose() {
-        this.stream.close();
+    public async dispose() {
+        await this.end();
+        await this.close();
     }
 
     public writeLine(line: string = "") {
@@ -40,7 +41,7 @@ export class Logger {
     private static readonly logWidth = 120;
 
     private static formatTitle(title: string) {
-        return (title + ":            ").slice(0, 13);
+        return (title + ":             ").slice(0, 14);
     }
 
     private static formatTime(time: Date) {
@@ -67,5 +68,13 @@ export class Logger {
 
     private writeInfoLine(name: string, value: string) {
         this.writeLine(Logger.formatTitle(name) + value); 
+    }
+
+    private end() {
+        return new Promise<void>(resolve => this.stream.once("finish", fd => resolve()).end());
+    }
+
+    private close() {
+        return new Promise<void>(resolve => this.stream.once("close", fd => resolve()).close());
     }
 }
