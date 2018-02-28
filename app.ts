@@ -36,6 +36,8 @@ class App {
                 if (!await backupScript.exists()) {
                     await this.downloadFile(
                         "https://raw.githubusercontent.com/andreashuber69/owncloud/master/backup", backupScript);
+                    // Set execute bit for the owner
+                    await backupScript.changeMode((await backupScript.getStats()).mode | 0o100);
                 }
 
                 const commandLine = backupScript.path + " " + mediumRoot.path;
