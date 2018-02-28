@@ -1,31 +1,28 @@
 {
-  "name": "ts-tutorial",
+  "name": "backup",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/App.js",
   "scripts": {
     "build": "tsc",
     "predebug": "tsc",
-    "debug": "node --inspect-brk dist/app.js",
+    "debug": "node --inspect-brk dist/App.js",
     "prestart": "tsc",
-    "start": "node dist/app.js"
+    "start": "node dist/App.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/andreashuber69/ts-tutorial.git"
+    "url": "git+https://github.com/andreashuber69/backup"
   },
   "author": "Andreas Huber",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/andreashuber69/ts-tutorial/issues"
+    "url": "https://github.com/andreashuber69/backup/issues"
   },
-  "homepage": "https://github.com/andreashuber69/ts-tutorial#readme",
+  "homepage": "https://github.com/andreashuber69/backup",
   "devDependencies": {
     "typescript": "^2.7.1",
     "tslint": "^5.9.1",
-    "@types/node": "^9.4.6"
-  },
-  "dependencies": {
-    "child_process": "^1.0.2"
+    "@types/node": "^8.9.4"
   }
 }
