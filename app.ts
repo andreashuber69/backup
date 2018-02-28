@@ -40,12 +40,13 @@ class App {
                 logger.writeOutputMarker("Backup Start");
                 logger.writeMediumInfo(new Date(this.getTodayMilliseconds()), medium, mediumName);
                 const commandLine = backupScript.path + " " + mediumRoot.path;
-                logger.writeMessage("Executing process: " + commandLine);
+                logger.writeMessage("Executing Process: " + commandLine);
                 var result = await this.exec(commandLine);
                 logger.writeOutputMarker("Output Start");
                 logger.writeLine(result.output);
                 logger.writeOutputMarker("Output End");
-                logger.writeMessage("Exit code: " + result.exitCode);
+                logger.writeMessage("Process Exit Message: " + result.exitMessage);
+                logger.writeMessage("Process Exit Code: " + result.exitCode);
                 logger.writeOutputMarker("Backup End");
                 logger.writeLine();
                 return result.exitCode;
@@ -98,8 +99,8 @@ class App {
     }
 
     private static exec(command: string) {
-        return new Promise<ExecResult>(resolve => exec(command, (error, stdout, stderr) => resolve(
-            new ExecResult(error ? 1 : 0, stdout + stderr))));
+        return new Promise<ExecResult>(resolve => exec(command, (error: any, stdout, stderr) => resolve(
+            new ExecResult(stdout + stderr, error ? error.code : 0, error ? error.message : ""))));
     }
 
     private static downloadFileImpl(url: string, writeStream: WriteStream) {
@@ -157,7 +158,8 @@ enum DayOfWeek {
 }
 
 class ExecResult {
-    public constructor(public readonly exitCode: number, public readonly output: string) {}
+    public constructor(
+        public readonly output: string, public readonly exitCode: number, public readonly exitMessage: string) {}
 }
 
 App.main().then(exitCode => process.exitCode = exitCode);
