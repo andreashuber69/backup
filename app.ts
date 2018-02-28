@@ -39,14 +39,14 @@ class App {
                 }
 
                 const commandLine = backupScript.path + " " + mediumRoot.path;
-                var resultPromise = this.exec(commandLine);
+                const resultPromise = this.exec(commandLine);
                 // Allow the external process to start and execute past the empty directory check.
                 await this.delay(1000);
                 logger = await Logger.create(new Path(mediumRoot.path, "log.txt"));
                 logger.writeOutputMarker("Backup Start");
                 logger.writeMediumInfo(new Date(todayMilliseconds), medium, mediumName);
                 logger.writeMessage("Executing Process: " + commandLine);
-                var result = await resultPromise;
+                const result = await resultPromise;
                 logger.writeOutputMarker("Output Start");
                 logger.writeLine(result.output);
                 logger.writeOutputMarker("Output End");
