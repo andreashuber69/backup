@@ -3,8 +3,6 @@ import { Medium } from "./Medium";
 import { WriteStream } from "fs";
 
 export class Logger {
-    private static readonly logWidth = 120;
-
     public static async create(path: Path) {
         return new Logger(await path.openWrite());
     }
@@ -30,9 +28,16 @@ export class Logger {
         this.writeInfoLine("Medium End", Logger.formatDate(mediumEnd));
     }
 
-    private writeInfoLine(name: string, value: string) {
-        this.writeLine(Logger.formatTitle(name) + value); 
+    public writeOutputMarker(marker: string) {
+        const lined = " [" + marker + "] ";
+        const leftPadding = Math.floor((Logger.logWidth - lined.length) / 2);
+        const rightPadding = Logger.logWidth - marker.length - leftPadding;
+        this.writeLine("#".repeat(Math.max(0, leftPadding)) + lined + "#".repeat(Math.max(0, rightPadding)));
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private static readonly logWidth = 120;
 
     private static formatTitle(title: string) {
         return (title + ":            ").slice(0, 13);
@@ -58,5 +63,9 @@ export class Logger {
     }
 
     private constructor(private readonly stream: WriteStream) {
+    }
+
+    private writeInfoLine(name: string, value: string) {
+        this.writeLine(Logger.formatTitle(name) + value); 
     }
 }
