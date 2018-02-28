@@ -3,6 +3,7 @@ import { Path } from "./Path";
 import { Logger } from "./Logger";
 import { WriteStream } from "fs";
 import { exec } from "child_process";
+import { setTimeout } from "timers";
 import * as https from "https";
 
 class App {
@@ -29,7 +30,6 @@ class App {
                     await file.delete();
                 }
 
-                logger = await Logger.create(new Path(mediumRoot.path, "log.txt"));
                 const backupScript = new Path(__dirname, "backup");
 
                 if (!await backupScript.exists()) {
@@ -37,11 +37,15 @@ class App {
                         "https://raw.githubusercontent.com/andreashuber69/owncloud/master/backup", backupScript);
                 }
 
-                logger.writeOutputMarker("Backup Start");
-                logger.writeMediumInfo(new Date(this.getTodayMilliseconds()), medium, mediumName);
                 const commandLine = backupScript.path + " " + mediumRoot.path;
+                var resultPromise = this.exec(commandLine);
+                // Allow the external process to start and execute past the empty directory check.
+                await this.delay(1000);
+                logger = await Logger.create(new Path(mediumRoot.path, "log.txt"));
+                logger.writeOutputMarker("Backup Start");
+                logger.writeMediumInfo(new Date(todayMilliseconds), medium, mediumName);
                 logger.writeMessage("Executing Process: " + commandLine);
-                var result = await this.exec(commandLine);
+                var result = await resultPromise;
                 logger.writeOutputMarker("Output Start");
                 logger.writeLine(result.output);
                 logger.writeOutputMarker("Output End");
@@ -101,6 +105,10 @@ class App {
     private static exec(command: string) {
         return new Promise<ExecResult>(resolve => exec(command, (error: any, stdout, stderr) => resolve(
             new ExecResult(stdout + stderr, error ? error.code : 0, error ? error.message : ""))));
+    }
+
+    private static delay(milliseconds: number) {
+        return new Promise<void>(resolve => setTimeout(resolve, milliseconds));
     }
 
     private static downloadFileImpl(url: string, writeStream: WriteStream) {
