@@ -5,6 +5,7 @@
   "main": "dist/App.js",
   "scripts": {
     "build": "tsc",
+    "lint": "tslint *.ts -t verbose",
     "predebug": "tsc",
     "debug": "node --inspect-brk dist/App.js",
     "prestart": "tsc",
