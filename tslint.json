@@ -4,6 +4,7 @@
     "rulesDirectory": [],
     "rules": {
         "comment-format": [ true, "check-space" ],
+        "completed-docs": false,
         "max-line-length": {
             "options": [ 120 ]
         },
@@ -33,6 +34,7 @@
         "no-magic-numbers": false,
         "no-parameter-properties": false,
         "no-unnecessary-class": [ "allow-static-only" ],
+        "no-void-expression": false,
         "typedef": false
     },
     "jsRules": {
