@@ -1,6 +1,6 @@
-import { Path } from "./Path";
-import { Medium } from "./Medium";
 import { WriteStream } from "fs";
+import { Medium } from "./Medium";
+import { Path } from "./Path";
 
 export class Logger {
     public static async create(path: Path) {
@@ -60,14 +60,14 @@ export class Logger {
     }
 
     private static formatNumber(num: number, length: number) {
-        return ('000' + num).slice(-length);
+        return ("000" + num).slice(-length);
     }
 
     private constructor(private readonly stream: WriteStream) {
     }
 
     private writeInfoLine(name: string, value: string) {
-        this.writeLine(Logger.formatTitle(name) + value); 
+        this.writeLine(Logger.formatTitle(name) + value);
     }
 
     private end() {

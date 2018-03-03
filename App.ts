@@ -1,20 +1,19 @@
+import { exec } from "child_process";
+import { WriteStream } from "fs";
+import * as https from "https";
+import { setTimeout } from "timers";
+import { ExecResult } from "./ExecResult";
+import { Logger } from "./Logger";
 import { Medium } from "./Medium";
 import { Path } from "./Path";
-import { Logger } from "./Logger";
-import { WriteStream } from "fs";
-import { exec } from "child_process";
-import { setTimeout } from "timers";
-import * as https from "https";
 
 class App {
-    private static readonly startMilliseconds = Date.UTC(2000, 3, 10); 
-
     public static async main() {
         const todayMilliseconds = this.getTodayMilliseconds();
         const daysSinceStart = (todayMilliseconds - this.startMilliseconds) / 24 / 60 / 60 / 1000;
         const medium = Medium.get(2, 7, daysSinceStart);
         const mediumName = this.getMediumName(medium);
-        const user = process.env["LOGNAME"];
+        const user = process.env.LOGNAME;
         const mediumRoot = new Path("/", "media", user ? user : "", mediumName);
         let logger: Logger | undefined;
 
@@ -22,12 +21,12 @@ class App {
             while (!await mediumRoot.canAccess() || !(await mediumRoot.getStats()).isDirectory()) {
                 await this.requestInput("Please insert " + mediumName + " and press Enter: ");
             }
-    
+
             const files = await mediumRoot.getFiles();
             const prompt = "Non-empty medium! Delete everything? [Y/n]: ";
 
             if ((files.length === 0) || (await this.requestInput(prompt)).toLowerCase() !== "n") {
-                for (let file of files) {
+                for (const file of files) {
                     await file.delete();
                 }
 
@@ -66,20 +65,22 @@ class App {
             }
 
             return 1;
-        }
-        finally {
-            if (logger)
-            {
+        } finally {
+            if (logger) {
                 await logger.dispose();
             }
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private static readonly startMilliseconds = Date.UTC(2000, 3, 10);
+
     private static getTodayMilliseconds() {
         // We want to get the number of full days between start and today. The current timezone should be considered
         // such that when the clock moves past midnight in the current timezone then the number of days between start
         // and today should increase by one. We achieve that by getting the current local year, month and day and then
-        // pretend that they are actually UTC numbers. Likewise, we construct the start with Date.UTC. 
+        // pretend that they are actually UTC numbers. Likewise, we construct the start with Date.UTC.
         const now = new Date();
         return Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
     }
@@ -106,18 +107,18 @@ class App {
     }
 
     private static exec(command: string) {
-        return new Promise<ExecResult>(resolve => exec(command, (error: any, stdout, stderr) => resolve(
+        return new Promise<ExecResult>((resolve) => exec(command, (error: any, stdout, stderr) => resolve(
             new ExecResult(stdout + stderr, error ? error.code : 0, error ? error.message : ""))));
     }
 
     private static delay(milliseconds: number) {
-        return new Promise<void>(resolve => setTimeout(resolve, milliseconds));
+        return new Promise<void>((resolve) => setTimeout(resolve, milliseconds));
     }
 
     private static downloadFileImpl(url: string, writeStream: WriteStream) {
         return new Promise<void>((resolve, reject) => {
             let error: any = "Unknown error!";
-                    
+
             writeStream.on("close", () => {
                 if (error) {
                     reject(error);
@@ -131,16 +132,16 @@ class App {
                 writeStream.close();
             });
 
-            const request = https.get(url, res => {
+            const request = https.get(url, (res) => {
                 if (res.statusCode === 200) {
                     res.pipe(writeStream);
                 } else {
-                    error = (res.statusCode ? res.statusCode + ": " : "") + res.statusMessage; 
+                    error = (res.statusCode ? res.statusCode + ": " : "") + res.statusMessage;
                     writeStream.close();
                 }
             });
 
-            request.on("error", err => {
+            request.on("error", (err) => {
                 error = err;
                 writeStream.close();
             });
@@ -148,9 +149,9 @@ class App {
     }
 
     private static async getConsoleInput() {
-        return new Promise<string>(resolve => {
+        return new Promise<string>((resolve) => {
             const stdin = process.openStdin();
-            stdin.once("data", args => {
+            stdin.once("data", (args) => {
                 resolve(args.toString().trim());
                 stdin.pause();
             });
@@ -165,12 +166,7 @@ enum DayOfWeek {
     Wednesday,
     Thursday,
     Friday,
-    Saturday        
+    Saturday,
 }
 
-class ExecResult {
-    public constructor(
-        public readonly output: string, public readonly exitCode: number, public readonly exitMessage: string) {}
-}
-
-App.main().then(exitCode => process.exitCode = exitCode);
+App.main().then((exitCode) => process.exitCode = exitCode);

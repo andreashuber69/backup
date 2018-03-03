@@ -4,6 +4,14 @@
         "tslint:recommended"
     ],
     "jsRules": {},
-    "rules": {},
+    "member-ordering": [
+        true,
+        {
+            "order": "instance-sandwich"
+        }
+    ],
+    "rules": {
+        "no-bitwise": false
+    },
     "rulesDirectory": []
 }

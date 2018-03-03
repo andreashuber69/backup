@@ -1,9 +1,9 @@
 export class Medium {
     public static get(cacheCount: number, slotCount: number, backupCountSinceStart: number): Medium {
-        let cacheInterval = slotCount * slotCount;  // How many backups to move from one to the next cache
-        let cacheCycle = cacheCount * cacheInterval;  // How many backups to cycle through all caches
-        let slotStartInterval = cacheCycle + slotCount + 1; // How many backups between two slot starts
-        let mediaLifetime = cacheCycle * slotCount; // How many backups before a single medium is retired
+        const cacheInterval = slotCount * slotCount;  // How many backups to move from one to the next cache
+        const cacheCycle = cacheCount * cacheInterval;  // How many backups to cycle through all caches
+        const slotStartInterval = cacheCycle + slotCount + 1; // How many backups between two slot starts
+        const mediaLifetime = cacheCycle * slotCount; // How many backups before a single medium is retired
         // The last number is the *total* amount of backups that are made during the lifetime of a single medium and is
         // not to be confused with how many times a single medium is written to.
 
@@ -12,10 +12,10 @@ export class Medium {
         // backupsSinceSlotStart will never become negative
         backupCountSinceStart += mediaLifetime - cacheCycle + cacheInterval - slotCount;
 
-        let slotNumber = (backupCountSinceStart % slotCount);
-        let backupCountSinceSlotStart = backupCountSinceStart - slotNumber * slotStartInterval;
-        let cacheNumber = Math.floor(backupCountSinceSlotStart / cacheInterval) % cacheCount;
-        let backupCountSinceMediumStart = backupCountSinceSlotStart % mediaLifetime - cacheNumber * cacheInterval;
+        const slotNumber = (backupCountSinceStart % slotCount);
+        const backupCountSinceSlotStart = backupCountSinceStart - slotNumber * slotStartInterval;
+        const cacheNumber = Math.floor(backupCountSinceSlotStart / cacheInterval) % cacheCount;
+        const backupCountSinceMediumStart = backupCountSinceSlotStart % mediaLifetime - cacheNumber * cacheInterval;
 
         // TODO: Integrate medium name
         return new Medium(
@@ -26,12 +26,13 @@ export class Medium {
             mediaLifetime - backupCountSinceMediumStart - (cacheCount - 1) * cacheInterval - slotCount);
     }
 
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
     private constructor(
         public readonly cacheNumber: number,
         public readonly slotNumber: number,
         public readonly serialNumber: number,
         public readonly backupCountSinceMediumStart: number,
-        public readonly backupCountUntilMediumEnd: number)
-    {       
+        public readonly backupCountUntilMediumEnd: number) {
     }
 }
