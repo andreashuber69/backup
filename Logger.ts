@@ -12,12 +12,12 @@ export class Logger {
         await this.close();
     }
 
-    public writeLine(line: string = "") {
-        this.stream.write(line + "\n");
+    public writeLine(line = "") {
+        this.stream.write(`${line}\n`);
     }
 
     public writeMessage(message: string) {
-        this.writeLine(Logger.formatTime(new Date()) + "  " + message);
+        this.writeLine(`${Logger.formatTime(new Date())}  ${message}`);
     }
 
     public writeMediumInfo(today: Date, medium: Medium, mediumName: string) {
@@ -30,7 +30,7 @@ export class Logger {
     }
 
     public writeOutputMarker(marker: string) {
-        const lined = " [" + marker + "] ";
+        const lined = ` [${marker}] `;
         const leftPadding = Math.floor((Logger.logWidth - lined.length) / 2);
         const rightPadding = Logger.logWidth - marker.length - leftPadding;
         this.writeLine("#".repeat(Math.max(0, leftPadding)) + lined + "#".repeat(Math.max(0, rightPadding)));
@@ -41,7 +41,7 @@ export class Logger {
     private static readonly logWidth = 120;
 
     private static formatTitle(title: string) {
-        return (title + ":             ").slice(0, 14);
+        return (`${title}:             `).slice(0, 14);
     }
 
     private static formatTime(time: Date) {
@@ -49,6 +49,7 @@ export class Logger {
         const minutes = Logger.formatNumber(time.getUTCMinutes(), 2);
         const seconds = Logger.formatNumber(time.getUTCSeconds(), 2);
         const milliSeconds = Logger.formatNumber(time.getUTCMilliseconds(), 3);
+
         return `${hours}:${minutes}:${seconds}.${milliSeconds}`;
     }
 
@@ -56,11 +57,12 @@ export class Logger {
         const year = date.getUTCFullYear();
         const month = Logger.formatNumber(date.getUTCMonth() + 1, 2);
         const day = Logger.formatNumber(date.getUTCDate(), 2);
+
         return `${year}-${month}-${day}`;
     }
 
     private static formatNumber(num: number, length: number) {
-        return ("000" + num).slice(-length);
+        return (`000${num}`).slice(-length);
     }
 
     private constructor(private readonly stream: WriteStream) {

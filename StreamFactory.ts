@@ -5,7 +5,7 @@ export class StreamFactory<T extends EventEmitter> {
         this.promise = new Promise<T>((resolve, reject) => {
             this.stream = create();
             this.onOpen = (fd) => resolve(this.stream);
-            this.onError = (err) => reject(err);
+            this.onError = reject;
             this.stream.on("open", this.onOpen).on("error", this.onError);
         });
     }

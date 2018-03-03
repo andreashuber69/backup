@@ -19,7 +19,7 @@ class App {
 
         try {
             while (!await mediumRoot.canAccess() || !(await mediumRoot.getStats()).isDirectory()) {
-                await this.requestInput("Please insert " + mediumName + " and press Enter: ");
+                await this.requestInput(`Please insert ${mediumName} and press Enter: `);
             }
 
             const files = await mediumRoot.getFiles();
@@ -39,22 +39,23 @@ class App {
                     await backupScript.changeMode((await backupScript.getStats()).mode | 0o100);
                 }
 
-                const commandLine = backupScript.path + " " + mediumRoot.path;
+                const commandLine = `${backupScript.path} ${mediumRoot.path}`;
                 const resultPromise = this.exec(commandLine);
                 // Allow the external process to start and execute past the empty directory check.
                 await this.delay(1000);
                 logger = await Logger.create(new Path(mediumRoot.path, "log.txt"));
                 logger.writeOutputMarker("Backup Start");
                 logger.writeMediumInfo(new Date(todayMilliseconds), medium, mediumName);
-                logger.writeMessage("Executing Process: " + commandLine);
+                logger.writeMessage(`Executing Process: ${commandLine}`);
                 const result = await resultPromise;
                 logger.writeOutputMarker("Output Start");
                 logger.writeLine(result.output);
                 logger.writeOutputMarker("Output End");
-                logger.writeMessage("Process Exit Message: " + result.exitMessage);
-                logger.writeMessage("Process Exit Code: " + result.exitCode);
+                logger.writeMessage(`Process Exit Message: ${result.exitMessage}`);
+                logger.writeMessage(`Process Exit Code: ${result.exitCode}`);
                 logger.writeOutputMarker("Backup End");
                 logger.writeLine();
+
                 return result.exitCode;
             }
 
@@ -82,6 +83,7 @@ class App {
         // and today should increase by one. We achieve that by getting the current local year, month and day and then
         // pretend that they are actually UTC numbers. Likewise, we construct the start with Date.UTC.
         const now = new Date();
+
         return Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
     }
 
@@ -92,6 +94,7 @@ class App {
 
     private static requestInput(prompt: string) {
         process.stdout.write(prompt);
+
         return this.getConsoleInput();
     }
 
@@ -101,12 +104,15 @@ class App {
         try {
             await this.downloadFileImpl(url, writeStream);
         } catch (ex) {
-            path.delete();
+            await path.delete();
             throw ex;
         }
     }
 
     private static exec(command: string) {
+        // It appears that the exec declaration does not define the type of the Error parameter with all the members
+        // that are present, which is why we're using any here.
+        // tslint:disable-next-line:no-any
         return new Promise<ExecResult>((resolve) => exec(command, (error: any, stdout, stderr) => resolve(
             new ExecResult(stdout + stderr, error ? error.code : 0, error ? error.message : ""))));
     }
@@ -117,7 +123,7 @@ class App {
 
     private static downloadFileImpl(url: string, writeStream: WriteStream) {
         return new Promise<void>((resolve, reject) => {
-            let error: any = "Unknown error!";
+            let error: Error | string | undefined = "Unknown error!";
 
             writeStream.on("close", () => {
                 if (error) {
@@ -136,7 +142,7 @@ class App {
                 if (res.statusCode === 200) {
                     res.pipe(writeStream);
                 } else {
-                    error = (res.statusCode ? res.statusCode + ": " : "") + res.statusMessage;
+                    error = (res.statusCode ? `${res.statusCode}: ` : "") + res.statusMessage;
                     writeStream.close();
                 }
             });

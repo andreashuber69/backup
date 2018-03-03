@@ -1,12 +1,12 @@
 {
     "defaultSeverity": "error",
-    "extends": "tslint:recommended",
+    "extends": "tslint:all",
     "rulesDirectory": [],
     "rules": {
+        "comment-format": [ true, "check-space" ],
         "max-line-length": {
             "options": [ 120 ]
         },
-        "no-bitwise": false,
         "member-ordering": [
             true, {
                 "order": [
@@ -27,7 +27,13 @@
                     "private-instance-method"
                 ]
             }
-        ]
+        ],
+        "newline-per-chained-call": false,
+        "no-bitwise": false,
+        "no-magic-numbers": false,
+        "no-parameter-properties": false,
+        "no-unnecessary-class": [ "allow-static-only" ],
+        "typedef": false
     },
     "jsRules": {
         "max-line-length": {
