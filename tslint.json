@@ -1,17 +1,37 @@
 {
     "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended"
-    ],
-    "jsRules": {},
-    "member-ordering": [
-        true,
-        {
-            "order": "instance-sandwich"
-        }
-    ],
+    "extends": "tslint:recommended",
+    "rulesDirectory": [],
     "rules": {
-        "no-bitwise": false
+        "max-line-length": {
+            "options": [ 120 ]
+        },
+        "no-bitwise": false,
+        "member-ordering": [
+            true, {
+                "order": [
+                    "public-static-field",
+                    "public-static-method",
+                    "public-instance-field",
+                    "public-constructor",
+                    "public-instance-method",
+                    "protected-static-field",
+                    "protected-static-method",
+                    "protected-instance-field",
+                    "protected-constructor",
+                    "protected-instance-method",
+                    "private-static-field",
+                    "private-static-method",
+                    "private-instance-field",
+                    "private-constructor",
+                    "private-instance-method"
+                ]
+            }
+        ]
     },
-    "rulesDirectory": []
+    "jsRules": {
+        "max-line-length": {
+            "options": [ 120 ]
+        }
+    }
 }

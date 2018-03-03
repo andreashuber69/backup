@@ -1,11 +1,6 @@
 import { EventEmitter } from "events";
 
 export class StreamFactory<T extends EventEmitter> {
-    private stream: T;
-    private onOpen: (fd: number) => void;
-    private onError: (err: Error) => void;
-    private readonly promise: Promise<T>;
-
     public constructor(create: () => T) {
         this.promise = new Promise<T>((resolve, reject) => {
             this.stream = create();
@@ -20,4 +15,11 @@ export class StreamFactory<T extends EventEmitter> {
     public dispose() {
         this.stream.removeListener("open", this.onOpen).removeListener("error", this.onError);
     }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    private stream: T;
+    private onOpen: (fd: number) => void;
+    private onError: (err: Error) => void;
+    private readonly promise: Promise<T>;
 }

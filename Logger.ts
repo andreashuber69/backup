@@ -71,10 +71,10 @@ export class Logger {
     }
 
     private end() {
-        return new Promise<void>(resolve => this.stream.once("finish", fd => resolve()).end());
+        return new Promise<void>((resolve) => this.stream.once("finish", (fd) => resolve()).end());
     }
 
     private close() {
-        return new Promise<void>(resolve => this.stream.once("close", fd => resolve()).close());
+        return new Promise<void>((resolve) => this.stream.once("close", (fd) => resolve()).close());
     }
 }
