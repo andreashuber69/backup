@@ -1,4 +1,4 @@
-import { access, chmod, createWriteStream, exists, lstat, readdir, rmdir, Stats, unlink, WriteStream } from "fs";
+import { access, chmod, createWriteStream, exists, lstat, readdir, rmdir, Stats, unlink } from "fs";
 import { join } from "path";
 import { StreamFactory } from "./StreamFactory";
 

@@ -61,8 +61,12 @@ class App {
 
             return 0;
         } catch (ex) {
+            const exceptionString = this.getExceptionString(ex);
+
             if (logger) {
-                logger.writeLine(ex);
+                logger.writeLine(exceptionString);
+            } else {
+                console.log(exceptionString);
             }
 
             return 1;
@@ -88,8 +92,9 @@ class App {
     }
 
     private static getMediumName(medium: Medium) {
-        return DayOfWeek[(medium.slotNumber + 1) % 7] + (medium.cacheNumber + 1) +
-            String.fromCharCode("a".charCodeAt(0) + medium.serialNumber);
+        const serial = String.fromCharCode("a".charCodeAt(0) + medium.serialNumber);
+
+        return `${DayOfWeek[(medium.slotNumber + 1) % 7]}${(medium.cacheNumber + 1)}${serial}`;
     }
 
     private static requestInput(prompt: string) {
@@ -113,8 +118,8 @@ class App {
         // It appears that the exec declaration does not define the type of the Error parameter with all the members
         // that are present, which is why we're using any here.
         // tslint:disable-next-line:no-any
-        return new Promise<ExecResult>((resolve) => exec(command, (error: any, stdout, stderr) => resolve(
-            new ExecResult(stdout + stderr, error ? error.code : 0, error ? error.message : ""))));
+        return new Promise<ExecResult>((resolve) => exec(command, (error: IExecError | null, stdout, stderr) => resolve(
+            new ExecResult(stdout + stderr, error ? error.code : 0, error ? error.toString() : ""))));
     }
 
     private static delay(milliseconds: number) {
@@ -123,7 +128,7 @@ class App {
 
     private static downloadFileImpl(url: string, writeStream: WriteStream) {
         return new Promise<void>((resolve, reject) => {
-            let error: Error | string | undefined = "Unknown error!";
+            let error: Error | undefined = new Error("Unknown error!");
 
             writeStream.on("close", () => {
                 if (error) {
@@ -142,7 +147,7 @@ class App {
                 if (res.statusCode === 200) {
                     res.pipe(writeStream);
                 } else {
-                    error = (res.statusCode ? `${res.statusCode}: ` : "") + res.statusMessage;
+                    error = new Error((res.statusCode ? `${res.statusCode}: ` : "") + res.statusMessage);
                     writeStream.close();
                 }
             });
@@ -154,15 +159,26 @@ class App {
         });
     }
 
-    private static async getConsoleInput() {
+    private static getConsoleInput() {
         return new Promise<string>((resolve) => {
             const stdin = process.openStdin();
-            stdin.once("data", (args) => {
+            stdin.once("data", (args: object) => {
                 resolve(args.toString().trim());
                 stdin.pause();
             });
         });
     }
+
+    private static getExceptionString(ex): string {
+        const exceptionObject = ex as object;
+
+        return exceptionObject ? exceptionObject.toString() : "Unknown exception!";
+    }
+}
+
+interface IExecError extends Error {
+    code: number;
+    message: string;
 }
 
 enum DayOfWeek {

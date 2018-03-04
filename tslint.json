@@ -31,10 +31,12 @@
         ],
         "newline-per-chained-call": false,
         "no-bitwise": false,
+        "no-console": false,
         "no-magic-numbers": false,
         "no-parameter-properties": false,
         "no-unnecessary-class": [ "allow-static-only" ],
         "no-void-expression": false,
+        "strict-boolean-expressions": false,
         "typedef": false
     },
     "jsRules": {
