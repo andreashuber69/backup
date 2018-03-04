@@ -7,6 +7,21 @@ import { Logger } from "./Logger";
 import { Medium } from "./Medium";
 import { Path } from "./Path";
 
+interface IExecError extends Error {
+    code: number;
+    message: string;
+}
+
+enum DayOfWeek {
+    Sunday,
+    Monday,
+    Tuesday,
+    Wednesday,
+    Thursday,
+    Friday,
+    Saturday,
+}
+
 class App {
     public static async main() {
         const todayMilliseconds = this.getTodayMilliseconds();
@@ -147,7 +162,8 @@ class App {
                 if (res.statusCode === 200) {
                     res.pipe(writeStream);
                 } else {
-                    error = new Error((res.statusCode ? `${res.statusCode}: ` : "") + res.statusMessage);
+                    error = new Error(
+                        (res.statusCode ? `${res.statusCode}: ` : "") + (res.statusMessage ? res.statusMessage : ""));
                     writeStream.close();
                 }
             });
@@ -176,19 +192,5 @@ class App {
     }
 }
 
-interface IExecError extends Error {
-    code: number;
-    message: string;
-}
-
-enum DayOfWeek {
-    Sunday,
-    Monday,
-    Tuesday,
-    Wednesday,
-    Thursday,
-    Friday,
-    Saturday,
-}
-
-App.main().then((exitCode) => process.exitCode = exitCode);
+// The catch should never be reached (because we handle all errors in main). If it does, we let the whole thing fail.
+App.main().then((exitCode) => process.exitCode = exitCode).catch((reason) => process.exitCode = 1);
