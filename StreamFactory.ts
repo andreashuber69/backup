@@ -13,13 +13,14 @@ export class StreamFactory<T extends EventEmitter> {
     public get() { return this.promise; }
 
     public dispose() {
-        this.stream.removeListener("open", this.onOpen).removeListener("error", this.onError);
+        (this.stream as T).removeListener("open", this.onOpen as (fd: number) => void);
+        (this.stream as T).removeListener("error", this.onError as (err: Error) => void);
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private stream: T;
-    private onOpen: (fd: number) => void;
-    private onError: (err: Error) => void;
+    private stream: T | undefined;
+    private onOpen: ((fd: number) => void) | undefined;
+    private onError: ((err: Error) => void) | undefined;
     private readonly promise: Promise<T>;
 }

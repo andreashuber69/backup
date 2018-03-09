@@ -30,6 +30,7 @@
             }
         ],
         "newline-per-chained-call": false,
+        "no-any": false,
         "no-bitwise": false,
         "no-console": false,
         "no-magic-numbers": false,

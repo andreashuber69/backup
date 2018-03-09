@@ -77,6 +77,6 @@ export class Logger {
     }
 
     private close() {
-        return new Promise<void>((resolve) => this.stream.once("close", (fd) => resolve()).close());
+        return new Promise<void>((resolve) => this.stream.once("close", resolve).close());
     }
 }

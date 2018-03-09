@@ -9,7 +9,6 @@ import { Path } from "./Path";
 
 interface IExecError extends Error {
     code: number;
-    message: string;
 }
 
 enum DayOfWeek {
@@ -130,11 +129,16 @@ class App {
     }
 
     private static exec(command: string) {
-        // It appears that the exec declaration does not define the type of the Error parameter with all the members
-        // that are present, which is why we're using any here.
-        // tslint:disable-next-line:no-any
-        return new Promise<ExecResult>((resolve) => exec(command, (error: IExecError | null, stdout, stderr) => resolve(
-            new ExecResult(stdout + stderr, error ? error.code : 0, error ? error.toString() : ""))));
+        return new Promise<ExecResult>((resolve) => exec(command, (error: Error | null, stdout, stderr) => resolve(
+            this.getResult(error, stdout, stderr))));
+    }
+
+    private static getResult(error: Error | null, stdout: string, stderr: string) {
+        return new ExecResult(stdout + stderr, this.isExecError(error) ? error.code : 0, error ? error.toString() : "");
+    }
+
+    private static isExecError(error: Error | null): error is IExecError {
+        return error ? "code" in error : false;
     }
 
     private static delay(milliseconds: number) {
@@ -185,7 +189,7 @@ class App {
         });
     }
 
-    private static getExceptionString(ex): string {
+    private static getExceptionString(ex: any): string {
         const exceptionObject = ex as object;
 
         return exceptionObject ? exceptionObject.toString() : "Unknown exception!";
