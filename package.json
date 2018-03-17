@@ -13,10 +13,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/andreashuber69/backup"
+    "url": "https://github.com/andreashuber69/backup"
   },
   "author": "Andreas Huber",
-  "license": "ISC",
+  "license": "Unlicense",
   "bugs": {
     "url": "https://github.com/andreashuber69/backup/issues"
   },
