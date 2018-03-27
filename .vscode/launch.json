@@ -6,10 +6,7 @@
             "request": "launch",
             "name": "Launch via NPM",
             "runtimeExecutable": "npm",
-            "runtimeArgs": [
-                "run",
-                "debug"
-            ],
+            "runtimeArgs": [ "run", "debug" ],
             "port": 9229,
             "console": "integratedTerminal"
         }

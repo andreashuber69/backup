@@ -5,11 +5,10 @@
     "rules": {
         "comment-format": [ true, "check-space" ],
         "completed-docs": false,
-        "max-line-length": {
-            "options": [ 120 ]
-        },
+        "max-line-length": { "options": [ 120 ] },
         "member-ordering": [
-            true, {
+            true,
+            {
                 "order": [
                     "public-static-field",
                     "public-static-method",
@@ -42,8 +41,6 @@
         "typedef": false
     },
     "jsRules": {
-        "max-line-length": {
-            "options": [ 120 ]
-        }
+        "max-line-length": { "options": [ 120 ] }
     }
 }
