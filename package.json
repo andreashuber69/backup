@@ -17,15 +17,15 @@
     "type": "git",
     "url": "https://github.com/andreashuber69/backup"
   },
-  "author": "Andreas Huber",
+  "author": "Andreas Huber Dönni",
   "license": "Unlicense",
   "bugs": {
     "url": "https://github.com/andreashuber69/backup/issues"
   },
   "homepage": "https://github.com/andreashuber69/backup",
   "devDependencies": {
-    "typescript": "^2.7.1",
-    "tslint": "^5.9.1",
-    "@types/node": "^8.9.4"
+    "@types/node": "^8.10.24",
+    "tslint": "^5.11.0",
+    "typescript": "^2.9.2"
   }
 }
