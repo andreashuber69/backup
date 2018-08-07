@@ -4,14 +4,14 @@
   "description": "",
   "main": "dist/App.js",
   "scripts": {
-    "build": "tsc",
     "lint": "tslint --project tsconfig.json --config tslint.json --format verbose",
-    "pretest": "npm run lint",
-    "test": "npm run build",
+    "build": "tsc",
     "predebug": "npm run build",
     "debug": "node --inspect-brk dist/App.js",
     "prestart": "npm run build",
-    "start": "node dist/App.js"
+    "start": "node dist/App.js",
+    "pretest": "npm run lint",
+    "test": "npm run build"
   },
   "repository": {
     "type": "git",
