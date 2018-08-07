@@ -6,9 +6,11 @@
   "scripts": {
     "build": "tsc",
     "lint": "tslint --project tsconfig.json --config tslint.json --format verbose",
-    "predebug": "tsc",
+    "pretest": "npm run lint",
+    "test": "npm run build",
+    "predebug": "npm run build",
     "debug": "node --inspect-brk dist/App.js",
-    "prestart": "tsc",
+    "prestart": "npm run build",
     "start": "node dist/App.js"
   },
   "repository": {
