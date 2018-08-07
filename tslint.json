@@ -35,6 +35,7 @@
         "no-magic-numbers": false,
         "no-parameter-properties": false,
         "no-unnecessary-class": [ "allow-static-only" ],
+        "no-unused-variable": false,
         "no-void-expression": false,
         "promise-function-async": false,
         "strict-boolean-expressions": false,
