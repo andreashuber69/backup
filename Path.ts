@@ -1,4 +1,4 @@
-import { access, chmod, createWriteStream, exists, lstat, readdir, rmdir, Stats, unlink } from "fs";
+import { access, chmod, constants, createWriteStream, lstat, readdir, rmdir, Stats, unlink } from "fs";
 import { join } from "path";
 import { StreamFactory } from "./StreamFactory";
 
@@ -14,7 +14,7 @@ export class Path {
     }
 
     public exists() {
-        return new Promise<boolean>((resolve) => exists(this.path, resolve));
+        return new Promise<boolean>((resolve) => access(this.path, constants.X_OK, (err) => resolve(!err)));
     }
 
     public getStats() {
