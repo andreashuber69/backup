@@ -1,7 +1,23 @@
 {
   "name": "backup",
-  "version": "1.0.0",
+  "author": {
+    "name": "Andreas Huber Dönni"
+  },
+  "keywords": [
+    "backup"
+  ],
   "description": "",
+  "homepage": "https://github.com/andreashuber69/backup/blob/master/README.md",
+  "version": "1.0.0",
+  "license": "Unlicense",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andreashuber69/backup"
+  },
+  "bugs": {
+    "url": "https://github.com/andreashuber69/backup/issues"
+  },
+  "private": true,
   "main": "dist/App.js",
   "scripts": {
     "lint": "tslint --project tsconfig.json --config tslint.json --format verbose",
@@ -13,16 +29,6 @@
     "pretest": "npm run lint",
     "test": "npm run build"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/andreashuber69/backup"
-  },
-  "author": "Andreas Huber Dönni",
-  "license": "Unlicense",
-  "bugs": {
-    "url": "https://github.com/andreashuber69/backup/issues"
-  },
-  "homepage": "https://github.com/andreashuber69/backup",
   "devDependencies": {
     "@types/node": "^8.10.29",
     "tslint": "^5.11.0",
