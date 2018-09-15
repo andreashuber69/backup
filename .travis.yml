@@ -3,4 +3,4 @@ nodejs:
   - 8
 
 before_install:
-  - npm i -g npm@latest
+  - npm i -g npm
