@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     // Compilation options
+    "baseUrl": ".",
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
@@ -8,6 +9,9 @@
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
+    "paths": {
+      "@/*": [ "src/*" ]
+    },
     "strict": true,
     // Generation options
     "esModuleInterop": true,
@@ -16,5 +20,11 @@
     "outDir": "dist/",
     "sourceMap": true,
     "target": "es5"
-  }
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
