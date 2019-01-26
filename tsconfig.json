@@ -1,15 +1,15 @@
 {
-    "compilerOptions": {
-        // Compilation options
-        "forceConsistentCasingInFileNames": true,
-        "lib": [ "es2015", "dom" ],
-        "noFallthroughCasesInSwitch": true,
-        "noImplicitReturns": true,
-        "strict": true,
-        // Generation options
-        "module": "commonjs",
-        "outDir": "dist/",
-        "sourceMap": true,
-        "target": "es5"
-    }
+  "compilerOptions": {
+    // Compilation options
+    "forceConsistentCasingInFileNames": true,
+    "lib": [ "es2015", "dom" ],
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "strict": true,
+    // Generation options
+    "module": "commonjs",
+    "outDir": "dist/",
+    "sourceMap": true,
+    "target": "es5"
+  }
 }
