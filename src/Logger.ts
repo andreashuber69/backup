@@ -48,9 +48,8 @@ export class Logger {
         const hours = Logger.formatNumber(time.getUTCHours(), 2);
         const minutes = Logger.formatNumber(time.getUTCMinutes(), 2);
         const seconds = Logger.formatNumber(time.getUTCSeconds(), 2);
-        const milliSeconds = Logger.formatNumber(time.getUTCMilliseconds(), 3);
 
-        return `${hours}:${minutes}:${seconds}.${milliSeconds}`;
+        return `${hours}:${minutes}:${seconds}.${Logger.formatNumber(time.getUTCMilliseconds(), 3)}`;
     }
 
     private static formatDate(date: Date) {

@@ -20,17 +20,19 @@
   "private": true,
   "main": "dist/App.js",
   "scripts": {
-    "lint": "tslint --project tsconfig.json --config tslint.json --format verbose",
-    "build": "tsc",
-    "predebug": "npm run build",
-    "debug": "node --inspect-brk dist/App.js",
     "prestart": "npm run build",
     "start": "node dist/App.js",
+    "predebug": "npm run build",
+    "debug": "node --inspect-brk dist/App.js",
+    "build": "tsc",
+    "prelint": "cspell '**/*.*'",
+    "lint": "tslint --project tsconfig.json --config tslint.json --format verbose",
     "pretest": "npm run lint",
     "test": "npm run build"
   },
   "devDependencies": {
     "@types/node": "^8.10.39",
+    "cspell": "^3.1.3",
     "tslib": "^1.9.3",
     "tslint": "^5.12.1",
     "typescript": "^3.2.4"
