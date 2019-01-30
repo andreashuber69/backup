@@ -10,6 +10,7 @@
     "typescript"
   ],
   "ignorePaths": [
+    "**/*.svg",
     "dist/**",
     "node_modules/**",
     "package.json",
