@@ -5,7 +5,7 @@
       "type": "node",
       "request": "launch",
       "name": "Launch App",
-      "runtimeArgs": [ "--nolazy", "-r", "ts-node/register" ],
+      "runtimeArgs": [ "--require", "ts-node/register", "--nolazy",  ],
       "args": [ "${workspaceFolder}/src/App.ts" ],
       "protocol": "inspector",
       "console": "integratedTerminal"
@@ -15,7 +15,7 @@
       "request": "launch",
       "name": "Launch Tests",
       "runtimeArgs": [ "${workspaceRoot}/node_modules/mocha/bin/mocha" ],
-      "args": [ "--require", "ts-node/register", "--inspect-brk", "${workspaceFolder}/src/**/*.spec.ts" ],
+      "args": [ "--require", "ts-node/register", "${workspaceFolder}/src/**/*.spec.ts" ],
       "console": "integratedTerminal"
     }
   ]
