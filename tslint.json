@@ -36,6 +36,7 @@
     "no-bitwise": false,
     "no-conditional-assignment": false,
     "no-console": false,
+    "no-implicit-dependencies": [ true, "dev" ],
     "no-magic-numbers": false,
     "no-parameter-properties": false,
     "no-unnecessary-class": [ "allow-static-only" ],
