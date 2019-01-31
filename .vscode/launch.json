@@ -5,9 +5,18 @@
       "type": "node",
       "request": "launch",
       "name": "Launch App",
-      "runtimeArgs": [ "--require", "ts-node/register", "--nolazy" ],
-      "args": [ "${workspaceFolder}/src/App.ts" ],
-      "protocol": "inspector",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [ "run", "debug-start" ],
+      "port": 9229,
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Tests2",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": [ "run", "debug-test" ],
+      "port": 9229,
       "console": "integratedTerminal"
     },
     {

@@ -20,14 +20,14 @@
   "private": true,
   "main": "src/App.ts",
   "scripts": {
-    "start": "ts-node src/App.ts",
-    "predebug": "npm run build",
-    "debug": "node --inspect-brk dist/App.js",
-    "build": "tsc",
+    "start": "tsnode src/App.ts",
+    "debug-start": "node --require ts-node/register --nolazy --inspect-brk src/App.ts",  
     "prelint": "cspell '**/*.*' && markdownlint *.md",
     "lint": "tslint --project tsconfig.json --config tslint.json --format verbose",
-    "pretest": "npm run lint",
-    "test": "mocha -r ts-node/register src/**/*.spec.ts"
+    "test": "mocha --require ts-node/register src/**/*.spec.ts",
+    "debug-test": "npm run test -- --inspect-brk",
+    "preci": "npm run lint",
+    "ci": "npm run test"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
