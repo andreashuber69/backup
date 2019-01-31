@@ -8,8 +8,8 @@ describe("Path", () => {
     let badPath: Path | undefined;
 
     beforeEach(() => {
-        goodPath = new Path("./LICENSE");
-        badPath = new Path("./234987298374");
+        goodPath = new Path(".", "LICENSE");
+        badPath = new Path(".", "234987298374");
     });
 
     describe("canAccess", () => {
