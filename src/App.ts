@@ -2,7 +2,7 @@ import { exec } from "child_process";
 import { WriteStream } from "fs";
 import * as https from "https";
 import { setTimeout } from "timers";
-import { ExecResult } from "./ExecResult";
+import { IExecResult } from "./IExecResult";
 import { Logger } from "./Logger";
 import { Medium } from "./Medium";
 import { Path } from "./Path";
@@ -130,12 +130,16 @@ class App {
     }
 
     private static exec(command: string) {
-        return new Promise<ExecResult>((resolve) => exec(command, (error: Error | null, stdout, stderr) => resolve(
+        return new Promise<IExecResult>((resolve) => exec(command, (error: Error | null, stdout, stderr) => resolve(
             this.getResult(error, stdout, stderr))));
     }
 
-    private static getResult(error: Error | null, stdout: string, stderr: string) {
-        return new ExecResult(stdout + stderr, this.isExecError(error) ? error.code : 0, error ? error.toString() : "");
+    private static getResult(error: Error | null, stdout: string, stderr: string): IExecResult {
+        return {
+            output: stdout + stderr,
+            exitCode: this.isExecError(error) ? error.code : 0,
+            exitMessage: error ? error.toString() : "",
+        };
     }
 
     private static isExecError(error: Error | null): error is IExecError {
