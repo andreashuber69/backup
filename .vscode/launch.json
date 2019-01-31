@@ -14,7 +14,6 @@
       "type": "node",
       "request": "launch",
       "name": "Launch Tests",
-      "port": 9229,
       "runtimeArgs": [ "${workspaceRoot}/node_modules/mocha/bin/mocha" ],
       "args": [ "--require", "ts-node/register", "--inspect-brk", "${workspaceFolder}/src/**/*.spec.ts" ],
       "console": "integratedTerminal"
