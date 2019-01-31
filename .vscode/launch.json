@@ -4,10 +4,19 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Launch via NPM",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": [ "run", "debug" ],
+      "name": "Launch App",
+      "runtimeArgs": [ "--nolazy", "-r", "ts-node/register" ],
+      "args": [ "${workspaceFolder}/src/App.ts" ],
+      "protocol": "inspector",
+      "console": "integratedTerminal"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Tests",
       "port": 9229,
+      "runtimeArgs": [ "${workspaceRoot}/node_modules/mocha/bin/mocha" ],
+      "args": [ "-r", "ts-node/register", "--inspect-brk", "${workspaceFolder}/src/**/*.spec.ts" ],
       "console": "integratedTerminal"
     }
   ]
