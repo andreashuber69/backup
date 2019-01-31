@@ -18,10 +18,9 @@
     "url": "https://github.com/andreashuber69/backup/issues"
   },
   "private": true,
-  "main": "dist/App.js",
+  "main": "src/App.ts",
   "scripts": {
-    "prestart": "npm run build",
-    "start": "node dist/App.js",
+    "start": "ts-node src/App.ts",
     "predebug": "npm run build",
     "debug": "node --inspect-brk dist/App.js",
     "build": "tsc",
