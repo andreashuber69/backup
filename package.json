@@ -21,11 +21,9 @@
   "main": "src/App.ts",
   "scripts": {
     "start": "tsnode src/App.ts",
-    "debug-start": "node --require ts-node/register --nolazy --inspect-brk src/App.ts",  
+    "test": "mocha --require ts-node/register src/**/*.spec.ts",
     "prelint": "cspell '**/*.*' && markdownlint *.md",
     "lint": "tslint --project tsconfig.json --config tslint.json --format verbose",
-    "test": "mocha --require ts-node/register src/**/*.spec.ts",
-    "debug-test": "npm run test -- --inspect-brk",
     "preci": "npm run lint",
     "ci": "npm run test"
   },

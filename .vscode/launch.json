@@ -5,18 +5,8 @@
       "type": "node",
       "request": "launch",
       "name": "Launch App",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": [ "run", "debug-start" ],
-      "port": 9229,
-      "console": "integratedTerminal"
-    },
-    {
-      "type": "node",
-      "request": "launch",
-      "name": "Launch Tests2",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": [ "run", "debug-test" ],
-      "port": 9229,
+      "runtimeArgs": [ "--require", "ts-node/register", "--nolazy" ],
+      "args": [ "src/App.ts" ],
       "console": "integratedTerminal"
     },
     {
