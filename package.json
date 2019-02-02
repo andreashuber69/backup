@@ -26,7 +26,7 @@
     "prelint": "cspell '**/*.*' && markdownlint *.md",
     "lint": "tslint --project tsconfig.json --config tslint.json --format verbose",
     "preci": "npm run lint",
-    "ci": "npm run test"
+    "ci": "npm run test-coverage"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
