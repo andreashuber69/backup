@@ -8,7 +8,7 @@ type PathArray = [ Path, Path, Path, Path ];
 type Method = "canAccess" | "canExecute" | "getStats";
 
 describe("Path", () => {
-    const checkResult = <T extends Method>(method: T, ...expected: ExpectedArray) => {
+    const checkResult = (method: Method, checker: (path: Path) => Promise<boolean>, ...expected: ExpectedArray) => {
         describe(method, () => {
             const paths: PathArray = [
                 new Path(".", "234987298374"),
@@ -18,13 +18,22 @@ describe("Path", () => {
             ];
 
             for (let index = 0; index < paths.length; ++index) {
-                it(`should return ${expected[index]} for ${paths[index].path}`, async () => {
-                    expect(!!await paths[index][method]()).to.equal(expected[index]);
+                it(`should evaluate to ${expected[index]} for ${paths[index].path}`, async () => {
+                    expect(await checker(paths[index])).to.equal(expected[index]);
                 });
             }
         });
     };
 
-    checkResult("canAccess", false, true, true, true);
-    checkResult("canExecute", false, false, true, true);
+    const getStatsChecker = async (path: Path) => {
+        try {
+            return !!await path.getStats();
+        } catch (e) {
+            return false;
+        }
+    };
+
+    checkResult("canAccess", (path) => path.canAccess(), false, true, true, true);
+    checkResult("canExecute", (path) => path.canExecute(), false, false, true, true);
+    checkResult("getStats", getStatsChecker, false, true, true, true);
 });
