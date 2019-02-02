@@ -4,18 +4,24 @@ import "mocha";
 import { Path } from "./Path";
 
 describe("Path", () => {
-    const check = (method: "canAccess" | "canExecute", ...expected: [ boolean, boolean, boolean ]) => {
-        describe(method, () => {
-            const paths = [ new Path(".", "234987298374"), new Path(".", "LICENSE"), new Path(".", "publish") ];
+    const checkPermissions =
+        (method: "canAccess" | "canExecute", ...expected: [ boolean, boolean, boolean, boolean ]) => {
+            describe(method, () => {
+                const paths = [
+                    new Path(".", "234987298374"),
+                    new Path(".", "LICENSE"),
+                    new Path(".", "publish"),
+                    new Path(".", "src"),
+                ];
 
-            for (let index = 0; index < paths.length; ++index) {
-                it(`should return ${expected[index]}`, async () => {
-                    expect(await paths[index][method]()).to.equal(expected[index]);
-                });
-            }
-        });
-    };
+                for (let index = 0; index < paths.length; ++index) {
+                    it(`should return ${expected[index]}`, async () => {
+                        expect(await paths[index][method]()).to.equal(expected[index]);
+                    });
+                }
+            });
+        };
 
-    check("canAccess", false, true, true);
-    check("canExecute", false, false, true);
+    checkPermissions("canAccess", false, true, true, true);
+    checkPermissions("canExecute", false, false, true, true);
 });
