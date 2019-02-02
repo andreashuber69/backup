@@ -13,7 +13,7 @@ export class Path {
         return new Promise<boolean>((resolve) => access(this.path, (err) => resolve(!err)));
     }
 
-    public exists() {
+    public canExecute() {
         return new Promise<boolean>((resolve) => access(this.path, constants.X_OK, (err) => resolve(!err)));
     }
 

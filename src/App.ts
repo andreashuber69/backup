@@ -47,7 +47,7 @@ class App {
 
                 const backupScript = new Path(__dirname, "backup");
 
-                if (!await backupScript.exists()) {
+                if (!await backupScript.canExecute()) {
                     await this.downloadFile(
                         "https://raw.githubusercontent.com/andreashuber69/owncloud/master/backup", backupScript);
                     // Set execute bit for the owner
