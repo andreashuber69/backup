@@ -22,6 +22,7 @@
   "scripts": {
     "start": "tsnode src/App.ts",
     "test": "mocha --require ts-node/register src/**/*.spec.ts",
+    "test-coverage": "nyc npm test",
     "prelint": "cspell '**/*.*' && markdownlint *.md",
     "lint": "tslint --project tsconfig.json --config tslint.json --format verbose",
     "preci": "npm run lint",
@@ -39,5 +40,20 @@
     "tslib": "^1.9.3",
     "tslint": "^5.12.1",
     "typescript": "^3.2.4"
+  },
+  "nyc": {
+    "include": [
+      "src/*.ts"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [
+      "html"
+    ],
+    "all": true
   }
 }
