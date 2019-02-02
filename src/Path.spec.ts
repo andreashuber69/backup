@@ -3,11 +3,13 @@ import { expect } from "chai";
 import "mocha";
 import { Path } from "./Path";
 
+type ExpectedArray = [ boolean, boolean, boolean, boolean ];
+type PathArray = [ Path, Path, Path, Path ];
+
 describe("Path", () => {
-    const checkPermissions =
-        (method: "canAccess" | "canExecute", ...expected: [ boolean, boolean, boolean, boolean ]) => {
+    const checkPermissions = (method: "canAccess" | "canExecute", ...expected: ExpectedArray) => {
             describe(method, () => {
-                const paths = [
+                const paths: PathArray = [
                     new Path(".", "234987298374"),
                     new Path(".", "LICENSE"),
                     new Path(".", "publish"),
