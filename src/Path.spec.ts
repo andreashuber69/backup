@@ -8,7 +8,20 @@ type ExpectedArray = [ boolean, boolean, boolean, boolean ];
 type PathArray = [ Path, Path, Path, Path ];
 type Method = "canAccess" | "canExecute" | "getStats" | "getFiles";
 
-describe("Path", async () => {
+describe("Path", () => {
+    let testRunPath: Path;
+
+    before(async () => {
+        testRunPath = new Path("test-run");
+
+        if (await testRunPath.canAccess()) {
+            await testRunPath.changeMode(0o777);
+            await testRunPath.delete();
+        }
+
+        await testRunPath.createDirectory();
+    });
+
     const checkResult = (method: Method, checker: (sut: Path) => Promise<boolean>, ...expected: ExpectedArray) => {
         describe(method, () => {
             const sut: PathArray = [
@@ -47,25 +60,20 @@ describe("Path", async () => {
     checkResult("getStats", getStatsChecker, false, true, true, true);
     checkResult("getFiles", getFilesChecker, false, false, false, true);
 
-    const testRunPath = new Path("test-run");
-
-    if (await testRunPath.canAccess()) {
-        await testRunPath.changeMode(0o777);
-        await testRunPath.delete();
-    }
-
-    await testRunPath.createDirectory();
-
     describe("changeMode", () => {
-        const sut = new Path(testRunPath.path, `${Date.now()}`);
+        let sut: Path;
+        before(() => sut = new Path(testRunPath.path, `${Date.now()}`));
 
         it ("should fail to change the mode of a missing file", async () => {
             try {
                 await sut.changeMode(0o777);
-                throw new Error("did not throw as expected");
             } catch (e) {
                 expect(e instanceof Error && e.message.startsWith("ENOENT: no such file or directory")).to.equal(true);
+
+                return;
             }
+
+            throw new Error("did not throw as expected");
         });
 
         it("should change the mode of an existing file", async () => {
@@ -82,10 +90,13 @@ describe("Path", async () => {
         it ("should fail to create an already existing directory", async () => {
             try {
                 await testRunPath.createDirectory();
-                throw new Error("did not throw as expected");
             } catch (e) {
                 expect(e instanceof Error && e.message.startsWith("EEXIST: file already exists")).to.equal(true);
+
+                return;
             }
+
+            throw new Error("did not throw as expected");
         });
     });
 
@@ -98,6 +109,48 @@ describe("Path", async () => {
         await close(stream);
     };
 
+    describe("delete", () => {
+        let sut: Path;
+        let filePath: Path;
+        let directoryPath: Path;
+
+        before(async () => {
+            sut = new Path(testRunPath.path, `${Date.now()}`);
+            await sut.createDirectory();
+            filePath = new Path(sut.path, `${Date.now()}.txt`);
+            await createTextFile(filePath);
+            directoryPath = new Path(sut.path, `${Date.now()}`);
+            await directoryPath.createDirectory();
+
+            await sut.changeMode(0o555);
+        });
+
+        const expectDeleteToFail = (getSut: () => Path) => {
+            it("should fail to delete a file in a read-only directory", async () => {
+                try {
+                    await getSut().delete();
+                } catch (e) {
+                    expect(e instanceof Error && e.message.startsWith("EACCES: permission denied")).to.equal(true);
+
+                    return;
+                }
+
+                throw new Error("did not throw as expected");
+            });
+        };
+
+        expectDeleteToFail(() => filePath);
+        expectDeleteToFail(() => directoryPath);
+
+        it("should delete an existing non-empty directory", async () => {
+            await sut.changeMode(0o777);
+
+            await sut.delete();
+
+            expect(await sut.canAccess()).to.equal(false);
+        });
+    });
+
     describe("openWrite", () => {
         it("should open a new file for writing", async () => {
             const sut = new Path(testRunPath.path, `${Date.now()}.txt`);
@@ -109,15 +162,18 @@ describe("Path", async () => {
             expect(stats.isFile()).to.equal(true);
         });
 
-        it("should fail to open a new file for writing", async () => {
+        it("should fail to open a new file in a non-existent directory", async () => {
             const sut = new Path(testRunPath.path, `${Date.now()}`, `${Date.now()}.txt`);
 
             try {
                 await sut.openWrite();
-                throw new Error("did not throw as expected");
             } catch (e) {
                 expect(e instanceof Error && e.message.startsWith("ENOENT: no such file or directory")).to.equal(true);
+
+                return;
             }
+
+            throw new Error("did not throw as expected");
         });
     });
 });
