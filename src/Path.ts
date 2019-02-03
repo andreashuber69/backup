@@ -1,4 +1,4 @@
-import { access, chmod, constants, createWriteStream, lstat, readdir, rmdir, Stats, unlink } from "fs";
+import { access, chmod, constants, createWriteStream, lstat, mkdir, readdir, rmdir, Stats, unlink } from "fs";
 import { join } from "path";
 import { StreamFactory } from "./StreamFactory";
 
@@ -22,13 +22,17 @@ export class Path {
             (resolve, reject) => lstat(this.path, (err, stats) => err ? reject(err) : resolve(stats)));
     }
 
-    public changeMode(mode: number) {
+    public changeMode(mode: string | number) {
         return new Promise<void>((resolve, reject) => chmod(this.path, mode, (err) => err ? reject(err) : resolve()));
     }
 
     public getFiles() {
         return new Promise<Path[]>((resolve, reject) => readdir(this.path, (err, files) =>
             err ? reject(err) : resolve(files.map((value, index, array) => new Path(join(this.path, value))))));
+    }
+
+    public createDirectory() {
+        return new Promise<void>((resolve, reject) => mkdir(this.path, (err) => err ? reject(err) : resolve()));
     }
 
     public async delete() {
