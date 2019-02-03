@@ -78,6 +78,17 @@ describe("Path", async () => {
         });
     });
 
+    describe("createDirectory", () => {
+        it ("should fail to create an already existing directory", async () => {
+            try {
+                await testRunPath.createDirectory();
+                throw new Error("did not throw as expected");
+            } catch (e) {
+                expect(e instanceof Error && e.message.startsWith("EEXIST: file already exists")).to.equal(true);
+            }
+        });
+    });
+
     describe("openWrite", () => {
         const end = (stream: WriteStream) => new Promise<void>((resolve) => stream.once("finish", resolve).end());
         const close = (stream: WriteStream) => new Promise<void>((resolve) => stream.once("close", resolve).close());
