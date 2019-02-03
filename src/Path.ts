@@ -1,6 +1,6 @@
 import { access, chmod, constants, createWriteStream, lstat, mkdir, readdir, rmdir, Stats, unlink } from "fs";
 import { join } from "path";
-import { StreamFactory } from "./StreamFactory";
+import { Stream } from "./Stream";
 
 export class Path {
     public readonly path: string;
@@ -47,14 +47,8 @@ export class Path {
         }
     }
 
-    public async openWrite() {
-        const factory = new StreamFactory(() => createWriteStream(this.path));
-
-        try {
-            return await factory.get();
-        } finally {
-            factory.dispose();
-        }
+    public openWrite() {
+        return Stream.create(() => createWriteStream(this.path));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
