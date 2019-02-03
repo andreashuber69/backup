@@ -21,12 +21,12 @@
   "main": "src/App.ts",
   "scripts": {
     "start": "tsnode src/App.ts",
-    "test": "mocha --require ts-node/register src/*.spec.ts",
-    "test-coverage": "nyc --include 'src/*.ts' --extension .ts --require ts-node/register --reporter=html --reporter=text --all npm test",
+    "test-no-coverage": "mocha --require ts-node/register src/*.spec.ts",
+    "test": "nyc --include 'src/*.ts' --extension .ts --require ts-node/register --reporter=html --reporter=text --all npm run test-no-coverage",
     "prelint": "cspell '**/*.*' && markdownlint *.md",
     "lint": "tslint --project tsconfig.json --config tslint.json --format verbose",
     "preci": "npm run lint",
-    "ci": "npm run test-coverage"
+    "ci": "npm test"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
