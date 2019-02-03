@@ -22,13 +22,13 @@ export class Path {
             (resolve, reject) => lstat(this.path, (err, stats) => err ? reject(err) : resolve(stats)));
     }
 
-    public changeMode(mode: string | number) {
-        return new Promise<void>((resolve, reject) => chmod(this.path, mode, (err) => err ? reject(err) : resolve()));
-    }
-
     public getFiles() {
         return new Promise<Path[]>((resolve, reject) => readdir(this.path, (err, files) =>
-            err ? reject(err) : resolve(files.map((value, index, array) => new Path(join(this.path, value))))));
+            err ? reject(err) : resolve(files.map((value) => new Path(join(this.path, value))))));
+    }
+
+    public changeMode(mode: string | number) {
+        return new Promise<void>((resolve, reject) => chmod(this.path, mode, (err) => err ? reject(err) : resolve()));
     }
 
     public createDirectory() {
