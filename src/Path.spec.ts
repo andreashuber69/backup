@@ -89,17 +89,20 @@ describe("Path", async () => {
         });
     });
 
-    describe("openWrite", () => {
-        const end = (stream: WriteStream) => new Promise<void>((resolve) => stream.once("finish", resolve).end());
-        const close = (stream: WriteStream) => new Promise<void>((resolve) => stream.once("close", resolve).close());
+    const createTextFile = async (sut: Path) => {
+        const end = (s: WriteStream) => new Promise<void>((resolve) => s.once("finish", resolve).end());
+        const close = (s: WriteStream) => new Promise<void>((resolve) => s.once("close", resolve).close());
+        const stream = await sut.openWrite();
+        stream.write("Test\n");
+        await end(stream);
+        await close(stream);
+    };
 
+    describe("openWrite", () => {
         it("should open a new file for writing", async () => {
             const sut = new Path(testRunPath.path, `${Date.now()}.txt`);
 
-            const stream = await sut.openWrite();
-            stream.write("Test\n");
-            await end(stream);
-            await close(stream);
+            await createTextFile(sut);
 
             const stats = await sut.getStats();
             expect(stats.isDirectory()).to.equal(false);
