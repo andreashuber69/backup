@@ -19,6 +19,11 @@
         "base": "$tslint5",
         "fileLocation": "absolute"
       }
+    },
+    {
+      "type": "npm",
+      "script": "show-coverage",
+      "problemMatcher": []
     }
   ]
 }

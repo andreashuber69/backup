@@ -21,10 +21,11 @@
   "main": "src/App.ts",
   "scripts": {
     "start": "tsnode src/App.ts",
-    "test-no-coverage": "mocha --require ts-node/register src/*.spec.ts",
-    "test": "nyc --include 'src/*.ts' --extension .ts --require ts-node/register --reporter=html --reporter=text --all npm run test-no-coverage",
     "prelint": "cspell '**/*.*' && markdownlint *.md",
     "lint": "tslint --project tsconfig.json --config tslint.json --format verbose",
+    "test-no-coverage": "mocha --require ts-node/register src/*.spec.ts",
+    "test": "nyc --include 'src/*.ts' --extension .ts --require ts-node/register --reporter=html --reporter=text --all npm run test-no-coverage",
+    "show-coverage": "lite-server --baseDir='coverage'",
     "preci": "npm run lint",
     "ci": "npm test"
   },
@@ -34,6 +35,7 @@
     "@types/node": "^8.10.39",
     "chai": "^4.2.0",
     "cspell": "^3.1.3",
+    "lite-server": "^2.4.0",
     "markdownlint-cli": "^0.13.0",
     "mocha": "^5.2.0",
     "nyc": "^13.1.0",
