@@ -3,8 +3,8 @@ import { EventEmitter } from "events";
 export class Stream {
     public static async create<T extends EventEmitter>(create: () => T): Promise<T> {
         const result = create();
-        let onOpen: (() => void) | undefined;
-        let onError: ((reason?: any) => void) | undefined;
+        let onOpen: () => void;
+        let onError: (reason?: any) => void;
 
         try {
             await new Promise<void>((resolve, reject) => {
@@ -15,13 +15,10 @@ export class Stream {
 
             return result;
         } finally {
-            if (onOpen) {
-                result.removeListener("open", onOpen);
-            }
-
-            if (onError) {
-                result.removeListener("error", onError);
-            }
+            // tslint:disable-next-line:no-non-null-assertion
+            result.removeListener("open", onOpen!);
+            // tslint:disable-next-line:no-non-null-assertion
+            result.removeListener("error", onError!);
         }
     }
 }
