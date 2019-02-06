@@ -15,9 +15,9 @@ export class Stream {
 
             return result;
         } finally {
-            // tslint:disable-next-line:no-non-null-assertion
+            // tslint:disable-next-line:no-non-null-assertion no-unnecessary-type-assertion
             result.removeListener("open", onOpen!);
-            // tslint:disable-next-line:no-non-null-assertion
+            // tslint:disable-next-line:no-non-null-assertion no-unnecessary-type-assertion
             result.removeListener("error", onError!);
         }
     }
