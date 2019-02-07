@@ -106,10 +106,10 @@ class App {
         return Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
     }
 
-    private static getMediumName(medium: Medium) {
-        const serial = String.fromCharCode("a".charCodeAt(0) + medium.serialNumber);
+    private static getMediumName({ cacheNumber, slotNumber, serialNumber }: Medium) {
+        const serial = String.fromCharCode("a".charCodeAt(0) + serialNumber);
 
-        return `${DayOfWeek[(medium.slotNumber + 1) % 7]}${(medium.cacheNumber + 1)}${serial}`;
+        return `${DayOfWeek[(slotNumber + 1) % 7]}${(cacheNumber + 1)}${serial}`;
     }
 
     private static requestInput(prompt: string) {
