@@ -3,14 +3,10 @@
   "tasks": [
     {
       "type": "npm",
-      "script": "test",
+      "script": "start",
       "problemMatcher": [
         "$tsc"
-      ],
-      "group": {
-        "kind": "build",
-        "isDefault": true
-      }
+      ]
     },
     {
       "type": "npm",
@@ -18,6 +14,17 @@
       "problemMatcher": {
         "base": "$tslint5",
         "fileLocation": "absolute"
+      }
+    },
+    {
+      "type": "npm",
+      "script": "test",
+      "problemMatcher": [
+        "$tsc"
+      ],
+      "group": {
+        "kind": "build",
+        "isDefault": true
       }
     },
     {

@@ -20,7 +20,7 @@
   "private": true,
   "main": "src/App.ts",
   "scripts": {
-    "start": "tsnode src/App.ts",
+    "start": "ts-node src/App.ts",
     "prelint": "cspell '**/*.*' && markdownlint *.md",
     "lint": "tslint --project tsconfig.json --config tslint.json --format verbose",
     "test-no-coverage": "mocha --require ts-node/register src/*.spec.ts",
