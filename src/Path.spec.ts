@@ -4,8 +4,8 @@ import { WriteStream } from "fs";
 import "mocha";
 import { Path } from "./Path";
 
-type ExpectedArray = [ boolean, boolean, boolean, boolean ];
-type PathArray = [ Path, Path, Path, Path ];
+type ExpectedArray = [ boolean, boolean, boolean ];
+type PathArray = [ Path, Path, Path ];
 type Method = "canAccess" | "canExecute" | "getStats" | "getFiles";
 
 describe("Path", () => {
@@ -27,7 +27,6 @@ describe("Path", () => {
             const sut: PathArray = [
                 new Path(".", "234987298374"),
                 new Path(".", "LICENSE"),
-                new Path(".", "publish"),
                 new Path(".", "src"),
             ];
 
@@ -55,10 +54,10 @@ describe("Path", () => {
         }
     };
 
-    checkResult("canAccess", (sut) => sut.canAccess(), false, true, true, true);
-    checkResult("canExecute", (sut) => sut.canExecute(), false, false, true, true);
-    checkResult("getStats", getStatsChecker, false, true, true, true);
-    checkResult("getFiles", getFilesChecker, false, false, false, true);
+    checkResult("canAccess", (sut) => sut.canAccess(), false, true, true);
+    checkResult("canExecute", (sut) => sut.canExecute(), false, false, true);
+    checkResult("getStats", getStatsChecker, false, true, true);
+    checkResult("getFiles", getFilesChecker, false, false, true);
 
     describe("changeMode", () => {
         let sut: Path;
