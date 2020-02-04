@@ -4,8 +4,8 @@ import { WriteStream } from "fs";
 import "mocha";
 import { Path } from "./Path";
 
-type ExpectedArray = [ boolean, boolean, boolean ];
-type PathArray = [ Path, Path, Path ];
+type ExpectedArray = [boolean, boolean, boolean];
+type PathArray = [Path, Path, Path];
 type Method = "canAccess" | "canExecute" | "getStats" | "getFiles";
 
 describe("Path", () => {
@@ -63,7 +63,7 @@ describe("Path", () => {
         let sut: Path;
         before(() => sut = new Path(testRunPath.path, `${Date.now()}`));
 
-        it ("should fail to change the mode of a missing file", async () => {
+        it("should fail to change the mode of a missing file", async () => {
             try {
                 await sut.changeMode(0o777);
             } catch (e) {
@@ -86,7 +86,7 @@ describe("Path", () => {
     });
 
     describe("createDirectory", () => {
-        it ("should fail to create an already existing directory", async () => {
+        it("should fail to create an already existing directory", async () => {
             try {
                 await testRunPath.createDirectory();
             } catch (e) {
