@@ -30,7 +30,7 @@
     "ci": "npm test"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.8",
+    "@types/chai": "^4.2.9",
     "@types/mocha": "^7.0.1",
     "chai": "^4.2.0",
     "cspell": "^4.0.46",
@@ -41,8 +41,8 @@
     "tslint": "^6.0.0"
   },
   "dependencies": {
-    "@types/node": "^8.10.39",
-    "ts-node": "^8.0.2",
-    "typescript": "^3.3.3"
+    "@types/node": "^10.17.14",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
   }
 }
