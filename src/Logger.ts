@@ -1,4 +1,5 @@
 import { WriteStream } from "fs";
+
 import { Medium } from "./Medium";
 import { Path } from "./Path";
 

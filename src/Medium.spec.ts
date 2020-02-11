@@ -1,6 +1,7 @@
 import { expect } from "chai";
 // tslint:disable-next-line:no-import-side-effect
 import "mocha";
+
 import { Medium } from "./Medium";
 
 describe("Medium", () => {

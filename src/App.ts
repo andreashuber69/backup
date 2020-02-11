@@ -2,6 +2,7 @@ import { exec } from "child_process";
 import { WriteStream } from "fs";
 import * as https from "https";
 import { setTimeout } from "timers";
+
 import { IExecResult } from "./IExecResult";
 import { Logger } from "./Logger";
 import { Medium } from "./Medium";
@@ -23,10 +24,10 @@ enum DayOfWeek {
 
 class App {
     public static async main() {
-        const todayMilliseconds = this.getTodayMilliseconds();
-        const daysSinceStart = (todayMilliseconds - this.startMilliseconds) / 24 / 60 / 60 / 1000;
+        const todayMilliseconds = App.getTodayMilliseconds();
+        const daysSinceStart = (todayMilliseconds - App.startMilliseconds) / 24 / 60 / 60 / 1000;
         const medium = Medium.get(2, 7, daysSinceStart);
-        const mediumName = this.getMediumName(medium);
+        const mediumName = App.getMediumName(medium);
         // cSpell: ignore logname
         const user = process.env.LOGNAME;
         const mediumRoot = new Path("/", "media", user ? user : "", mediumName);
@@ -34,13 +35,13 @@ class App {
 
         try {
             while (!await mediumRoot.canAccess() || !(await mediumRoot.getStats()).isDirectory()) {
-                await this.requestInput(`Please insert ${mediumName} and press Enter: `);
+                await App.requestInput(`Please insert ${mediumName} and press Enter: `);
             }
 
             const files = await mediumRoot.getFiles();
             const prompt = "Non-empty medium! Delete everything? [Y/n]: ";
 
-            if ((files.length === 0) || (await this.requestInput(prompt)).toLowerCase() !== "n") {
+            if ((files.length === 0) || (await App.requestInput(prompt)).toLowerCase() !== "n") {
                 for (const file of files) {
                     await file.delete();
                 }
@@ -48,16 +49,16 @@ class App {
                 const backupScript = new Path(__dirname, "backup");
 
                 if (!await backupScript.canExecute()) {
-                    await this.downloadFile(
+                    await App.downloadFile(
                         "https://raw.githubusercontent.com/andreashuber69/owncloud/master/backup", backupScript);
                     // Set execute bit for the owner
                     await backupScript.changeMode((await backupScript.getStats()).mode | 0o100);
                 }
 
                 const commandLine = `${backupScript.path} ${mediumRoot.path}`;
-                const resultPromise = this.exec(commandLine);
+                const resultPromise = App.exec(commandLine);
                 // Allow the external process to start and execute past the empty directory check.
-                await this.delay(1000);
+                await App.delay(1000);
                 logger = await Logger.create(new Path(mediumRoot.path, "log.txt"));
                 logger.writeOutputMarker("Backup Start");
                 logger.writeMediumInfo(new Date(todayMilliseconds), medium, mediumName);
@@ -76,7 +77,7 @@ class App {
 
             return 0;
         } catch (ex) {
-            const exceptionString = this.getExceptionString(ex);
+            const exceptionString = App.getExceptionString(ex);
 
             if (logger) {
                 logger.writeLine(exceptionString);
@@ -115,14 +116,14 @@ class App {
     private static requestInput(prompt: string) {
         process.stdout.write(prompt);
 
-        return this.getConsoleInput();
+        return App.getConsoleInput();
     }
 
     private static async downloadFile(url: string, path: Path) {
         const writeStream = await path.openWrite();
 
         try {
-            await this.downloadFileImpl(url, writeStream);
+            await App.downloadFileImpl(url, writeStream);
         } catch (ex) {
             await path.delete();
             throw ex;
@@ -131,13 +132,13 @@ class App {
 
     private static exec(command: string) {
         return new Promise<IExecResult>((resolve) => exec(command, (error: Error | null, stdout, stderr) => resolve(
-            this.getResult(error, stdout, stderr))));
+            App.getResult(error, stdout, stderr))));
     }
 
     private static getResult(error: Error | null, stdout: string, stderr: string): IExecResult {
         return {
             output: stdout + stderr,
-            exitCode: this.isExecError(error) ? error.code : 0,
+            exitCode: App.isExecError(error) ? error.code : 0,
             exitMessage: error ? error.toString() : "",
         };
     }

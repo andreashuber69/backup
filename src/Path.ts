@@ -1,5 +1,6 @@
 import { access, chmod, constants, createWriteStream, lstat, mkdir, readdir, rmdir, Stats, unlink } from "fs";
 import { join } from "path";
+
 import { Stream } from "./Stream";
 
 export class Path {

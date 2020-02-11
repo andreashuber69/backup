@@ -2,6 +2,7 @@ import { expect } from "chai";
 import { WriteStream } from "fs";
 // tslint:disable-next-line:no-import-side-effect
 import "mocha";
+
 import { Path } from "./Path";
 
 type ExpectedArray = [boolean, boolean, boolean];
