@@ -2,7 +2,7 @@
   "compilerOptions": {
     // Compilation options
     "forceConsistentCasingInFileNames": true,
-    "lib": ["es2017"],
+    "lib": [],
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "strict": true,
@@ -11,9 +11,5 @@
     "module": "commonjs",
     "sourceMap": true,
     "target": "es2017"
-  },
-  "include": [
-    "src/App.ts",
-    "src/**/*.spec.ts"
-  ]
+  }
 }
