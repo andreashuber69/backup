@@ -41,7 +41,7 @@
     "tslint": "^6.0.0"
   },
   "dependencies": {
-    "@types/node": "^10.17.14",
+    "@types/node": "^10.17.15",
     "ts-node": "^8.6.2",
     "typescript": "^3.7.5"
   }
