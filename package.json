@@ -33,7 +33,7 @@
     "@types/chai": "^4.2.17",
     "@types/mocha": "^8.2.2",
     "chai": "^4.3.4",
-    "cspell": "^4.2.8",
+    "cspell": "^5.3.12",
     "lite-server": "^2.6.1",
     "markdownlint-cli": "^0.22.0",
     "mocha": "^8.3.2",
