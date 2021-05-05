@@ -153,12 +153,6 @@ module.exports = {
                 SwitchCase: 1
             }
         ],
-        "@typescript-eslint/interface-name-prefix": [
-            "error",
-            {
-                prefixWithI: "always"
-            }
-        ],
         "jsdoc/check-alignment": "warn",
         "jsdoc/check-examples": "warn",
         "jsdoc/check-indentation": [
@@ -255,6 +249,14 @@ module.exports = {
                 format: ["PascalCase"], // TODO: Try to make this strict
                 leadingUnderscore: 'forbid',
                 trailingUnderscore: 'forbid',
+            },
+            {
+                selector: "interface",
+                format: ["PascalCase"], // TODO: Try to make this strict
+                custom: {
+                    "regex": "^I[A-Z]",
+                    "match": true
+                }
             },
         ],
         // Typescript ensures that constructor functions are only called with new, so the convention is not necessary.
