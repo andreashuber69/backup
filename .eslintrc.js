@@ -32,13 +32,6 @@ module.exports = {
                 default: "array-simple",
             }
         ],
-        "camelcase": "off",
-        "@typescript-eslint/camelcase": [
-            "error",
-            {
-                properties: "always"
-            }
-        ],
         "capitalized-comments": [
             "error",
             "always",
@@ -248,6 +241,21 @@ module.exports = {
         "multiline-ternary": [
             "error",
             "always-multiline"
+        ],
+        "@typescript-eslint/naming-convention": [
+            "error",
+            {
+                selector: "default",
+                format: ["camelCase"], // TODO: Try to make this strict
+                leadingUnderscore: 'forbid',
+                trailingUnderscore: 'forbid',
+            },
+            {
+                selector: "typeLike",
+                format: ["PascalCase"], // TODO: Try to make this strict
+                leadingUnderscore: 'forbid',
+                trailingUnderscore: 'forbid',
+            },
         ],
         // Typescript ensures that constructor functions are only called with new, so the convention is not necessary.
         "new-cap": "off",
