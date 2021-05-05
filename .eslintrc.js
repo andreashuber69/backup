@@ -316,7 +316,8 @@ module.exports = {
         "no-useless-constructor": "off",
         // cSpell: ignore todos
         "no-warning-comments": "off", // Turn this on after tackling TODOs ;-)?.
-        "object-curly-spacing": [
+        "object-curly-spacing": "off",
+        "@typescript-eslint/object-curly-spacing": [
             "error",
             "always"
         ],
