@@ -125,7 +125,6 @@ module.exports = {
         "import/no-named-default": "error",
         "import/no-named-export": "off", // Does not make sense.
         "import/no-namespace": "error",
-        "import/no-nodejs-modules": "error",
         "import/no-relative-parent-imports": "off", // Seems too restrictive.
         "import/no-restricted-paths": "off", // Seems too restrictive.
         "import/no-self-import": "error",
