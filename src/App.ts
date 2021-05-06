@@ -45,7 +45,7 @@ class App {
             const prompt = "Non-empty medium! Delete everything? [Y/n]: ";
 
             if ((files.length === 0) || (await App.requestInput(prompt)).toLowerCase() !== "n") {
-                await Promise.all(files.map(async file => file.delete()));
+                await Promise.all(files.map(async (file) => file.delete()));
                 const backupScript = new Path(__dirname, "backup");
 
                 if (!await backupScript.canExecute()) {

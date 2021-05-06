@@ -38,7 +38,7 @@ export class Path {
 
     public async delete() {
         if ((await this.getStats()).isDirectory()) {
-            await Promise.all((await this.getFiles()).map(async file => file.delete()));
+            await Promise.all((await this.getFiles()).map(async (file) => file.delete()));
             await this.removeEmptyDirectory();
         } else {
             await this.unlinkFile();
