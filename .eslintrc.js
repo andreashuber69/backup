@@ -41,7 +41,8 @@ module.exports = {
                 "ignorePattern": "cSpell|codebeat"
             }
         ],
-        "comma-dangle": [
+        "comma-dangle": "off",
+        "@typescript-eslint/comma-dangle": [
             "error",
             "always-multiline"
         ],
