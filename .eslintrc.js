@@ -244,10 +244,18 @@ module.exports = {
                 trailingUnderscore: 'forbid',
             },
             {
-                selector: "typeLike",
+                selector: ["typeLike", "enumMember"],
                 format: ["PascalCase"], // TODO: Try to make this strict
                 leadingUnderscore: 'forbid',
                 trailingUnderscore: 'forbid',
+            },
+            {
+                selector: "interface",
+                format: ["PascalCase"], // TODO: Try to make this strict
+                custom: {
+                    "regex": "^I[A-Z]",
+                    "match": true
+                }
             },
             {
                 selector: "interface",
