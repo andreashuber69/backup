@@ -1,8 +1,8 @@
-// https://github.com/andreashuber69/net-worth#--
+// https://github.com/andreashuber69/backup#--
 module.exports = {
     env: {
-        browser: true,
-        es2017: true
+        node: true,
+        es2017: true,
     },
     extends: [
         "eslint:all",
