@@ -34,7 +34,10 @@ class App {
         let logger: Logger | undefined;
 
         try {
+            // The await statements cannot be parallelized
+            // eslint-disable-next-line no-await-in-loop
             while (!await mediumRoot.canAccess() || !(await mediumRoot.getStats()).isDirectory()) {
+                // eslint-disable-next-line no-await-in-loop
                 await App.requestInput(`Please insert ${mediumName} and press Enter: `);
             }
 
@@ -42,10 +45,7 @@ class App {
             const prompt = "Non-empty medium! Delete everything? [Y/n]: ";
 
             if ((files.length === 0) || (await App.requestInput(prompt)).toLowerCase() !== "n") {
-                for (const file of files) {
-                    await file.delete();
-                }
-
+                await Promise.all(files.map(async file => file.delete()));
                 const backupScript = new Path(__dirname, "backup");
 
                 if (!await backupScript.canExecute()) {
