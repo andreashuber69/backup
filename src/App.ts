@@ -1,6 +1,6 @@
 import { exec } from "child_process";
 import type { WriteStream } from "fs";
-import * as https from "https";
+import { get } from "https";
 import { setTimeout } from "timers";
 
 import type { IExecResult } from "./IExecResult";
@@ -168,7 +168,7 @@ class App {
                 writeStream.close();
             });
 
-            const request = https.get(url, (res) => {
+            const request = get(url, (res) => {
                 if (res.statusCode === 200) {
                     res.pipe(writeStream);
                 } else {
