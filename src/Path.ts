@@ -10,30 +10,30 @@ export class Path {
         this.path = join(...paths);
     }
 
-    public canAccess() {
+    public async canAccess() {
         return new Promise<boolean>((resolve) => access(this.path, (err) => resolve(!err)));
     }
 
-    public canExecute() {
+    public async canExecute() {
         return new Promise<boolean>((resolve) => access(this.path, constants.X_OK, (err) => resolve(!err)));
     }
 
-    public getStats() {
+    public async getStats() {
         return new Promise<Stats>(
             (resolve, reject) => lstat(this.path, (err, stats) => err ? reject(err) : resolve(stats))
         );
     }
 
-    public getFiles() {
+    public async getFiles() {
         return new Promise<Path[]>((resolve, reject) => readdir(this.path, (err, files) =>
             err ? reject(err) : resolve(files.map((value) => new Path(join(this.path, value))))));
     }
 
-    public changeMode(mode: string | number) {
+    public async changeMode(mode: string | number) {
         return new Promise<void>((resolve, reject) => chmod(this.path, mode, (err) => err ? reject(err) : resolve()));
     }
 
-    public createDirectory() {
+    public async createDirectory() {
         return new Promise<void>((resolve, reject) => mkdir(this.path, (err) => err ? reject(err) : resolve()));
     }
 
@@ -46,17 +46,17 @@ export class Path {
         }
     }
 
-    public openWrite() {
+    public async openWrite() {
         return Stream.create(() => createWriteStream(this.path));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    private removeEmptyDirectory() {
+    private async removeEmptyDirectory() {
         return new Promise<void>((resolve, reject) => rmdir(this.path, (err) => err ? reject(err) : resolve()));
     }
 
-    private unlinkFile() {
+    private async unlinkFile() {
         return new Promise<void>((resolve, reject) => unlink(this.path, (err) => err ? reject(err) : resolve()));
     }
 }

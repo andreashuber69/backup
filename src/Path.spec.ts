@@ -56,8 +56,8 @@ describe("Path", () => {
         }
     };
 
-    checkResult("canAccess", (sut) => sut.canAccess(), false, true, true);
-    checkResult("canExecute", (sut) => sut.canExecute(), false, false, true);
+    checkResult("canAccess", async (sut) => sut.canAccess(), false, true, true);
+    checkResult("canExecute", async (sut) => sut.canExecute(), false, false, true);
     checkResult("getStats", getStatsChecker, false, true, true);
     checkResult("getFiles", getFilesChecker, false, false, true);
 
@@ -102,8 +102,9 @@ describe("Path", () => {
     });
 
     const createTextFile = async (sut: Readonly<Path>) => {
-        const end = (s: Readonly<WriteStream>) => new Promise<void>((resolve) => s.once("finish", resolve).end());
-        const close = (s: Readonly<WriteStream>) => new Promise<void>((resolve) => s.once("close", resolve).close());
+        const end = async (s: Readonly<WriteStream>) => new Promise<void>((resolve) => s.once("finish", resolve).end());
+        const close =
+            async (s: Readonly<WriteStream>) => new Promise<void>((resolve) => s.once("close", resolve).close());
         const stream = await sut.openWrite();
         stream.write("Test\n");
         await end(stream);

@@ -72,11 +72,11 @@ export class Logger {
         this.writeLine(Logger.formatTitle(name) + value);
     }
 
-    private end() {
+    private async end() {
         return new Promise<void>((resolve) => this.stream.once("finish", (fd) => resolve()).end());
     }
 
-    private close() {
+    private async close() {
         return new Promise<void>((resolve) => this.stream.once("close", resolve).close());
     }
 }

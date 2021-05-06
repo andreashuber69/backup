@@ -113,7 +113,7 @@ class App {
         return `${DayOfWeek[(slotNumber + 1) % 7]}${(cacheNumber + 1)}${serial}`;
     }
 
-    private static requestInput(prompt: string) {
+    private static async requestInput(prompt: string) {
         process.stdout.write(prompt);
 
         return App.getConsoleInput();
@@ -130,7 +130,7 @@ class App {
         }
     }
 
-    private static exec(command: string) {
+    private static async exec(command: string) {
         return new Promise<IExecResult>(
             (resolve) => exec(
                 command,
@@ -151,11 +151,11 @@ class App {
         return error ? "code" in error : false;
     }
 
-    private static delay(milliseconds: number) {
+    private static async delay(milliseconds: number) {
         return new Promise<void>((resolve) => setTimeout(resolve, milliseconds));
     }
 
-    private static downloadFileImpl(url: string, writeStream: Readonly<WriteStream>) {
+    private static async downloadFileImpl(url: string, writeStream: Readonly<WriteStream>) {
         return new Promise<void>((resolve, reject) => {
             let error: Error | undefined = new Error("Unknown error!");
 
@@ -190,7 +190,7 @@ class App {
         });
     }
 
-    private static getConsoleInput() {
+    private static async getConsoleInput() {
         return new Promise<string>((resolve) => {
             const stdin = process.openStdin();
             stdin.once("data", (args: object) => {
@@ -200,7 +200,7 @@ class App {
         });
     }
 
-    private static getExceptionString(ex: any): string {
+    private static getExceptionString(ex: unknown): string {
         const exceptionObject = ex as object;
 
         return exceptionObject ? exceptionObject.toString() : "Unknown exception!";
