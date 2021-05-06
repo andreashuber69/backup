@@ -5,8 +5,8 @@ import "mocha";
 
 import { Path } from "./Path";
 
-type ExpectedArray = [boolean, boolean, boolean];
-type PathArray = [Path, Path, Path];
+type ExpectedArray = readonly [boolean, boolean, boolean];
+type PathArray = readonly [Path, Path, Path];
 type Method = "canAccess" | "canExecute" | "getStats" | "getFiles";
 
 describe("Path", () => {
@@ -23,23 +23,24 @@ describe("Path", () => {
         await testRunPath.createDirectory();
     });
 
-    const checkResult = (method: Method, checker: (sut: Path) => Promise<boolean>, ...expected: ExpectedArray) => {
-        describe(method, () => {
-            const sut: PathArray = [
-                new Path(".", "234987298374"),
-                new Path(".", "LICENSE"),
-                new Path(".", "src"),
-            ];
+    const checkResult =
+        (method: Method, checker: (sut: Readonly<Path>) => Promise<boolean>, ...expected: ExpectedArray) => {
+            describe(method, () => {
+                const sut: PathArray = [
+                    new Path(".", "234987298374"),
+                    new Path(".", "LICENSE"),
+                    new Path(".", "src"),
+                ];
 
-            for (let index = 0; index < sut.length; ++index) {
-                it(`should evaluate to ${expected[index]} for ${sut[index].path}`, async () => {
-                    expect(await checker(sut[index])).to.equal(expected[index]);
-                });
-            }
-        });
-    };
+                for (let index = 0; index < sut.length; ++index) {
+                    it(`should evaluate to ${expected[index]} for ${sut[index].path}`, async () => {
+                        expect(await checker(sut[index])).to.equal(expected[index]);
+                    });
+                }
+            });
+        };
 
-    const getStatsChecker = async (sut: Path) => {
+    const getStatsChecker = async (sut: Readonly<Path>) => {
         try {
             return !!await sut.getStats();
         } catch (e) {
@@ -47,7 +48,7 @@ describe("Path", () => {
         }
     };
 
-    const getFilesChecker = async (sut: Path) => {
+    const getFilesChecker = async (sut: Readonly<Path>) => {
         try {
             return !!await sut.getFiles();
         } catch (e) {
@@ -100,9 +101,9 @@ describe("Path", () => {
         });
     });
 
-    const createTextFile = async (sut: Path) => {
-        const end = (s: WriteStream) => new Promise<void>((resolve) => s.once("finish", resolve).end());
-        const close = (s: WriteStream) => new Promise<void>((resolve) => s.once("close", resolve).close());
+    const createTextFile = async (sut: Readonly<Path>) => {
+        const end = (s: Readonly<WriteStream>) => new Promise<void>((resolve) => s.once("finish", resolve).end());
+        const close = (s: Readonly<WriteStream>) => new Promise<void>((resolve) => s.once("close", resolve).close());
         const stream = await sut.openWrite();
         stream.write("Test\n");
         await end(stream);

@@ -4,7 +4,7 @@ import type { Medium } from "./Medium";
 import type { Path } from "./Path";
 
 export class Logger {
-    public static async create(path: Path) {
+    public static async create(path: Readonly<Path>) {
         return new Logger(await path.openWrite());
     }
 
@@ -21,7 +21,7 @@ export class Logger {
         this.writeLine(`${Logger.formatTime(new Date())}  ${message}`);
     }
 
-    public writeMediumInfo(today: Date, medium: Medium, mediumName: string) {
+    public writeMediumInfo(today: Readonly<Date>, medium: Medium, mediumName: string) {
         this.writeInfoLine("Current Date", Logger.formatDate(today));
         this.writeInfoLine("Medium Name", mediumName);
         const mediumStart = new Date(today.valueOf() - medium.backupCountSinceMediumStart * 24 * 60 * 60 * 1000);
@@ -45,7 +45,7 @@ export class Logger {
         return (`${title}:             `).slice(0, 14);
     }
 
-    private static formatTime(time: Date) {
+    private static formatTime(time: Readonly<Date>) {
         const hours = Logger.formatNumber(time.getUTCHours(), 2);
         const minutes = Logger.formatNumber(time.getUTCMinutes(), 2);
         const seconds = Logger.formatNumber(time.getUTCSeconds(), 2);
@@ -53,7 +53,7 @@ export class Logger {
         return `${hours}:${minutes}:${seconds}.${Logger.formatNumber(time.getUTCMilliseconds(), 3)}`;
     }
 
-    private static formatDate(date: Date) {
+    private static formatDate(date: Readonly<Date>) {
         const year = date.getUTCFullYear();
         const month = Logger.formatNumber(date.getUTCMonth() + 1, 2);
         const day = Logger.formatNumber(date.getUTCDate(), 2);
@@ -65,7 +65,7 @@ export class Logger {
         return (`000${num}`).slice(-length);
     }
 
-    private constructor(private readonly stream: WriteStream) {
+    private constructor(private readonly stream: Readonly<WriteStream>) {
     }
 
     private writeInfoLine(name: string, value: string) {

@@ -119,7 +119,7 @@ class App {
         return App.getConsoleInput();
     }
 
-    private static async downloadFile(url: string, path: Path) {
+    private static async downloadFile(url: string, path: Readonly<Path>) {
         const writeStream = await path.openWrite();
 
         try {
@@ -151,7 +151,7 @@ class App {
         return new Promise<void>((resolve) => setTimeout(resolve, milliseconds));
     }
 
-    private static downloadFileImpl(url: string, writeStream: WriteStream) {
+    private static downloadFileImpl(url: string, writeStream: Readonly<WriteStream>) {
         return new Promise<void>((resolve, reject) => {
             let error: Error | undefined = new Error("Unknown error!");
 

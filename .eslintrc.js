@@ -364,6 +364,12 @@ module.exports = {
                 "classPropertiesAllowed": false
             }
         ],
+        "@typescript-eslint/prefer-readonly-parameter-types": [
+            "error",
+            {
+                ignoreInferredTypes: true,
+            }
+        ],
         "quote-props": [
             "error",
             "consistent-as-needed"
