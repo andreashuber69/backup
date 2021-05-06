@@ -353,6 +353,7 @@ module.exports = {
             }
             // TODO: Configure to match code style
         ],
+        "@typescript-eslint/prefer-enum-initializers": "off", // Implictly defined values should be common knowledge
         "prefer-arrow/prefer-arrow-functions": [
             "error",
             {
