@@ -1,9 +1,9 @@
 import { exec } from "child_process";
-import { WriteStream } from "fs";
+import type { WriteStream } from "fs";
 import * as https from "https";
 import { setTimeout } from "timers";
 
-import { IExecResult } from "./IExecResult";
+import type { IExecResult } from "./IExecResult";
 import { Logger } from "./Logger";
 import { Medium } from "./Medium";
 import { Path } from "./Path";

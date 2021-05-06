@@ -1,4 +1,4 @@
-import { EventEmitter } from "events";
+import type { EventEmitter } from "events";
 
 export class Stream {
     public static async create<T extends EventEmitter>(create: () => T): Promise<T> {
