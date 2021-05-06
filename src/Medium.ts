@@ -24,7 +24,8 @@ export class Medium {
             slotNumber,
             Math.floor(backupCountSinceSlotStart / mediaLifetime),
             backupCountSinceMediumStart,
-            mediaLifetime - backupCountSinceMediumStart - (cacheCount - 1) * cacheInterval - slotCount);
+            mediaLifetime - backupCountSinceMediumStart - (cacheCount - 1) * cacheInterval - slotCount
+        );
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -34,6 +35,7 @@ export class Medium {
         public readonly slotNumber: number,
         public readonly serialNumber: number,
         public readonly backupCountSinceMediumStart: number,
-        public readonly backupCountUntilMediumEnd: number) {
+        public readonly backupCountUntilMediumEnd: number,
+    ) {
     }
 }

@@ -49,8 +49,8 @@ class App {
                 const backupScript = new Path(__dirname, "backup");
 
                 if (!await backupScript.canExecute()) {
-                    await App.downloadFile(
-                        "https://raw.githubusercontent.com/andreashuber69/owncloud/master/backup", backupScript);
+                    const url = "https://raw.githubusercontent.com/andreashuber69/owncloud/master/backup";
+                    await App.downloadFile(url, backupScript);
                     // Set execute bit for the owner
                     await backupScript.changeMode((await backupScript.getStats()).mode | 0o100);
                 }
@@ -131,8 +131,12 @@ class App {
     }
 
     private static exec(command: string) {
-        return new Promise<IExecResult>((resolve) => exec(command, (error: Error | null, stdout, stderr) => resolve(
-            App.getResult(error, stdout, stderr))));
+        return new Promise<IExecResult>(
+            (resolve) => exec(
+                command,
+                (error, stdout, stderr) => resolve(App.getResult(error, stdout, stderr))
+            )
+        );
     }
 
     private static getResult(error: Error | null, stdout: string, stderr: string): IExecResult {
@@ -173,7 +177,8 @@ class App {
                     res.pipe(writeStream);
                 } else {
                     error = new Error(
-                        (res.statusCode ? `${res.statusCode}: ` : "") + (res.statusMessage ? res.statusMessage : ""));
+                        (res.statusCode ? `${res.statusCode}: ` : "") + (res.statusMessage ? res.statusMessage : "")
+                    );
                     writeStream.close();
                 }
             });

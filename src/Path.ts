@@ -20,7 +20,8 @@ export class Path {
 
     public getStats() {
         return new Promise<Stats>(
-            (resolve, reject) => lstat(this.path, (err, stats) => err ? reject(err) : resolve(stats)));
+            (resolve, reject) => lstat(this.path, (err, stats) => err ? reject(err) : resolve(stats))
+        );
     }
 
     public getFiles() {
