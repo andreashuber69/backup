@@ -43,7 +43,7 @@ describe("Path", () => {
     const getStatsChecker = async (sut: Readonly<Path>) => {
         try {
             return !!await sut.getStats();
-        } catch (e) {
+        } catch (e: unknown) {
             return false;
         }
     };
@@ -51,7 +51,7 @@ describe("Path", () => {
     const getFilesChecker = async (sut: Readonly<Path>) => {
         try {
             return !!await sut.getFiles();
-        } catch (e) {
+        } catch (e: unknown) {
             return false;
         }
     };
@@ -68,7 +68,7 @@ describe("Path", () => {
         it("should fail to change the mode of a missing file", async () => {
             try {
                 await sut.changeMode(0o777);
-            } catch (e) {
+            } catch (e: unknown) {
                 expect(e instanceof Error && e.message.startsWith("ENOENT: no such file or directory")).to.equal(true);
 
                 return;
@@ -91,7 +91,7 @@ describe("Path", () => {
         it("should fail to create an already existing directory", async () => {
             try {
                 await testRunPath.createDirectory();
-            } catch (e) {
+            } catch (e: unknown) {
                 expect(e instanceof Error && e.message.startsWith("EEXIST: file already exists")).to.equal(true);
 
                 return;
@@ -130,7 +130,7 @@ describe("Path", () => {
             it("should fail to delete a file in a read-only directory", async () => {
                 try {
                     await getSut().delete();
-                } catch (e) {
+                } catch (e: unknown) {
                     expect(e instanceof Error && e.message.startsWith("EACCES: permission denied")).to.equal(true);
 
                     return;
@@ -168,7 +168,7 @@ describe("Path", () => {
 
             try {
                 await sut.openWrite();
-            } catch (e) {
+            } catch (e: unknown) {
                 expect(e instanceof Error && e.message.startsWith("ENOENT: no such file or directory")).to.equal(true);
 
                 return;

@@ -76,7 +76,7 @@ class App {
             }
 
             return 0;
-        } catch (ex) {
+        } catch (ex: unknown) {
             const exceptionString = App.getExceptionString(ex);
 
             if (logger) {
@@ -124,7 +124,7 @@ class App {
 
         try {
             await App.downloadFileImpl(url, writeStream);
-        } catch (ex) {
+        } catch (ex: unknown) {
             await path.delete();
             throw ex;
         }
