@@ -296,7 +296,8 @@ module.exports = {
             "error",
             "ForInStatement"
         ],
-        "no-shadow": [
+        "no-shadow": "off",
+        "@typescript-eslint/no-shadow": [
             "error",
             {
                 hoist: "all"
