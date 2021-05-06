@@ -258,14 +258,6 @@ module.exports = {
                     "match": true
                 }
             },
-            {
-                selector: "interface",
-                format: ["PascalCase"], // TODO: Try to make this strict
-                custom: {
-                    "regex": "^I[A-Z]",
-                    "match": true
-                }
-            },
         ],
         // Typescript ensures that constructor functions are only called with new, so the convention is not necessary.
         "new-cap": "off",
