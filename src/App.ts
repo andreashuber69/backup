@@ -31,6 +31,7 @@ class App {
         // cSpell: ignore logname
         const user = process.env.LOGNAME;
         const mediumRoot = new Path("/", "media", user ? user : "", mediumName);
+        // eslint-disable-next-line @typescript-eslint/init-declarations
         let logger: Logger | undefined;
 
         try {

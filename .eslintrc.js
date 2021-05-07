@@ -154,6 +154,9 @@ module.exports = {
         "import/prefer-default-export": "off", // Does not make much sense.
         "import/unambiguous": "error",
         "indent": "off",
+        // Was turned off in favor of @typescript-eslint/init-declarations (which is turned on with default settings).
+        "init-declarations": "off",
+        "@typescript-eslint/init-declarations": ["error"],
         "@typescript-eslint/indent": [
             "error",
             4,

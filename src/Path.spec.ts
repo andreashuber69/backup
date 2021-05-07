@@ -8,6 +8,7 @@ type PathArray = readonly [Path, Path, Path];
 type Method = "canAccess" | "canExecute" | "getFiles" | "getStats" ;
 
 describe("Path", () => {
+    // eslint-disable-next-line @typescript-eslint/init-declarations
     let testRunPath: Path;
 
     before(async () => {
@@ -60,6 +61,7 @@ describe("Path", () => {
     checkResult("getFiles", getFilesChecker, false, false, true);
 
     describe("changeMode", () => {
+        // eslint-disable-next-line @typescript-eslint/init-declarations
         let sut: Path;
         before(() => (sut = new Path(testRunPath.path, `${Date.now()}`)));
 
@@ -111,8 +113,11 @@ describe("Path", () => {
     };
 
     describe("delete", () => {
+        // eslint-disable-next-line @typescript-eslint/init-declarations
         let sut: Path;
+        // eslint-disable-next-line @typescript-eslint/init-declarations
         let filePath: Path;
+        // eslint-disable-next-line @typescript-eslint/init-declarations
         let directoryPath: Path;
 
         before(async () => {
