@@ -35,7 +35,7 @@ export class Path {
         );
     }
 
-    public async changeMode(mode: string | number) {
+    public async changeMode(mode: number | string) {
         return new Promise<void>(
             (resolve, reject) => void chmod(this.path, mode, (err) => void (err ? reject(err) : resolve())),
         );
