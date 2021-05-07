@@ -73,7 +73,7 @@ export class Logger {
     }
 
     private async end() {
-        return new Promise<void>((resolve) => this.stream.once("finish", (fd) => resolve()).end());
+        return new Promise<void>((resolve) => this.stream.once("finish", resolve).end());
     }
 
     private async close() {
