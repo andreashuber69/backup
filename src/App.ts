@@ -132,10 +132,7 @@ class App {
 
     private static async exec(command: string) {
         return new Promise<IExecResult>(
-            (resolve) => exec(
-                command,
-                (error, stdout, stderr) => resolve(App.getResult(error, stdout, stderr))
-            )
+            (resolve) => exec(command, (error, stdout, stderr) => resolve(App.getResult(error, stdout, stderr))),
         );
     }
 
@@ -173,12 +170,12 @@ class App {
             });
 
             const request = get(url, (res) => {
-                if (res.statusCode === 200) {
+                const { statusCode, statusMessage } = res;
+
+                if (statusCode === 200) {
                     res.pipe(writeStream);
                 } else {
-                    error = new Error(
-                        (res.statusCode ? `${res.statusCode}: ` : "") + (res.statusMessage ? res.statusMessage : "")
-                    );
+                    error = new Error((statusCode ? `${statusCode}: ` : "") + (statusMessage ? statusMessage : ""));
                     writeStream.close();
                 }
             });

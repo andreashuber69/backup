@@ -24,7 +24,7 @@ export class Medium {
             slotNumber,
             Math.floor(backupCountSinceSlotStart / mediaLifetime),
             backupCountSinceMediumStart,
-            mediaLifetime - backupCountSinceMediumStart - (cacheCount - 1) * cacheInterval - slotCount
+            mediaLifetime - backupCountSinceMediumStart - (cacheCount - 1) * cacheInterval - slotCount,
         );
     }
 
