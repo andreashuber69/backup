@@ -1,6 +1,5 @@
 import type { WriteStream } from "fs";
 import { expect } from "chai";
-import "mocha";
 
 import { Path } from "./Path";
 
