@@ -1,7 +1,7 @@
 export class Medium {
     public static get(cacheCount: number, slotCount: number, backupCountSinceStart: number): Medium {
-        const cacheInterval = slotCount * slotCount;  // How many backups to move from one to the next cache
-        const cacheCycle = cacheCount * cacheInterval;  // How many backups to cycle through all caches
+        const cacheInterval = slotCount * slotCount; // How many backups to move from one to the next cache
+        const cacheCycle = cacheCount * cacheInterval; // How many backups to cycle through all caches
         const slotStartInterval = cacheCycle + slotCount + 1; // How many backups between two slot starts
         const mediaLifetime = cacheCycle * slotCount; // How many backups before a single medium is retired
 
