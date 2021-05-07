@@ -22,11 +22,12 @@ export class Logger {
     }
 
     public writeMediumInfo(today: Readonly<Date>, medium: Medium, mediumName: string) {
+        const millisecondsPerDay = 24 * 60 * 60 * 1000;
         this.writeInfoLine("Current Date", Logger.formatDate(today));
         this.writeInfoLine("Medium Name", mediumName);
-        const mediumStart = new Date(today.valueOf() - medium.backupCountSinceMediumStart * 24 * 60 * 60 * 1000);
+        const mediumStart = new Date(today.valueOf() - (medium.backupCountSinceMediumStart * millisecondsPerDay));
         this.writeInfoLine("Medium Start", Logger.formatDate(mediumStart));
-        const mediumEnd = new Date(today.valueOf() + medium.backupCountUntilMediumEnd * 24 * 60 * 60 * 1000);
+        const mediumEnd = new Date(today.valueOf() + (medium.backupCountUntilMediumEnd * millisecondsPerDay));
         this.writeInfoLine("Medium End", Logger.formatDate(mediumEnd));
     }
 

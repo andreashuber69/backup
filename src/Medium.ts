@@ -14,9 +14,9 @@ export class Medium {
         const startBackupCount = backupCountSinceStart + mediaLifetime - cacheCycle + cacheInterval - slotCount;
 
         const slotNumber = (startBackupCount % slotCount);
-        const backupCountSinceSlotStart = startBackupCount - slotNumber * slotStartInterval;
+        const backupCountSinceSlotStart = startBackupCount - (slotNumber * slotStartInterval);
         const cacheNumber = Math.floor(backupCountSinceSlotStart / cacheInterval) % cacheCount;
-        const backupCountSinceMediumStart = backupCountSinceSlotStart % mediaLifetime - cacheNumber * cacheInterval;
+        const backupCountSinceMediumStart = (backupCountSinceSlotStart % mediaLifetime) - (cacheNumber * cacheInterval);
 
         // TODO: Integrate medium name
         return new Medium(
@@ -24,7 +24,7 @@ export class Medium {
             slotNumber,
             Math.floor(backupCountSinceSlotStart / mediaLifetime),
             backupCountSinceMediumStart,
-            mediaLifetime - backupCountSinceMediumStart - (cacheCount - 1) * cacheInterval - slotCount,
+            mediaLifetime - backupCountSinceMediumStart - ((cacheCount - 1) * cacheInterval) - slotCount,
         );
     }
 
