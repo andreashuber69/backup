@@ -279,6 +279,7 @@ module.exports = {
                 ignoreVoidOperator: true
             }
         ],
+        "no-console": "off", // Does not make sense for my projects
         "no-extra-parens": "off", // Was turned off in favor of no-mixed-operators.
         "@typescript-eslint/no-extra-parens": "off", // Was turned off in favor of no-mixed-operators.
         "@typescript-eslint/no-extraneous-class": [
