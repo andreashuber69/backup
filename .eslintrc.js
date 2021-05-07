@@ -292,6 +292,8 @@ module.exports = {
         // Most of the problems with the ++ and -- operators are avoided because we've turned on 
         // @typescript-eslint/semi.
         "no-plusplus": "off",
+        // The following would make promise construction much more verbose for avoiding a bug that is easily detected.
+        "no-promise-executor-return": "off",
         "no-restricted-syntax": [
             "error",
             "ForInStatement"
