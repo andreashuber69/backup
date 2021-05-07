@@ -205,4 +205,4 @@ class App {
 }
 
 // The catch should never be reached (because we handle all errors in main). If it does, we let the whole thing fail.
-App.main().then((exitCode) => process.exitCode = exitCode).catch((reason) => process.exitCode = 1);
+App.main().then((exitCode) => (process.exitCode = exitCode)).catch(() => (process.exitCode = 1));

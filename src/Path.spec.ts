@@ -63,7 +63,7 @@ describe("Path", () => {
 
     describe("changeMode", () => {
         let sut: Path;
-        before(() => sut = new Path(testRunPath.path, `${Date.now()}`));
+        before(() => (sut = new Path(testRunPath.path, `${Date.now()}`)));
 
         it("should fail to change the mode of a missing file", async () => {
             try {
