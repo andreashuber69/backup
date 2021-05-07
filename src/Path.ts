@@ -1,8 +1,9 @@
-import type { Stats } from "fs";
 import { access, chmod, constants, createWriteStream, lstat, mkdir, readdir, rmdir, unlink } from "fs";
+import type { Stats } from "fs";
 import { join } from "path";
 
 import { Stream } from "./Stream";
+
 
 export class Path {
     public readonly path: string;
