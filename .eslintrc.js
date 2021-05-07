@@ -37,16 +37,16 @@ module.exports = {
             "error",
             "1tbs",
             {
-                "allowSingleLine": true
+                allowSingleLine: true
             }
         ],
         "capitalized-comments": [
             "error",
             "always",
             {
-                "ignoreConsecutiveComments": true,
-                "ignoreInlineComments": true,
-                "ignorePattern": "cSpell|codebeat"
+                ignoreConsecutiveComments: true,
+                ignoreInlineComments: true,
+                ignorePattern: "cSpell|codebeat"
             }
         ],
         "comma-dangle": "off",
@@ -90,8 +90,8 @@ module.exports = {
         "import/extensions": [
             "error",
             {
-                "json": "always",
-                "schema": "always"
+                json: "always",
+                schema: "always"
             }
         ],
         "import/first": "error",
@@ -111,13 +111,13 @@ module.exports = {
         "import/no-anonymous-default-export": [
             "error",
             {
-                "allowArray": false,
-                "allowArrowFunction": false,
-                "allowAnonymousClass": false,
-                "allowAnonymousFunction": false,
-                "allowCallExpression": false,
-                "allowLiteral": false,
-                "allowObject": false
+                allowArray: false,
+                allowArrowFunction: false,
+                allowAnonymousClass: false,
+                allowAnonymousFunction: false,
+                allowCallExpression: false,
+                allowLiteral: false,
+                allowObject: false
             }
         ],
         "import/no-commonjs": "error",
@@ -174,7 +174,7 @@ module.exports = {
         "jsdoc/check-tag-names": [
             "warn",
             {
-                "definedTags": ["internal", "maximum", "minimum", "multipleOf"]
+                definedTags: ["internal", "maximum", "minimum", "multipleOf"]
             }
         ],
         "jsdoc/check-types": "warn",
@@ -214,25 +214,25 @@ module.exports = {
             "error",
             {
                 default: [
-                    'signature',
+                    "signature",
                   
-                    'public-static-field',
-                    'public-static-method',
-                    'public-field',
-                    'public-constructor',
-                    'public-method',
+                    "public-static-field",
+                    "public-static-method",
+                    "public-field",
+                    "public-constructor",
+                    "public-method",
                   
-                    'protected-static-field',
-                    'protected-static-method',
-                    'protected-field',
-                    'protected-constructor',
-                    'protected-method',
+                    "protected-static-field",
+                    "protected-static-method",
+                    "protected-field",
+                    "protected-constructor",
+                    "protected-method",
                   
-                    'private-static-field',
-                    'private-static-method',
-                    'private-field',
-                    'private-constructor',
-                    'private-method'
+                    "private-static-field",
+                    "private-static-method",
+                    "private-field",
+                    "private-constructor",
+                    "private-method"
                 ]
             }
         ],
@@ -249,21 +249,21 @@ module.exports = {
             {
                 selector: "default",
                 format: ["camelCase"], // TODO: Try to make this strict
-                leadingUnderscore: 'forbid',
-                trailingUnderscore: 'forbid',
+                leadingUnderscore: "forbid",
+                trailingUnderscore: "forbid",
             },
             {
                 selector: ["typeLike", "enumMember"],
                 format: ["PascalCase"], // TODO: Try to make this strict
-                leadingUnderscore: 'forbid',
-                trailingUnderscore: 'forbid',
+                leadingUnderscore: "forbid",
+                trailingUnderscore: "forbid",
             },
             {
                 selector: "interface",
                 format: ["PascalCase"], // TODO: Try to make this strict
                 custom: {
-                    "regex": "^I[A-Z]",
-                    "match": true
+                    regex: "^I[A-Z]",
+                    match: true
                 }
             },
         ],
@@ -359,9 +359,9 @@ module.exports = {
         "prefer-arrow/prefer-arrow-functions": [
             "error",
             {
-                "disallowPrototype": true,
-                "singleReturnOnly": false,
-                "classPropertiesAllowed": false
+                disallowPrototype: true,
+                singleReturnOnly: false,
+                classPropertiesAllowed: false
             }
         ],
         "@typescript-eslint/prefer-readonly-parameter-types": [
@@ -380,8 +380,8 @@ module.exports = {
         "sort-imports": [
             "error",
             {
-                "ignoreCase": true,
-                "ignoreDeclarationSort": true,
+                ignoreCase: true,
+                ignoreDeclarationSort: true,
             }
         ],
         "sort-keys": "off", 
