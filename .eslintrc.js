@@ -32,6 +32,14 @@ module.exports = {
                 default: "array-simple",
             }
         ],
+        "brace-style": "off",
+        "@typescript-eslint/brace-style": [
+            "error",
+            "1tbs",
+            {
+                "allowSingleLine": true
+            }
+        ],
         "capitalized-comments": [
             "error",
             "always",
