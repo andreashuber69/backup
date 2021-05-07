@@ -1,6 +1,5 @@
 import type { WriteStream } from "fs";
 import { expect } from "chai";
-// tslint:disable-next-line:no-import-side-effect
 import "mocha";
 
 import { Path } from "./Path";
