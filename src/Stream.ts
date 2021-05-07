@@ -4,7 +4,7 @@ export class Stream {
     public static async create<T extends EventEmitter>(create: () => T): Promise<T> {
         const result = create();
         let onOpen: () => void;
-        let onError: (reason?: any) => void;
+        let onError: (reason?: unknown) => void;
 
         try {
             await new Promise<void>((resolve, reject) => {
