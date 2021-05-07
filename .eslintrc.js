@@ -273,6 +273,12 @@ module.exports = {
         // Typescript already catches many of the bugs that this rule would because bitwise operators are not allowed
         // for booleans.
         "no-bitwise": "off",
+        "@typescript-eslint/no-confusing-void-expression": [
+            "error",
+            {
+                ignoreVoidOperator: true
+            }
+        ],
         "no-extra-parens": "off", // Was turned off in favor of no-mixed-operators.
         "@typescript-eslint/no-extra-parens": "off", // Was turned off in favor of no-mixed-operators.
         "@typescript-eslint/no-extraneous-class": [
@@ -325,6 +331,8 @@ module.exports = {
         // Was turned off in favor of @typescript-eslint/no-useless-constructor (which is turned on with default
         // settings).
         "no-useless-constructor": "off",
+        // We use void to avoid @typescript-eslint/no-confusing-void-expression
+        "no-void": "off",
         // cSpell: ignore todos
         "no-warning-comments": "off", // Turn this on after tackling TODOs ;-)?.
         "object-curly-spacing": "off",

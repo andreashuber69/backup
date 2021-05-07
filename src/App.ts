@@ -132,7 +132,7 @@ class App {
 
     private static async exec(command: string) {
         return new Promise<IExecResult>(
-            (resolve) => exec(command, (error, stdout, stderr) => resolve(App.getResult(error, stdout, stderr))),
+            (resolve) => exec(command, (error, stdout, stderr) => void resolve(App.getResult(error, stdout, stderr))),
         );
     }
 
