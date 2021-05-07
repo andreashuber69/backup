@@ -41,7 +41,7 @@ describe("Path", () => {
 
     const getStatsChecker = async (sut: Readonly<Path>) => {
         try {
-            return !!await sut.getStats();
+            return Boolean(await sut.getStats());
         } catch (e: unknown) {
             return false;
         }
@@ -49,7 +49,7 @@ describe("Path", () => {
 
     const getFilesChecker = async (sut: Readonly<Path>) => {
         try {
-            return !!await sut.getFiles();
+            return Boolean(await sut.getFiles());
         } catch (e: unknown) {
             return false;
         }
