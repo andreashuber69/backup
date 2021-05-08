@@ -3,8 +3,8 @@ import type { EventEmitter } from "events";
 export class Stream {
     public static async create<T extends EventEmitter>(create: () => T): Promise<T> {
         const result = create();
-        let onOpen: () => void;
-        let onError: (reason?: unknown) => void;
+        let onOpen = (): void => void 0;
+        let onError = (reason?: unknown): void => void reason;
 
         try {
             await new Promise<void>((resolve, reject) => {
