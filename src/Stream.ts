@@ -15,8 +15,8 @@ export class Stream {
 
             return result;
         } finally {
-            result.removeListener("open", onOpen!);
-            result.removeListener("error", onError!);
+            result.removeListener("open", onOpen);
+            result.removeListener("error", onError);
         }
     }
 }
