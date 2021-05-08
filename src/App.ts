@@ -78,12 +78,10 @@ class App {
 
             return 0;
         } catch (ex: unknown) {
-            const exceptionString = App.getExceptionString(ex);
-
             if (logger) {
-                logger.writeLine(exceptionString);
+                logger.writeLine(`${ex}`);
             } else {
-                console.log(exceptionString);
+                console.error(`${ex}`);
             }
 
             return 1;
@@ -191,17 +189,11 @@ class App {
     private static async getConsoleInput() {
         return new Promise<string>((resolve) => {
             const stdin = process.openStdin();
-            stdin.once("data", (args: object) => {
+            stdin.once("data", (args: { readonly toString: () => string }) => {
                 resolve(args.toString().trim());
                 stdin.pause();
             });
         });
-    }
-
-    private static getExceptionString(ex: unknown): string {
-        const exceptionObject = ex as object;
-
-        return exceptionObject ? exceptionObject.toString() : "Unknown exception!";
     }
 }
 
