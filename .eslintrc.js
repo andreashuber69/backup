@@ -273,6 +273,10 @@ module.exports = {
         // Typescript ensures that constructor functions are only called with new, so the convention is not necessary.
         "new-cap": "off",
         "newline-per-chained-call": "off", // This rule seems too restrictive.
+        // This isn't particularly helpful. For example, the runtime type implementing the Error interface will almost
+        // always have a meaningful implementation for toString(), yet calls to toString() on that interface are all
+        // flagged with this error.
+        "@typescript-eslint/no-base-to-string": "off",
         // Typescript already catches many of the bugs that this rule would because bitwise operators are not allowed
         // for booleans.
         "no-bitwise": "off",
