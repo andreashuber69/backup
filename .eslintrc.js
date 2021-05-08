@@ -156,7 +156,6 @@ module.exports = {
         "indent": "off",
         // Was turned off in favor of @typescript-eslint/init-declarations (which is turned on with default settings).
         "init-declarations": "off",
-        "@typescript-eslint/init-declarations": ["error"],
         "@typescript-eslint/indent": [
             "error",
             4,
