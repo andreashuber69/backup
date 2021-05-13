@@ -6,12 +6,12 @@ module.exports = {
     },
     extends: [
         "eslint:all",
-        "plugin:@typescript-eslint/all"
+        "plugin:@typescript-eslint/all",
     ],
     parser: "@typescript-eslint/parser",
     parserOptions: {
         project: "tsconfig.json",
-        sourceType: "module"
+        sourceType: "module",
     },
     plugins: [
         "@typescript-eslint",
@@ -24,48 +24,52 @@ module.exports = {
     rules: {
         "array-element-newline": [
             "error",
-            "consistent"
+            "consistent",
         ],
         "@typescript-eslint/array-type": [
             "error",
             {
                 default: "array-simple",
-            }
+            },
         ],
         "brace-style": "off",
         "@typescript-eslint/brace-style": [
             "error",
             "1tbs",
             {
-                allowSingleLine: true
-            }
+                allowSingleLine: true,
+            },
         ],
+        // Turned off in favor of @typescript-eslint/naming-convention
+        "camelcase": "off",
         "capitalized-comments": [
             "error",
             "always",
             {
                 ignoreConsecutiveComments: true,
                 ignoreInlineComments: true,
-                ignorePattern: "cSpell|codebeat"
-            }
+                ignorePattern: "cSpell|codebeat",
+            },
         ],
+        // We want to use the most appropriate style for each property.
+        "@typescript-eslint/class-literal-property-style": "off",
         "comma-dangle": "off",
         "@typescript-eslint/comma-dangle": [
             "error",
-            "always-multiline"
+            "always-multiline",
         ],
         "@typescript-eslint/consistent-type-assertions": [
             "error",
             {
                 assertionStyle: "as",
                 objectLiteralTypeAssertions: "never",
-            }        
+            },
         ],
         "@typescript-eslint/consistent-type-definitions": "off", // We want to use both interfaces and types.
         // cSpell: ignore eqeqeq
         "eqeqeq": [
             "error",
-            "always"
+            "always",
         ],
         // Leads to a lot of duplication without clear advantages. If types are necessary for documentation purposes,
         // @typescript-eslint/explicit-module-boundary-types would be preferable.
@@ -74,11 +78,11 @@ module.exports = {
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "function-call-argument-newline": [
             "error",
-            "consistent"
+            "consistent",
         ],
         "function-paren-newline": [
             "error",
-            "multiline-arguments"
+            "multiline-arguments",
         ],
         "id-blacklist": "off", // Often, e.g. "error" is a perfectly acceptable identifier.
         "id-length": "off", // Seems too restrictive, sometimes one character is enough (e.g. for inline arrows).
@@ -91,8 +95,8 @@ module.exports = {
             "error",
             {
                 json: "always",
-                schema: "always"
-            }
+                schema: "always",
+            },
         ],
         "import/first": "error",
         // There are advantages and disadvantages to turning this on or off. "off" seems the better choice.
@@ -100,8 +104,8 @@ module.exports = {
         "import/max-dependencies": [
             "error",
             {
-                max: 30
-            }
+                max: 30,
+            },
         ],
         "import/named": "off", // Already covered by typescript.
         "import/namespace": "off", // Already covered by typescript.
@@ -117,8 +121,8 @@ module.exports = {
                 allowAnonymousFunction: false,
                 allowCallExpression: false,
                 allowLiteral: false,
-                allowObject: false
-            }
+                allowObject: false,
+            },
         ],
         "import/no-commonjs": "error",
         "import/no-cycle": "error",
@@ -147,9 +151,9 @@ module.exports = {
             {
                 alphabetize: {
                     order: "asc",
-                    caseInsensitive: true
-                }
-            }
+                    caseInsensitive: true,
+                },
+            },
         ],
         "import/prefer-default-export": "off", // Does not make much sense.
         "import/unambiguous": "error",
@@ -160,24 +164,24 @@ module.exports = {
             "error",
             4,
             {
-                SwitchCase: 1
-            }
+                SwitchCase: 1,
+            },
         ],
         "jsdoc/check-alignment": "warn",
         "jsdoc/check-examples": "warn",
         "jsdoc/check-indentation": [
             "warn",
             {
-                excludeTags: ["description"]
-            }
+                excludeTags: ["description"],
+            },
         ],
         "jsdoc/check-param-names": "warn",
         "jsdoc/check-syntax": "warn",
         "jsdoc/check-tag-names": [
             "warn",
             {
-                definedTags: ["internal", "maximum", "minimum", "multipleOf"]
-            }
+                definedTags: ["internal", "maximum", "minimum", "multipleOf"],
+            },
         ],
         "jsdoc/check-types": "warn",
         "jsdoc/match-description": "warn",
@@ -192,22 +196,23 @@ module.exports = {
         "line-comment-position": "off", // We want to allow comments above and beside code.
         // Does not work with interfaces, see https://github.com/typescript-eslint/typescript-eslint/issues/1150
         "lines-around-comment": "off",        
-        "lines-between-class-members": [
+        "lines-between-class-members": "off",
+        "@typescript-eslint/lines-between-class-members": [
             "error",
             "always",
             {
-                exceptAfterSingleLine: true
-            }
+                exceptAfterSingleLine: true,
+            },
         ],
         "max-len": [
             "error",
             {
-                code: 120
-            }
+                code: 120,
+            },
         ],
         "max-lines": [
             "error",
-            1000
+            1000,
         ],
         "max-lines-per-function": "off", // Does not make much sense for describe-style tests.
         "max-params": "off",
@@ -234,17 +239,17 @@ module.exports = {
                     "private-static-method",
                     "private-field",
                     "private-constructor",
-                    "private-method"
-                ]
-            }
+                    "private-method",
+                ],
+            },
         ],
         "multiline-comment-style": [
             "error",
-            "separate-lines"
+            "separate-lines",
         ],
         "multiline-ternary": [
             "error",
-            "always-multiline"
+            "always-multiline",
         ],
         "@typescript-eslint/naming-convention": [
             "error",
@@ -265,8 +270,10 @@ module.exports = {
                 format: ["PascalCase"], // TODO: Try to make this strict
                 custom: {
                     regex: "^I[A-Z]",
-                    match: true
-                }
+                    match: true,
+                },
+                leadingUnderscore: "forbid",
+                trailingUnderscore: "forbid",
             },
         ],
         // Typescript ensures that constructor functions are only called with new, so the convention is not necessary.
@@ -282,8 +289,8 @@ module.exports = {
         "@typescript-eslint/no-confusing-void-expression": [
             "error",
             {
-                ignoreVoidOperator: true
-            }
+                ignoreVoidOperator: true,
+            },
         ],
         "no-console": "off", // Does not make sense for my projects
         "no-extra-parens": "off", // Was turned off in favor of no-mixed-operators.
@@ -291,8 +298,8 @@ module.exports = {
         "@typescript-eslint/no-extraneous-class": [
             "error",
             {
-                allowStaticOnly: true
-            }
+                allowStaticOnly: true,
+            },
         ],
         "no-inline-comments": "off", // We want to allow inline comments.
         // Does not work for all cases in typescript https://github.com/typescript-eslint/typescript-eslint/issues/491.
@@ -309,14 +316,14 @@ module.exports = {
         "no-promise-executor-return": "off",
         "no-restricted-syntax": [
             "error",
-            "ForInStatement"
+            "ForInStatement",
         ],
         "no-shadow": "off",
         "@typescript-eslint/no-shadow": [
             "error",
             {
-                hoist: "all"
-            }
+                hoist: "all",
+            },
         ],
         "no-ternary": "off",
         "@typescript-eslint/no-type-alias": "off", // Does not make much sense.
@@ -332,7 +339,7 @@ module.exports = {
                 functions: false,
                 // cSpell: ignore typedefs
                 typedefs: false,
-                enums: false
+                enums: false,
             },
         ],
         // Was turned off in favor of @typescript-eslint/no-useless-constructor (which is turned on with default
@@ -345,31 +352,31 @@ module.exports = {
         "object-curly-spacing": "off",
         "@typescript-eslint/object-curly-spacing": [
             "error",
-            "always"
+            "always",
         ],
         "object-property-newline": [
             "error",
             {
-                allowAllPropertiesOnSameLine: true
-            }
+                allowAllPropertiesOnSameLine: true,
+            },
         ],
         "one-var": "off", // Does not seem to work with const and let?
         // cSpell: ignore linebreak
         "operator-linebreak": [
             "error",
-            "after"
+            "after",
         ],
         "padded-blocks": [
             "error",
-            "never"
+            "never",
         ],
         "padding-line-between-statements": [
             "error",
             {
                 blankLine: "always",
                 prev: "*",
-                next: "return"
-            }
+                next: "return",
+            },
             // TODO: Configure to match code style
         ],
         "@typescript-eslint/prefer-enum-initializers": "off", // Implictly defined values should be common knowledge
@@ -378,18 +385,14 @@ module.exports = {
             {
                 disallowPrototype: true,
                 singleReturnOnly: false,
-                classPropertiesAllowed: false
-            }
+                classPropertiesAllowed: false,
+            },
         ],
-        "@typescript-eslint/prefer-readonly-parameter-types": [
-            "error",
-            {
-                ignoreInferredTypes: true,
-            }
-        ],
+        // TODO: This doesn't seem to work correctly yet
+        "@typescript-eslint/prefer-readonly-parameter-types": "off",
         "quote-props": [
             "error",
-            "consistent-as-needed"
+            "consistent-as-needed",
         ],
         "quotes": "off", // Turned off in favor of @typescript-eslint/quotes (which is turned on with default settings)
         "@typescript-eslint/restrict-template-expressions": "off", // The advantages are unclear.
@@ -399,7 +402,7 @@ module.exports = {
             {
                 ignoreCase: true,
                 ignoreDeclarationSort: true,
-            }
+            },
         ],
         "sort-keys": "off", 
         "space-before-function-paren": "off",
@@ -408,28 +411,28 @@ module.exports = {
             {
                 anonymous: "never",
                 named: "never",
-                asyncArrow: "always"
-            }
+                asyncArrow: "always",
+            },
         ],
         "space-in-parens": [
             "error",
-            "never"
+            "never",
         ],
         "spaced-comment": [
             "error",
             "always",
             {
-                exceptions: ["/"]
-            }
+                exceptions: ["/"],
+            },
         ],
         "@typescript-eslint/strict-boolean-expressions": "off", // Takes away too much expressive power.
         // Value is questionable, see
         // https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/eslint-plugin/docs/rules/typedef.md
-        "@typescript-eslint/typedef": "off"
+        "@typescript-eslint/typedef": "off",
     },
     settings: {
         jsdoc: {
-            mode: "typescript"
-        }
-    }
+            mode: "typescript",
+        },
+    },
 };
