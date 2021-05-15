@@ -2,12 +2,12 @@
   "compilerOptions": {
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "lib": [],
-    "module": "commonjs",
+    "lib": ["ES2020"],
+    "module": "CommonJS",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "sourceMap": true,
     "strict": true,
-    "target": "es2017"
+    "target": "ES2020"
   }
 }
