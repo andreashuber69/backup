@@ -2,7 +2,7 @@
 module.exports = {
     env: {
         node: true,
-        es2017: true,
+        es2020: true,
     },
     extends: [
         "eslint:all",
