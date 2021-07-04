@@ -318,6 +318,7 @@ module.exports = {
             "error",
             "ForInStatement",
         ],
+        "no-return-await": "off", // Turned off in favor of @typescript-eslint/return-await 
         "no-shadow": "off",
         "@typescript-eslint/no-shadow": [
             "error",
@@ -396,6 +397,10 @@ module.exports = {
         ],
         "quotes": "off", // Turned off in favor of @typescript-eslint/quotes (which is turned on with default settings)
         "@typescript-eslint/restrict-template-expressions": "off", // The advantages are unclear.
+        "@typescript-eslint/return-await": [
+            "error",
+            "always",
+        ],
         "semi": "off", // Turned off in favor of @typescript-eslint/semi (which is turned on with default settings)
         "sort-imports": [
             "error",

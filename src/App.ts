@@ -46,7 +46,7 @@ class App {
             const prompt = "Non-empty medium! Delete everything? [Y/n]: ";
 
             if ((files.length === 0) || (await App.requestInput(prompt)).toLowerCase() !== "n") {
-                await Promise.all(files.map(async (file) => file.delete()));
+                await Promise.all(files.map(async (file) => void await file.delete()));
                 const backupScript = new Path(__dirname, "backup");
 
                 if (!await backupScript.canExecute()) {
@@ -115,7 +115,7 @@ class App {
     private static async requestInput(prompt: string) {
         process.stdout.write(prompt);
 
-        return App.getConsoleInput();
+        return await App.getConsoleInput();
     }
 
     private static async downloadFile(url: string, path: Readonly<Path>) {
@@ -130,7 +130,7 @@ class App {
     }
 
     private static async exec(command: string) {
-        return new Promise<IExecResult>(
+        return await new Promise<IExecResult>(
             (resolve) => exec(command, (error, stdout, stderr) => void resolve(App.getResult(error, stdout, stderr))),
         );
     }
@@ -148,11 +148,11 @@ class App {
     }
 
     private static async delay(milliseconds: number) {
-        return new Promise<void>((resolve) => setTimeout(resolve, milliseconds));
+        await new Promise<void>((resolve) => setTimeout(resolve, milliseconds));
     }
 
     private static async downloadFileImpl(url: string, writeStream: Readonly<WriteStream>) {
-        return new Promise<void>((resolve, reject) => {
+        await new Promise<void>((resolve, reject) => {
             let error: Error | undefined = new Error("Unknown error!");
 
             writeStream.on("close", () => {
@@ -187,7 +187,7 @@ class App {
     }
 
     private static async getConsoleInput() {
-        return new Promise<string>((resolve) => {
+        return await new Promise<string>((resolve) => {
             const stdin = process.openStdin();
             stdin.once("data", (args: { readonly toString: () => string }) => {
                 resolve(args.toString().trim());
