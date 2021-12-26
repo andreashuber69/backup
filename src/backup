@@ -1,0 +1,15 @@
+#!/bin/bash
+# Expects as the only argument a path to an existing empty folder.
+set -o errexit
+set -o nounset
+set -o pipefail
+
+if [[ ("$#" -ne 1) || (! -d "$1") || "$(ls -A $1)" ]]; then
+  echo "Error: The only argument must be an existing empty folder."
+  exit 1
+fi
+
+echo "Backing up & verifying files..."
+tar --create --verify --file=$1/files.tar.gz --directory=/home/andreas Documents Pictures Videos
+
+echo "Backup completed successfully."

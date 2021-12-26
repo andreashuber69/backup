@@ -48,14 +48,6 @@ class App {
             if ((files.length === 0) || (await App.requestInput(prompt)).toLowerCase() !== "n") {
                 await Promise.all(files.map(async (file) => void await file.delete()));
                 const backupScript = new Path(__dirname, "backup");
-
-                if (!await backupScript.canExecute()) {
-                    const url = "https://raw.githubusercontent.com/andreashuber69/owncloud/master/backup";
-                    await App.downloadFile(url, backupScript);
-                    // Set execute bit for the owner
-                    await backupScript.changeMode((await backupScript.getStats()).mode | 0o100);
-                }
-
                 const commandLine = `${backupScript.path} ${mediumRoot.path}`;
                 const resultPromise = App.exec(commandLine);
                 // Allow the external process to start and execute past the empty directory check.
