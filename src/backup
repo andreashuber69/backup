@@ -4,7 +4,7 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-if [[ ("$#" -ne 1) || (! -d "$1") || "$(ls -A $1)" ]]; then
+if [[ ("$#" -ne 1) || (! -d "$1") || "$(ls -I lost+found -A $1)" ]]; then
   echo "Error: The only argument must be an existing empty folder."
   exit 1
 fi
