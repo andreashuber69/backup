@@ -43,7 +43,7 @@
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "lite-server": "^2.6.1",
     "markdownlint-cli": "^0.27.1",
-    "mocha": "^9.0.2",
+    "mocha": "^9.2.2",
     "nyc": "^15.1.0"
   },
   "dependencies": {
