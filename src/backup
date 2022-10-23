@@ -9,7 +9,9 @@ if [[ ("$#" -ne 1) || (! -d "$1") || "$(ls -A $1)" ]]; then
   exit 1
 fi
 
-echo "Backing up & verifying files..."
-tar --create --verify --file=$1/files.tar.gz --directory=/home/andreas Documents Pictures Videos
+echo "Backing up files..."
+tar --create --verify --file=$1/files.tar.gz --directory=/home/a Documents Pictures Videos
+echo "Verifying files..."
+tar --compare --file=$1/files.tar.gz --directory=/home/a
 
 echo "Backup completed successfully."
