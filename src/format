@@ -1,0 +1,35 @@
+#!/bin/bash
+# Formats the only connected SanDisk USB stick as a LUKS encrypted ext4 volume
+set -o errexit
+set -o nounset
+set -o pipefail
+
+devices=( $(readlink -e /dev/disk/by-id/*SanDisk*:0) ) || devices=()
+
+if [ ${#devices[@]} -ne 1 ]; then
+  echo "Make sure exactly one SanDisk USB stick is plugged in."
+  exit 1
+fi
+
+read -p "Volume Name: " volumeName
+
+# mounts=( $(lsblk -l -n -o MOUNTPOINT $devices) )
+# lukss=( $(lsblk -l -n -o NAME $devices | tail -n +2) )
+# echo ${#mounts[@]}
+# echo ${#lukss[@]}
+# for mount in "${mounts[@]}" do
+#   sudo umount $mount
+# done
+# for luks in "${lukss[@]}" do
+#   sudo cryptsetup luksClose $luks
+# done
+
+sudo wipefs -f -a $devices
+sudo cryptsetup luksFormat --type luks2 $devices
+sudo cryptsetup luksOpen $devices $volumeName
+sudo mkfs.ext4 -L $volumeName -E root_owner=$UID:$GID /dev/mapper/$volumeName
+sleep 1
+sudo cryptsetup luksClose $volumeName
+sleep 1
+udisksctl power-off -b $devices
+echo "Done, you can now unplug the USB stick."
