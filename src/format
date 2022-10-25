@@ -11,8 +11,6 @@ if [ ${#devices[@]} -ne 1 ]; then
   exit 1
 fi
 
-read -p "Volume Name: " volumeName
-
 # mounts=( $(lsblk -l -n -o MOUNTPOINT $devices) )
 # lukss=( $(lsblk -l -n -o NAME $devices | tail -n +2) )
 # echo ${#mounts[@]}
@@ -23,6 +21,8 @@ read -p "Volume Name: " volumeName
 # for luks in "${lukss[@]}" do
 #   sudo cryptsetup luksClose $luks
 # done
+
+read -p "Volume Name: " volumeName
 
 sudo wipefs -f -a $devices
 sudo cryptsetup luksFormat --type luks2 $devices
