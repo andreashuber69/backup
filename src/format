@@ -4,15 +4,15 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-devices=( $(readlink -e /dev/disk/by-id/*SanDisk*:0) ) || devices=()
+device=( $(readlink -e /dev/disk/by-id/*SanDisk*:0) ) || device=()
 
-if [ ${#devices[@]} -ne 1 ]; then
+if [ ${#device[@]} -ne 1 ]; then
   echo "Make sure exactly one SanDisk USB stick is plugged in."
   exit 1
 fi
 
-# mounts=( $(lsblk -l -n -o MOUNTPOINT $devices) )
-# lukss=( $(lsblk -l -n -o NAME $devices | tail -n +2) )
+# mounts=( $(lsblk -l -n -o MOUNTPOINT $device) )
+# lukss=( $(lsblk -l -n -o NAME $device | tail -n +2) )
 # echo ${#mounts[@]}
 # echo ${#lukss[@]}
 # for mount in "${mounts[@]}" do
@@ -24,12 +24,12 @@ fi
 
 read -p "Volume Name: " volumeName
 
-sudo wipefs -f -a $devices
-sudo cryptsetup luksFormat --type luks2 $devices
-sudo cryptsetup luksOpen $devices $volumeName
+sudo wipefs -f -a $device
+sudo cryptsetup luksFormat --type luks2 $device
+sudo cryptsetup luksOpen $device $volumeName
 sudo mkfs.ext4 -L $volumeName -E root_owner=$UID:$(id -g) /dev/mapper/$volumeName
 sleep 1
 sudo cryptsetup luksClose $volumeName
 sleep 1
-udisksctl power-off -b $devices
+udisksctl power-off -b $device
 echo "Done, you can now unplug the USB stick."
