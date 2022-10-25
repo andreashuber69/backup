@@ -11,16 +11,13 @@ if [ ${#device[@]} -ne 1 ]; then
   exit 1
 fi
 
-# mounts=( $(lsblk -l -n -o MOUNTPOINT $device) )
-# lukss=( $(lsblk -l -n -o NAME $device | tail -n +2) )
-# echo ${#mounts[@]}
-# echo ${#lukss[@]}
-# for mount in "${mounts[@]}" do
-#   sudo umount $mount
-# done
-# for luks in "${lukss[@]}" do
-#   sudo cryptsetup luksClose $luks
-# done
+mounts=( $(lsblk -l -n -o MOUNTPOINT $device) )
+lukss=( $(lsblk -l -n -o NAME $device | tail -n +2) )
+
+if [[ (${#mounts[@]} -ne 0) || (${#lukss[@]} -ne 0) ]]; then
+  echo "Error: The device is still mounted and/or LUKS still unlocked."
+  exit 1
+fi
 
 read -p "Volume Name: " volumeName
 
