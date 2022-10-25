@@ -27,7 +27,7 @@ read -p "Volume Name: " volumeName
 sudo wipefs -f -a $devices
 sudo cryptsetup luksFormat --type luks2 $devices
 sudo cryptsetup luksOpen $devices $volumeName
-sudo mkfs.ext4 -L $volumeName -E root_owner=$UID:$GID /dev/mapper/$volumeName
+sudo mkfs.ext4 -L $volumeName -E root_owner=$UID:$(id -g) /dev/mapper/$volumeName
 sleep 1
 sudo cryptsetup luksClose $volumeName
 sleep 1
