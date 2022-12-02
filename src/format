@@ -11,8 +11,8 @@ if [ ${#device[@]} -ne 1 ]; then
   exit 1
 fi
 
-mounts=( $(lsblk -l -n -o MOUNTPOINT $device) )
-lukss=( $(lsblk -l -n -o NAME $device | tail -n +2) )
+mounts=( $(lsblk -l -n -o MOUNTPOINT $device) ) || mounts=()
+lukss=( $(lsblk -l -n -o NAME $device | tail -n +2) ) || lukss=()
 
 if [[ (${#mounts[@]} -ne 0) || (${#lukss[@]} -ne 0) ]]; then
   echo "Error: The device is still mounted and/or LUKS still unlocked."
