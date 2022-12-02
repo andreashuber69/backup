@@ -1,6 +1,4 @@
 import { exec } from "child_process";
-import type { WriteStream } from "fs";
-import { get } from "https";
 import { setTimeout } from "timers";
 
 import type { IExecResult } from "./IExecResult";
@@ -29,7 +27,7 @@ class App {
         const medium = Medium.get(2, 7, daysSinceStart);
         const mediumName = App.getMediumName(medium);
         // cSpell: ignore logname
-        const user = process.env.LOGNAME;
+        const user = process.env["LOGNAME"];
         const mediumRoot = new Path("/", "media", user ? user : "", mediumName);
         // eslint-disable-next-line @typescript-eslint/init-declarations
         let logger: Logger | undefined;
@@ -111,17 +109,6 @@ class App {
         return await App.getConsoleInput();
     }
 
-    private static async downloadFile(url: string, path: Readonly<Path>) {
-        const writeStream = await path.openWrite();
-
-        try {
-            await App.downloadFileImpl(url, writeStream);
-        } catch (ex: unknown) {
-            await path.delete();
-            throw ex;
-        }
-    }
-
     private static async exec(command: string) {
         return await new Promise<IExecResult>(
             (resolve) => exec(command, (error, stdout, stderr) => resolve(App.getResult(error, stdout, stderr))),
@@ -142,41 +129,6 @@ class App {
 
     private static async delay(milliseconds: number) {
         await new Promise<void>((resolve) => setTimeout(resolve, milliseconds));
-    }
-
-    private static async downloadFileImpl(url: string, writeStream: Readonly<WriteStream>) {
-        await new Promise<void>((resolve, reject) => {
-            let error: Error | undefined = new Error("Unknown error!");
-
-            writeStream.on("close", () => {
-                if (error) {
-                    reject(error);
-                } else {
-                    resolve();
-                }
-            });
-
-            writeStream.on("finish", () => {
-                error = undefined;
-                writeStream.close();
-            });
-
-            const request = get(url, (res) => {
-                const { statusCode, statusMessage } = res;
-
-                if (statusCode === 200) {
-                    res.pipe(writeStream);
-                } else {
-                    error = new Error((statusCode ? `${statusCode}: ` : "") + (statusMessage ? statusMessage : ""));
-                    writeStream.close();
-                }
-            });
-
-            request.on("error", (err) => {
-                error = err;
-                writeStream.close();
-            });
-        });
     }
 
     private static async getConsoleInput() {
