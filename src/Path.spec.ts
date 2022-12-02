@@ -31,11 +31,11 @@ describe("Path", () => {
                     new Path(".", "src"),
                 ];
 
-                for (let index = 0; index < sut.length; ++index) {
-                    it(`should evaluate to ${expected[index]} for ${sut[index].path}`, async () => {
-                        expect(await checker(sut[index])).to.equal(expected[index]);
+                sut.forEach((path, index) => {
+                    it(`should evaluate to ${expected[index]} for ${path.path}`, async () => {
+                        expect(await checker(path)).to.equal(expected[index]);
                     });
-                }
+                });
             });
         };
 
