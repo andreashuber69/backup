@@ -13,45 +13,39 @@ export class Path {
     }
 
     public async canAccess() {
-        return await new Promise<boolean>((resolve) => void access(this.path, (err) => void resolve(!err)));
+        return await new Promise<boolean>((resolve) => access(this.path, (err) => resolve(!err)));
     }
 
     public async canExecute() {
-        return await new Promise<boolean>(
-            (resolve) => void access(this.path, constants.X_OK, (err) => void resolve(!err)),
-        );
+        return await new Promise<boolean>((resolve) => access(this.path, constants.X_OK, (err) => resolve(!err)));
     }
 
     public async getStats() {
         return await new Promise<Stats>(
-            (resolve, reject) => void lstat(this.path, (err, stats) => void (err ? reject(err) : resolve(stats))),
+            (resolve, reject) => lstat(this.path, (err, stats) => (err ? reject(err) : resolve(stats))),
         );
     }
 
     public async getFiles() {
         return await new Promise<Path[]>(
-            (resolve, reject) => void readdir(
+            (resolve, reject) => readdir(
                 this.path,
-                (e, f) => void (e ? reject(e) : resolve(f.map((value) => new Path(join(this.path, value))))),
+                (e, f) => (e ? reject(e) : resolve(f.map((value) => new Path(join(this.path, value))))),
             ),
         );
     }
 
     public async changeMode(mode: number | string) {
-        await new Promise<void>(
-            (resolve, reject) => void chmod(this.path, mode, (err) => void (err ? reject(err) : resolve())),
-        );
+        await new Promise<void>((resolve, reject) => chmod(this.path, mode, (err) => (err ? reject(err) : resolve())));
     }
 
     public async createDirectory() {
-        await new Promise<void>(
-            (resolve, reject) => void mkdir(this.path, (err) => void (err ? reject(err) : resolve())),
-        );
+        await new Promise<void>((resolve, reject) => mkdir(this.path, (err) => (err ? reject(err) : resolve())));
     }
 
     public async delete() {
         if ((await this.getStats()).isDirectory()) {
-            await Promise.all((await this.getFiles()).map(async (file) => void await file.delete()));
+            await Promise.all((await this.getFiles()).map(async (file) => await file.delete()));
             await this.removeEmptyDirectory();
         } else {
             await this.unlinkFile();
@@ -65,14 +59,10 @@ export class Path {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private async removeEmptyDirectory() {
-        await new Promise<void>(
-            (resolve, reject) => void rmdir(this.path, (err) => void (err ? reject(err) : resolve())),
-        );
+        await new Promise<void>((resolve, reject) => rmdir(this.path, (err) => (err ? reject(err) : resolve())));
     }
 
     private async unlinkFile() {
-        await new Promise<void>(
-            (resolve, reject) => void unlink(this.path, (err) => void (err ? reject(err) : resolve())),
-        );
+        await new Promise<void>((resolve, reject) => unlink(this.path, (err) => (err ? reject(err) : resolve())));
     }
 }

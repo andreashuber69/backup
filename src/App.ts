@@ -47,7 +47,7 @@ class App {
             const prompt = "Non-empty medium! Delete everything? [Y/n]: ";
 
             if ((files.length === 0) || (await App.requestInput(prompt)).toLowerCase() !== "n") {
-                await Promise.all(files.map(async (file) => void await file.delete()));
+                await Promise.all(files.map(async (file) => await file.delete()));
                 const backupScript = new Path(__dirname, "backup");
                 const commandLine = `${backupScript.path} ${mediumRoot.path}`;
                 const resultPromise = App.exec(commandLine);
@@ -124,7 +124,7 @@ class App {
 
     private static async exec(command: string) {
         return await new Promise<IExecResult>(
-            (resolve) => exec(command, (error, stdout, stderr) => void resolve(App.getResult(error, stdout, stderr))),
+            (resolve) => exec(command, (error, stdout, stderr) => resolve(App.getResult(error, stdout, stderr))),
         );
     }
 
