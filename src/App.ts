@@ -1,5 +1,4 @@
-import { setTimeout } from "timers";
-
+import { delay } from "./delay";
 import { exec } from "./exec";
 import { getMediumName } from "./getMediumName";
 import { Logger } from "./Logger";
@@ -15,10 +14,6 @@ const getTodayMilliseconds = () => {
     const now = new Date();
 
     return Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
-};
-
-const delay = async (milliseconds: number) => {
-    await new Promise<void>((resolve) => setTimeout(resolve, milliseconds));
 };
 
 class App {
