@@ -1,14 +1,10 @@
-import { exec } from "child_process";
 import { setTimeout } from "timers";
 
-import type { IExecResult } from "./IExecResult";
+import { exec } from "./exec";
 import { Logger } from "./Logger";
 import { Medium } from "./Medium";
 import { Path } from "./Path";
-
-interface IExecError extends Error {
-    code: number;
-}
+import { requestInput } from "./requestInput";
 
 enum DayOfWeek {
     Sunday,
@@ -35,35 +31,6 @@ const getMediumName = ({ cacheNumber, slotNumber, serialNumber }: Medium) => {
 
     return `${DayOfWeek[(slotNumber + 1) % 7]}${(cacheNumber + 1)}${serial}`;
 };
-
-const getConsoleInput = async () =>
-    await new Promise<string>((resolve) => {
-        const stdin = process.openStdin();
-        stdin.once("data", (args: { readonly toString: () => string }) => {
-            resolve(args.toString().trim());
-            stdin.pause();
-        });
-    });
-
-const requestInput = async (prompt: string) => {
-    process.stdout.write(prompt);
-
-    return await getConsoleInput();
-};
-
-const isExecError = (error: Error | null): error is IExecError => (error ? "code" in error : false);
-
-const getResult = (error: Error | null, stdout: string, stderr: string): IExecResult =>
-    ({
-        output: stdout + stderr,
-        exitCode: isExecError(error) ? error.code : 0,
-        exitMessage: error ? error.toString() : "",
-    });
-
-const execAsync = async (command: string) =>
-    await new Promise<IExecResult>(
-        (resolve) => exec(command, (error, stdout, stderr) => resolve(getResult(error, stdout, stderr))),
-    );
 
 const delay = async (milliseconds: number) => {
     await new Promise<void>((resolve) => setTimeout(resolve, milliseconds));
@@ -98,7 +65,7 @@ class App {
                 await Promise.all(files.map(async (file) => await file.delete()));
                 const backupScript = new Path(__dirname, "backup");
                 const commandLine = `${backupScript.path} ${mediumRoot.path}`;
-                const resultPromise = execAsync(commandLine);
+                const resultPromise = exec(commandLine);
                 // Allow the external process to start and execute past the empty directory check.
                 await delay(1000);
                 logger = await Logger.create(new Path(mediumRoot.path, "log.txt"));
