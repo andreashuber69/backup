@@ -1,10 +1,10 @@
-import { delay } from "./delay";
-import { exec } from "./exec";
-import { getMediumName } from "./getMediumName";
-import { Logger } from "./Logger";
-import { Medium } from "./Medium";
-import { Path } from "./Path";
-import { requestInput } from "./requestInput";
+import { delay } from "./delay.js";
+import { exec } from "./exec.js";
+import { getMediumName } from "./getMediumName.js";
+import { Logger } from "./Logger.js";
+import { Medium } from "./Medium.js";
+import { Path } from "./Path.js";
+import { requestInput } from "./requestInput.js";
 
 const getTodayMilliseconds = () => {
     // We want to get the number of full days between start and today. The current timezone should be considered

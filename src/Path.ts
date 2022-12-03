@@ -2,7 +2,7 @@ import { access, chmod, constants, createWriteStream, lstat, mkdir, readdir, rmd
 import type { Stats } from "fs";
 import { join } from "path";
 
-import { Stream } from "./Stream";
+import { Stream } from "./Stream.js";
 
 
 export class Path {

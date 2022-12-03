@@ -1,7 +1,7 @@
 import type { WriteStream } from "fs";
 import { expect } from "chai";
 
-import { Path } from "./Path";
+import { Path } from "./Path.js";
 
 type ExpectedArray = readonly [boolean, boolean, boolean];
 type PathArray = readonly [Path, Path, Path];

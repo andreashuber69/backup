@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-import { Medium } from "./Medium";
+import { Medium } from "./Medium.js";
 
 describe("Medium", () => {
     describe("get", () => {

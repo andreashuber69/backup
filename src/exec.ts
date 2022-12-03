@@ -1,5 +1,5 @@
 import { exec as execCallback } from "child_process";
-import type { IExecResult } from "./IExecResult";
+import type { IExecResult } from "./IExecResult.js";
 
 interface IExecError extends Error {
     code: number;

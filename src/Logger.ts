@@ -1,7 +1,7 @@
 import type { WriteStream } from "fs";
 
-import type { Medium } from "./Medium";
-import type { Path } from "./Path";
+import type { Medium } from "./Medium.js";
+import type { Path } from "./Path.js";
 
 export class Logger {
     public static async create(path: Readonly<Path>) {

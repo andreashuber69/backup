@@ -18,12 +18,16 @@
     "url": "https://github.com/andreashuber69/backup/issues"
   },
   "private": true,
+  "engines": {
+    "node": ">=14.18.0"
+  },
+  "type": "module",
   "main": "src/App.ts",
   "scripts": {
     "start": "ts-node src/App.ts",
     "prelint": "cspell '**/*.*' && markdownlint *.md",
     "lint": "eslint ./src --ext .js,.ts",
-    "test-no-coverage": "mocha --require ts-node/register src/*.spec.ts",
+    "test-no-coverage": "ts-mocha --loader=ts-node/esm src/*.spec.ts",
     "test": "c8 --include 'src/*.ts' --extension .ts --reporter=html --reporter=text --all npm run test-no-coverage",
     "show-coverage": "lite-server --baseDir='coverage'",
     "preci": "npm run lint",
@@ -45,12 +49,13 @@
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "lite-server": "^2.6.1",
     "markdownlint-cli": "^0.32.2",
-    "mocha": "^10.1.0"
+    "ts-mocha": "^10.0.0"
   },
   "dependencies": {
-    "@tsconfig/node-lts-strictest": "^18.12.1",
+    "@tsconfig/node-lts-strictest-esm": "^18.12.1",
     "@types/node": "^18.11.10",
     "ts-node": "^10.9.1",
+    "tslib": "^2.4.1",
     "typescript": "^4.9.3"
   }
 }

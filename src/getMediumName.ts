@@ -1,4 +1,4 @@
-import type { Medium } from "./Medium";
+import type { Medium } from "./Medium.js";
 
 enum DayOfWeek {
     Sunday,
