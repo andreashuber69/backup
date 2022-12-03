@@ -1,20 +1,11 @@
 import { setTimeout } from "timers";
 
 import { exec } from "./exec";
+import { getMediumName } from "./getMediumName";
 import { Logger } from "./Logger";
 import { Medium } from "./Medium";
 import { Path } from "./Path";
 import { requestInput } from "./requestInput";
-
-enum DayOfWeek {
-    Sunday,
-    Monday,
-    Tuesday,
-    Wednesday,
-    Thursday,
-    Friday,
-    Saturday,
-}
 
 const getTodayMilliseconds = () => {
     // We want to get the number of full days between start and today. The current timezone should be considered
@@ -24,12 +15,6 @@ const getTodayMilliseconds = () => {
     const now = new Date();
 
     return Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
-};
-
-const getMediumName = ({ cacheNumber, slotNumber, serialNumber }: Medium) => {
-    const serial = String.fromCharCode("a".charCodeAt(0) + serialNumber);
-
-    return `${DayOfWeek[(slotNumber + 1) % 7]}${(cacheNumber + 1)}${serial}`;
 };
 
 const delay = async (milliseconds: number) => {
