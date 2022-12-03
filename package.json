@@ -24,7 +24,7 @@
     "prelint": "cspell '**/*.*' && markdownlint *.md",
     "lint": "eslint ./src --ext .js,.ts",
     "test-no-coverage": "mocha --require ts-node/register src/*.spec.ts",
-    "test": "nyc --include 'src/*.ts' --extension .ts --require ts-node/register --reporter=html --reporter=text --all npm run test-no-coverage",
+    "test": "c8 --include 'src/*.ts' --extension .ts --reporter=html --reporter=text --all npm run test-no-coverage",
     "show-coverage": "lite-server --baseDir='coverage'",
     "preci": "npm run lint",
     "ci": "npm test"
@@ -35,6 +35,7 @@
     "@types/mocha": "^10.0.1",
     "@typescript-eslint/eslint-plugin": "5.43",
     "@typescript-eslint/parser": "5.43",
+    "c8": "^7.12.0",
     "chai": "^4.3.7",
     "cspell": "^6.16.0",
     "eslint": "^8.28.0",
@@ -44,8 +45,7 @@
     "eslint-plugin-prefer-arrow": "^1.2.3",
     "lite-server": "^2.6.1",
     "markdownlint-cli": "^0.32.2",
-    "mocha": "^10.1.0",
-    "nyc": "^15.1.0"
+    "mocha": "^10.1.0"
   },
   "dependencies": {
     "@tsconfig/node-lts-strictest": "^18.12.1",
