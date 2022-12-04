@@ -1,6 +1,6 @@
 export class Medium {
-    public readonly cacheNumber: number;
     public readonly slotNumber: number;
+    public readonly cacheNumber: number;
     public readonly serialNumber: number;
     public readonly backupCountSinceMediumStart: number;
     public readonly backupCountUntilMediumEnd: number;
