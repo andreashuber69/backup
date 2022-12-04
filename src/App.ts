@@ -65,9 +65,9 @@ try {
         logger.writeLine();
 
         process.exitCode = result.exitCode;
+    } else {
+        process.exitCode = 0;
     }
-
-    process.exitCode = 0;
 } catch (ex: unknown) {
     if (logger) {
         logger.writeLine(`${ex}`);
