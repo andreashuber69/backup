@@ -22,7 +22,7 @@ const getTodayMilliseconds = () => {
 const startMilliseconds = Date.UTC(2000, 3, 10);
 const todayMilliseconds = getTodayMilliseconds();
 const daysSinceStart = (todayMilliseconds - startMilliseconds) / 24 / 60 / 60 / 1000;
-const medium = Medium.get(2, 7, daysSinceStart);
+const medium = new Medium(2, 7, daysSinceStart);
 const mediumName = getMediumName(medium);
 // cSpell: ignore logname
 const user = process.env["LOGNAME"];

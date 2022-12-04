@@ -1,5 +1,11 @@
 export class Medium {
-    public static get(cacheCount: number, slotCount: number, backupCountSinceStart: number): Medium {
+    public readonly cacheNumber: number;
+    public readonly slotNumber: number;
+    public readonly serialNumber: number;
+    public readonly backupCountSinceMediumStart: number;
+    public readonly backupCountUntilMediumEnd: number;
+
+    public constructor(cacheCount: number, slotCount: number, backupCountSinceStart: number) {
         const cacheInterval = slotCount * slotCount; // How many backups to move from one to the next cache
         const cacheCycle = cacheCount * cacheInterval; // How many backups to cycle through all caches
         const slotStartInterval = cacheCycle + slotCount + 1; // How many backups between two slot starts
@@ -13,29 +19,13 @@ export class Medium {
         // backupsSinceSlotStart will never become negative
         const startBackupCount = backupCountSinceStart + mediaLifetime - cacheCycle + cacheInterval - slotCount;
 
-        const slotNumber = (startBackupCount % slotCount);
-        const backupCountSinceSlotStart = startBackupCount - (slotNumber * slotStartInterval);
-        const cacheNumber = Math.floor(backupCountSinceSlotStart / cacheInterval) % cacheCount;
-        const backupCountSinceMediumStart = (backupCountSinceSlotStart % mediaLifetime) - (cacheNumber * cacheInterval);
-
-        // TODO: Integrate medium name
-        return new Medium(
-            cacheNumber,
-            slotNumber,
-            Math.floor(backupCountSinceSlotStart / mediaLifetime),
-            backupCountSinceMediumStart,
-            mediaLifetime - backupCountSinceMediumStart - ((cacheCount - 1) * cacheInterval) - slotCount,
-        );
-    }
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    private constructor(
-        public readonly cacheNumber: number,
-        public readonly slotNumber: number,
-        public readonly serialNumber: number,
-        public readonly backupCountSinceMediumStart: number,
-        public readonly backupCountUntilMediumEnd: number,
-    ) {
+        this.slotNumber = (startBackupCount % slotCount);
+        const backupCountSinceSlotStart = startBackupCount - (this.slotNumber * slotStartInterval);
+        this.cacheNumber = Math.floor(backupCountSinceSlotStart / cacheInterval) % cacheCount;
+        this.serialNumber = Math.floor(backupCountSinceSlotStart / mediaLifetime);
+        this.backupCountSinceMediumStart =
+            (backupCountSinceSlotStart % mediaLifetime) - (this.cacheNumber * cacheInterval);
+        this.backupCountUntilMediumEnd =
+            mediaLifetime - this.backupCountSinceMediumStart - ((cacheCount - 1) * cacheInterval) - slotCount;
     }
 }
