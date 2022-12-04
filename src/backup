@@ -10,7 +10,7 @@ if [[ ("$#" -ne 1) || (! -d "$1") || "$(ls -I lost+found -A $1)" ]]; then
 fi
 
 echo "Backing up files..."
-tar --create --verify --file=$1/files.tar.gz --directory=/home/a Documents Pictures Videos
+tar --create --file=$1/files.tar.gz --directory=/home/a Documents Pictures Videos
 echo "Verifying files..."
 tar --compare --file=$1/files.tar.gz --directory=/home/a
 
