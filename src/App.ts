@@ -27,7 +27,6 @@ const mediumName = getMediumName(medium);
 // cSpell: ignore logname
 const user = process.env["LOGNAME"];
 const mediumRoot = new Path("/", "media", user ? user : "", mediumName);
-// eslint-disable-next-line @typescript-eslint/init-declarations
 let logger: Logger | undefined;
 
 const scriptFolder = dirname(fileURLToPath(import.meta.url));
