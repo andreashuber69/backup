@@ -1,8 +1,8 @@
 const getConsoleInput = async () =>
     await new Promise<string>((resolve) => {
         const stdin = process.openStdin();
-        stdin.once("data", (args: { readonly toString: () => string }) => {
-            resolve(args.toString().trim());
+        stdin.once("data", (args) => {
+            resolve(`${args}`.trim());
             stdin.pause();
         });
     });
