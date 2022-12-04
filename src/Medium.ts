@@ -5,7 +5,7 @@ export class Medium {
     public readonly backupCountSinceMediumStart: number;
     public readonly backupCountUntilMediumEnd: number;
 
-    public constructor(cacheCount: number, slotCount: number, backupCountSinceStart: number) {
+    public constructor(slotCount: number, cacheCount: number, backupCountSinceStart: number) {
         const cacheInterval = slotCount * slotCount; // How many backups to move from one to the next cache
         const cacheCycle = cacheCount * cacheInterval; // How many backups to cycle through all caches
         const slotStartInterval = cacheCycle + slotCount + 1; // How many backups between two slot starts
