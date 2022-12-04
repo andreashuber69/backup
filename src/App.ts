@@ -1,3 +1,6 @@
+import { dirname } from "path";
+import { fileURLToPath } from "url";
+
 import { delay } from "./delay.js";
 import { exec } from "./exec.js";
 import { getMediumName } from "./getMediumName.js";
@@ -16,70 +19,63 @@ const getTodayMilliseconds = () => {
     return Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
 };
 
-class App {
-    public static async main() {
-        const startMilliseconds = Date.UTC(2000, 3, 10);
-        const todayMilliseconds = getTodayMilliseconds();
-        const daysSinceStart = (todayMilliseconds - startMilliseconds) / 24 / 60 / 60 / 1000;
-        const medium = Medium.get(2, 7, daysSinceStart);
-        const mediumName = getMediumName(medium);
-        // cSpell: ignore logname
-        const user = process.env["LOGNAME"];
-        const mediumRoot = new Path("/", "media", user ? user : "", mediumName);
-        // eslint-disable-next-line @typescript-eslint/init-declarations
-        let logger: Logger | undefined;
+const startMilliseconds = Date.UTC(2000, 3, 10);
+const todayMilliseconds = getTodayMilliseconds();
+const daysSinceStart = (todayMilliseconds - startMilliseconds) / 24 / 60 / 60 / 1000;
+const medium = Medium.get(2, 7, daysSinceStart);
+const mediumName = getMediumName(medium);
+// cSpell: ignore logname
+const user = process.env["LOGNAME"];
+const mediumRoot = new Path("/", "media", user ? user : "", mediumName);
+// eslint-disable-next-line @typescript-eslint/init-declarations
+let logger: Logger | undefined;
 
-        try {
-            // The await statements cannot be parallelized
-            // eslint-disable-next-line no-await-in-loop
-            while (!await mediumRoot.canAccess() || !(await mediumRoot.getStats()).isDirectory()) {
-                // eslint-disable-next-line no-await-in-loop
-                await requestInput(`Please insert ${mediumName} and press Enter: `);
-            }
+const scriptFolder = dirname(fileURLToPath(import.meta.url));
 
-            const files =
-                (await mediumRoot.getFiles()).filter((p) => !p.path.endsWith("lost+found"));
-            const prompt = "Non-empty medium! Delete everything? [Y/n]: ";
-
-            if ((files.length === 0) || (await requestInput(prompt)).toLowerCase() !== "n") {
-                await Promise.all(files.map(async (file) => await file.delete()));
-                const backupScript = new Path(__dirname, "backup");
-                const commandLine = `${backupScript.path} ${mediumRoot.path}`;
-                const resultPromise = exec(commandLine);
-                // Allow the external process to start and execute past the empty directory check.
-                await delay(1000);
-                logger = await Logger.create(new Path(mediumRoot.path, "log.txt"));
-                logger.writeOutputMarker("Backup Start");
-                logger.writeMediumInfo(new Date(todayMilliseconds), medium, mediumName);
-                logger.writeMessage(`Executing Process: ${commandLine}`);
-                const result = await resultPromise;
-                logger.writeOutputMarker("Output Start");
-                logger.writeLine(result.output);
-                logger.writeOutputMarker("Output End");
-                logger.writeMessage(`Process Exit Message: ${result.exitMessage}`);
-                logger.writeMessage(`Process Exit Code: ${result.exitCode}`);
-                logger.writeOutputMarker("Backup End");
-                logger.writeLine();
-
-                return result.exitCode;
-            }
-
-            return 0;
-        } catch (ex: unknown) {
-            if (logger) {
-                logger.writeLine(`${ex}`);
-            } else {
-                console.error(`${ex}`);
-            }
-
-            return 1;
-        } finally {
-            if (logger) {
-                await logger.dispose();
-            }
-        }
+try {
+    // The await statements cannot be parallelized
+    // eslint-disable-next-line no-await-in-loop
+    while (!await mediumRoot.canAccess() || !(await mediumRoot.getStats()).isDirectory()) {
+        // eslint-disable-next-line no-await-in-loop
+        await requestInput(`Please insert ${mediumName} and press Enter: `);
     }
-}
 
-// The catch should never be reached (because we handle all errors in main). If it does, we let the whole thing fail.
-App.main().then((exitCode) => (process.exitCode = exitCode)).catch(() => (process.exitCode = 1));
+    const files =
+        (await mediumRoot.getFiles()).filter((p) => !p.path.endsWith("lost+found"));
+    const prompt = "Non-empty medium! Delete everything? [Y/n]: ";
+
+    if ((files.length === 0) || (await requestInput(prompt)).toLowerCase() !== "n") {
+        await Promise.all(files.map(async (file) => await file.delete()));
+        const backupScript = new Path(scriptFolder, "backup");
+        const commandLine = `${backupScript.path} ${mediumRoot.path}`;
+        const resultPromise = exec(commandLine);
+        // Allow the external process to start and execute past the empty directory check.
+        await delay(1000);
+        logger = await Logger.create(new Path(mediumRoot.path, "log.txt"));
+        logger.writeOutputMarker("Backup Start");
+        logger.writeMediumInfo(new Date(todayMilliseconds), medium, mediumName);
+        logger.writeMessage(`Executing Process: ${commandLine}`);
+        const result = await resultPromise;
+        logger.writeOutputMarker("Output Start");
+        logger.writeLine(result.output);
+        logger.writeOutputMarker("Output End");
+        logger.writeMessage(`Process Exit Message: ${result.exitMessage}`);
+        logger.writeMessage(`Process Exit Code: ${result.exitCode}`);
+        logger.writeOutputMarker("Backup End");
+        logger.writeLine();
+
+        process.exitCode = result.exitCode;
+    }
+
+    process.exitCode = 0;
+} catch (ex: unknown) {
+    if (logger) {
+        logger.writeLine(`${ex}`);
+    } else {
+        console.error(`${ex}`);
+    }
+
+    process.exitCode = 1;
+} finally {
+    await logger?.dispose();
+}

@@ -24,7 +24,7 @@
   "type": "module",
   "main": "src/App.ts",
   "scripts": {
-    "start": "ts-node src/App.ts",
+    "start": "ts-node-esm src/App.ts",
     "prelint": "cspell '**/*.*' && markdownlint *.md",
     "lint": "eslint ./src --ext .js,.ts",
     "test-no-coverage": "ts-mocha --loader=ts-node/esm src/*.spec.ts",
