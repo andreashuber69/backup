@@ -3,7 +3,6 @@ import { fileURLToPath } from "url";
 
 import { delay } from "./delay.js";
 import { exec } from "./exec.js";
-import { getMediumName } from "./getMediumName.js";
 import { Logger } from "./Logger.js";
 import { Medium } from "./Medium.js";
 import { Path } from "./Path.js";
@@ -22,11 +21,21 @@ const getTodayMilliseconds = () => {
 const startMilliseconds = Date.UTC(2000, 3, 10);
 const todayMilliseconds = getTodayMilliseconds();
 const daysSinceStart = (todayMilliseconds - startMilliseconds) / 24 / 60 / 60 / 1000;
-const medium = new Medium(7, 2, daysSinceStart);
-const mediumName = getMediumName(medium);
+
+const slotNames = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+] as const;
+
+const medium = new Medium(slotNames, 2, daysSinceStart);
 // cSpell: ignore logname
 const user = process.env["LOGNAME"];
-const mediumRoot = new Path("/", "media", user ? user : "", mediumName);
+const mediumRoot = new Path("/", "media", user ? user : "", medium.name);
 let logger: Logger | undefined;
 
 const scriptFolder = dirname(fileURLToPath(import.meta.url));
@@ -36,7 +45,7 @@ try {
     // eslint-disable-next-line no-await-in-loop
     while (!await mediumRoot.canAccess() || !(await mediumRoot.getStats()).isDirectory()) {
         // eslint-disable-next-line no-await-in-loop
-        await requestInput(`Please insert ${mediumName} and press Enter: `);
+        await requestInput(`Please insert ${medium.name} and press Enter: `);
     }
 
     const files =
@@ -52,7 +61,7 @@ try {
         await delay(1000);
         logger = await Logger.create(new Path(mediumRoot.path, "log.txt"));
         logger.writeOutputMarker("Backup Start");
-        logger.writeMediumInfo(new Date(todayMilliseconds), medium, mediumName);
+        logger.writeMediumInfo(new Date(todayMilliseconds), medium, medium.name);
         logger.writeMessage(`Executing Process: ${commandLine}`);
         const result = await resultPromise;
         logger.writeOutputMarker("Output Start");
