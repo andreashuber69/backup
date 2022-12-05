@@ -48,8 +48,7 @@ try {
         await requestInput(`Please insert ${medium.name} and press Enter: `);
     }
 
-    const files =
-        (await mediumRoot.getFiles()).filter((p) => !p.path.endsWith("lost+found"));
+    const files = (await mediumRoot.getFiles()).filter((p) => !p.path.endsWith("lost+found"));
     const prompt = "Non-empty medium! Delete everything? [Y/n]: ";
 
     if ((files.length === 0) || (await requestInput(prompt)).toLowerCase() !== "n") {
