@@ -8,6 +8,16 @@ import { Medium } from "./Medium.js";
 import { Path } from "./Path.js";
 import { requestInput } from "./requestInput.js";
 
+const slotNames = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+] as const;
+
 const getTodayMilliseconds = () => {
     // We want to get the number of full days between start and today. The current timezone should be considered
     // such that when the clock moves past midnight in the current timezone then the number of days between start
@@ -20,25 +30,11 @@ const getTodayMilliseconds = () => {
 
 const startMilliseconds = Date.UTC(2000, 3, 10);
 const todayMilliseconds = getTodayMilliseconds();
-const daysSinceStart = (todayMilliseconds - startMilliseconds) / 24 / 60 / 60 / 1000;
 
-const slotNames = [
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-] as const;
-
-const medium = new Medium(slotNames, 2, daysSinceStart);
+const medium = new Medium(slotNames, 2, (todayMilliseconds - startMilliseconds) / 24 / 60 / 60 / 1000);
 // cSpell: ignore logname
-const user = process.env["LOGNAME"];
-const mediumRoot = new Path("/", "media", user ? user : "", medium.name);
+const mediumRoot = new Path("/", "media", `${process.env["LOGNAME"]}`, medium.name);
 let logger: Logger | undefined;
-
-const scriptFolder = dirname(fileURLToPath(import.meta.url));
 
 try {
     // The await statements cannot be parallelized
@@ -53,8 +49,7 @@ try {
 
     if ((files.length === 0) || (await requestInput(prompt)).toLowerCase() !== "n") {
         await Promise.all(files.map(async (file) => await file.delete()));
-        const backupScript = new Path(scriptFolder, "backup");
-        const commandLine = `${backupScript.path} ${mediumRoot.path}`;
+        const commandLine = `${new Path(dirname(fileURLToPath(import.meta.url)), "backup").path} ${mediumRoot.path}`;
         const resultPromise = exec(commandLine);
         // Allow the external process to start and execute past the empty directory check.
         await delay(1000);
