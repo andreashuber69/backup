@@ -2,7 +2,7 @@ import { access, chmod, constants, createWriteStream, lstat, mkdir, readdir, rmd
 import type { Stats } from "fs";
 import { join } from "path";
 
-import { Stream } from "./Stream.js";
+import { createStreamAsync } from "./createStreamAsync.js";
 
 
 export class Path {
@@ -53,7 +53,7 @@ export class Path {
     }
 
     public async openWrite() {
-        return await Stream.create(() => createWriteStream(this.path));
+        return await createStreamAsync(() => createWriteStream(this.path));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
