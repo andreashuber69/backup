@@ -1,9 +1,7 @@
+import { once } from "events";
 import { access, chmod, constants, createWriteStream, lstat, mkdir, readdir, rmdir, unlink } from "fs";
 import type { Stats } from "fs";
 import { join } from "path";
-
-import { createStreamAsync } from "./createStreamAsync.js";
-
 
 export class Path {
     public readonly path: string;
@@ -53,7 +51,10 @@ export class Path {
     }
 
     public async openWrite() {
-        return await createStreamAsync(() => createWriteStream(this.path));
+        const result = createWriteStream(this.path);
+        await once(result, "open");
+
+        return result;
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
