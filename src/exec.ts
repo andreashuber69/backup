@@ -1,14 +1,15 @@
 import { exec as execCallback } from "child_process";
 import type { IExecResult } from "./IExecResult.js";
 
-const getResult = (error: Error | null, stdout: string, stderr: string): IExecResult =>
+const getResult = (error: { code?: number | undefined }, stdout: string, stderr: string): IExecResult =>
     ({
         output: stdout + stderr,
-        exitCode: error && ("code" in error) && (typeof error.code === "number") ? error.code : 0,
+        exitCode: error.code ?? 0,
         exitMessage: `${error}`,
     });
 
-export const exec = async (command: string) =>
+
+export const exec = async (cmd: string) =>
     await new Promise<IExecResult>(
-        (resolve) => execCallback(command, (error, stdout, stderr) => resolve(getResult(error, stdout, stderr))),
+        (resolve) => execCallback(cmd, (error, stdout, stderr) => resolve(getResult(error ?? {}, stdout, stderr))),
     );
