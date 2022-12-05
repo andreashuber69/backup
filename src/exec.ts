@@ -1,7 +1,12 @@
 import { exec as execCallback } from "child_process";
-import type { IExecResult } from "./IExecResult.js";
 
-const getResult = (error: { code?: number | undefined }, stdout: string, stderr: string): IExecResult =>
+interface IExecResult {
+    readonly output: string;
+    readonly exitCode: number;
+    readonly exitMessage: string;
+}
+
+const getResult = (error: { code?: number | undefined }, stdout: string, stderr: string) =>
     ({
         output: stdout + stderr,
         exitCode: error.code ?? 0,
