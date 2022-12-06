@@ -1,14 +1,10 @@
-const getConsoleInput = async () =>
-    await new Promise<string>((resolve) => {
-        const stdin = process.openStdin();
-        stdin.once("data", (args) => {
-            resolve(`${args}`.trim());
-            stdin.pause();
-        });
-    });
+import { once } from "events";
 
 export const requestInput = async (prompt: string) => {
     process.stdout.write(prompt);
+    const stdin = process.openStdin();
+    const result = `${await once(stdin, "data")}`.trim();
+    stdin.pause();
 
-    return await getConsoleInput();
+    return result;
 };
