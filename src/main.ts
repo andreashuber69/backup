@@ -57,16 +57,16 @@ try {
         logger.writeOutputMarker("Backup Start");
         logger.writeMediumInfo(new Date(todayMilliseconds), medium, medium.name);
         logger.writeMessage(`Executing Process: ${commandLine}`);
-        const result = await resultPromise;
+        const { output, exitMessage, exitCode } = await resultPromise;
         logger.writeOutputMarker("Output Start");
-        logger.writeLine(result.output);
+        logger.writeLine(output);
         logger.writeOutputMarker("Output End");
-        logger.writeMessage(`Process Exit Message: ${result.exitMessage}`);
-        logger.writeMessage(`Process Exit Code: ${result.exitCode}`);
+        logger.writeMessage(`Process Exit Message: ${exitMessage}`);
+        logger.writeMessage(`Process Exit Code: ${exitCode}`);
         logger.writeOutputMarker("Backup End");
         logger.writeLine();
 
-        process.exitCode = result.exitCode;
+        process.exitCode = exitCode;
     } else {
         process.exitCode = 0;
     }
