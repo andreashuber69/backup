@@ -55,7 +55,7 @@ try {
         await delay(1000);
         logger = await Logger.create(new Path(mediumRoot.path, "log.txt"));
         logger.writeOutputMarker("Backup Start");
-        logger.writeMediumInfo(new Date(todayMilliseconds), medium, medium.name);
+        logger.writeMediumInfo(new Date(todayMilliseconds), medium);
         logger.writeMessage(`Executing Process: ${commandLine}`);
         const { output, exitMessage, exitCode } = await resultPromise;
         logger.writeOutputMarker("Output Start");

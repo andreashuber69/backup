@@ -24,13 +24,16 @@ export class Logger {
         this.writeLine(`${Logger.formatTime(new Date())}  ${message}`);
     }
 
-    public writeMediumInfo(today: Readonly<Date>, medium: Medium, mediumName: string) {
+    public writeMediumInfo(
+        today: Readonly<Date>,
+        { name, backupCountSinceMediumStart, backupCountUntilMediumEnd }: Medium,
+    ) {
         const millisecondsPerDay = 24 * 60 * 60 * 1000;
         this.writeInfoLine("Current Date", Logger.formatDate(today));
-        this.writeInfoLine("Medium Name", mediumName);
-        const mediumStart = new Date(today.valueOf() - (medium.backupCountSinceMediumStart * millisecondsPerDay));
+        this.writeInfoLine("Medium Name", name);
+        const mediumStart = new Date(today.valueOf() - (backupCountSinceMediumStart * millisecondsPerDay));
         this.writeInfoLine("Medium Start", Logger.formatDate(mediumStart));
-        const mediumEnd = new Date(today.valueOf() + (medium.backupCountUntilMediumEnd * millisecondsPerDay));
+        const mediumEnd = new Date(today.valueOf() + (backupCountUntilMediumEnd * millisecondsPerDay));
         this.writeInfoLine("Medium End", Logger.formatDate(mediumEnd));
     }
 
