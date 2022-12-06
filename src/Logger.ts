@@ -1,3 +1,4 @@
+import { once } from "events";
 import type { WriteStream } from "fs";
 
 import type { Medium } from "./Medium.js";
@@ -9,8 +10,10 @@ export class Logger {
     }
 
     public async dispose() {
-        await this.end();
-        await this.close();
+        this.stream.end();
+        await once(this.stream, "finish");
+        this.stream.close();
+        await once(this.stream, "close");
     }
 
     public writeLine(line = "") {
@@ -71,13 +74,5 @@ export class Logger {
 
     private writeInfoLine(name: string, value: string) {
         this.writeLine(Logger.formatTitle(name) + value);
-    }
-
-    private async end() {
-        await new Promise<void>((resolve) => this.stream.once("finish", resolve).end());
-    }
-
-    private async close() {
-        await new Promise<void>((resolve) => this.stream.once("close", resolve).close());
     }
 }
