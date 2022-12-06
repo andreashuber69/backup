@@ -44,6 +44,10 @@ export class Logger {
         this.writeLine("#".repeat(Math.max(0, leftPadding)) + lined + "#".repeat(Math.max(0, rightPadding)));
     }
 
+    public async flush() {
+        await new Promise<void>((resolve, reject) => this.stream.write("", (e) => (e ? reject(e) : resolve())));
+    }
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private static readonly logWidth = 120;

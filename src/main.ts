@@ -50,20 +50,13 @@ try {
         logger.writeOutputMarker("Backup Start");
         logger.writeMediumInfo(new Date(todayMilliseconds), medium);
         const fileAndDirectory = `--file=${new Path(mediumRoot.path, "files.tar.gz").path} --directory=/home/${user}`;
-        exec(`tar --create ${fileAndDirectory} Documents Pictures Videos`, logger);
-        exec(`tar --compare ${fileAndDirectory}`, logger);
+        await exec(`tar --create ${fileAndDirectory} Documents Pictures Videos`, logger);
+        await exec(`tar --compare ${fileAndDirectory}`, logger);
     }
 
     process.exitCode = 0;
 } catch (ex: unknown) {
-    // TODO: Analyze and log ex
-
-    if (logger) {
-        logger.writeLine(`${ex}`);
-    } else {
-        console.error(`${ex}`);
-    }
-
+    console.error(`${ex}`);
     process.exitCode = 1;
 } finally {
     if (logger) {
