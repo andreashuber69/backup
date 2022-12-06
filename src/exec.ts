@@ -1,21 +1,15 @@
-import type { ExecException } from "child_process";
-import { exec as execCallback } from "child_process";
+import { execSync } from "child_process";
+import type { Logger } from "./Logger";
 
-interface IExecResult {
-    readonly output: string;
-    readonly exitCode: number;
-    readonly exitMessage: string;
-}
+export const exec = (command: string, logger: Logger) => {
+    logger.writeMessage(`Executing Process: ${command}`);
+    logger.writeOutputMarker("Output Start");
 
-const getResult = (error: ExecException | null, stdout: string, stderr: string) =>
-    ({
-        output: stdout + stderr,
-        exitCode: error?.code ?? 0,
-        exitMessage: `${error}`,
-    });
-
-
-export const exec = async (cmd: string) =>
-    await new Promise<IExecResult>(
-        (resolve) => execCallback(cmd, (error, stdout, stderr) => resolve(getResult(error, stdout, stderr))),
-    );
+    try {
+        logger.writeLine(execSync(command, { encoding: "utf-8" }));
+    } catch (ex: unknown) {
+        logger.writeLine(`${ex}`);
+    } finally {
+        logger.writeOutputMarker("Output End");
+    }
+};
