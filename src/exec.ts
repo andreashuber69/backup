@@ -1,3 +1,4 @@
+import type { ExecException } from "child_process";
 import { exec as execCallback } from "child_process";
 
 interface IExecResult {
@@ -6,15 +7,15 @@ interface IExecResult {
     readonly exitMessage: string;
 }
 
-const getResult = (error: { code?: number | undefined }, stdout: string, stderr: string) =>
+const getResult = (error: ExecException | null, stdout: string, stderr: string) =>
     ({
         output: stdout + stderr,
-        exitCode: error.code ?? 0,
+        exitCode: error?.code ?? 0,
         exitMessage: `${error}`,
     });
 
 
 export const exec = async (cmd: string) =>
     await new Promise<IExecResult>(
-        (resolve) => execCallback(cmd, (error, stdout, stderr) => resolve(getResult(error ?? {}, stdout, stderr))),
+        (resolve) => execCallback(cmd, (error, stdout, stderr) => resolve(getResult(error, stdout, stderr))),
     );
