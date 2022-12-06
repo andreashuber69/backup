@@ -4,11 +4,6 @@ set -o errexit
 set -o nounset
 set -o pipefail
 
-if [[ ("$#" -ne 1) || (! -d "$1") || "$(ls -I lost+found -A $1)" ]]; then
-  echo "Error: The only argument must be an existing empty folder."
-  exit 1
-fi
-
 echo "Backing up files..."
 tar --create --file=$1/files.tar.gz --directory=/home/a Documents Pictures Videos
 echo "Verifying files..."

@@ -1,7 +1,6 @@
 import { dirname } from "path";
 import { fileURLToPath } from "url";
 
-import { delay } from "./delay.js";
 import { exec } from "./exec.js";
 import { Logger } from "./Logger.js";
 import { Medium } from "./Medium.js";
@@ -49,15 +48,12 @@ try {
 
     if ((files.length === 0) || (await requestInput(prompt)).toLowerCase() !== "n") {
         await Promise.all(files.map(async (file) => await file.delete()));
-        const commandLine = `${new Path(dirname(fileURLToPath(import.meta.url)), "backup").path} ${mediumRoot.path}`;
-        const resultPromise = exec(commandLine);
-        // Allow the external process to start and execute past the empty directory check.
-        await delay(1000);
         logger = await Logger.create(new Path(mediumRoot.path, "log.txt"));
         logger.writeOutputMarker("Backup Start");
         logger.writeMediumInfo(new Date(todayMilliseconds), medium);
+        const commandLine = `${new Path(dirname(fileURLToPath(import.meta.url)), "backup").path} ${mediumRoot.path}`;
         logger.writeMessage(`Executing Process: ${commandLine}`);
-        const { output, exitMessage, exitCode } = await resultPromise;
+        const { output, exitMessage, exitCode } = await exec(commandLine);
         logger.writeOutputMarker("Output Start");
         logger.writeLine(output);
         logger.writeOutputMarker("Output End");
