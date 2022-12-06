@@ -1,4 +1,4 @@
-import type { WriteStream } from "fs";
+import { once } from "events";
 import { expect } from "chai";
 
 import { Path } from "./Path.js";
@@ -100,16 +100,13 @@ describe("Path", () => {
     });
 
     const createTextFile = async (sut: Readonly<Path>) => {
-        const end =
-            async (s: Readonly<WriteStream>) => await new Promise<void>((resolve) => s.once("finish", resolve).end());
-
-        const close =
-            async (s: Readonly<WriteStream>) => await new Promise<void>((resolve) => s.once("close", resolve).close());
-
         const stream = await sut.openWrite();
+
         stream.write("Test\n");
-        await end(stream);
-        await close(stream);
+        stream.end();
+        await once(stream, "finish");
+        stream.close();
+        await once(stream, "close");
     };
 
     describe("delete", () => {
