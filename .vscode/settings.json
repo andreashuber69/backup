@@ -4,7 +4,9 @@
     "jsonc",
     "markdown",
     "plaintext",
-    "typescript"
+    "shellscript",
+    "typescript",
+    "yaml"
   ],
   "cSpell.import": ["../cspell.json"],
   "files.autoSave": "onFocusChange",
