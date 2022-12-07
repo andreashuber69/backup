@@ -21,7 +21,7 @@
     "node": ">=14.18.0"
   },
   "type": "module",
-  "main": "src/App.ts",
+  "main": "src/main.ts",
   "private": true,
   "scripts": {
     "start": "ts-node-esm ./src/main.ts",
