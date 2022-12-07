@@ -25,7 +25,7 @@
   "private": true,
   "scripts": {
     "start": "ts-node-esm ./src/main.ts",
-    "prelint": "cspell **/*.* && markdownlint *.md",
+    "prelint": "cspell '**/*.*' && markdownlint *.md",
     "lint": "eslint ./src --ext .js,.ts",
     "test-no-coverage": "ts-mocha --loader=ts-node/esm ./src/*.spec.ts",
     "test": "c8 --include 'src/*.ts' --reporter=html --reporter=text --all npm run test-no-coverage",
