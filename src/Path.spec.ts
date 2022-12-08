@@ -4,7 +4,9 @@ import { expect } from "chai";
 import { Path } from "./Path.js";
 
 type ExpectedArray = readonly [boolean, boolean, boolean];
+
 type PathArray = readonly [Path, Path, Path];
+
 type Method = "canAccess" | "canExecute" | "getFiles" | "getStats" ;
 
 describe("Path", () => {
