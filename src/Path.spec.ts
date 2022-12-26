@@ -1,4 +1,4 @@
-import { once } from "events";
+import { once } from "node:events";
 import { expect } from "chai";
 
 import { Path } from "./Path.js";

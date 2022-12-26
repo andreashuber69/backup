@@ -1,7 +1,7 @@
-import { once } from "events";
-import { createWriteStream } from "fs";
-import { access, chmod, constants, lstat, mkdir, readdir, rmdir, unlink } from "fs/promises";
-import { join } from "path";
+import { once } from "node:events";
+import { createWriteStream } from "node:fs";
+import { access, chmod, constants, lstat, mkdir, readdir, rmdir, unlink } from "node:fs/promises";
+import { join } from "node:path";
 
 export class Path {
     public readonly path: string;

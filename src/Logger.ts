@@ -1,5 +1,5 @@
-import { once } from "events";
-import type { WriteStream } from "fs";
+import { once } from "node:events";
+import type { WriteStream } from "node:fs";
 
 import type { Medium } from "./Medium.js";
 import type { Path } from "./Path.js";

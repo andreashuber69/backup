@@ -1,4 +1,4 @@
-import { once } from "events";
+import { once } from "node:events";
 
 export const requestInput = async (prompt: string) => {
     process.stdout.write(prompt);
