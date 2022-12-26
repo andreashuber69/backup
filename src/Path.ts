@@ -1,6 +1,6 @@
 import { once } from "events";
-import { access, chmod, constants, createWriteStream, lstat, mkdir, readdir, rmdir, unlink } from "fs";
-import type { Stats } from "fs";
+import { createWriteStream } from "fs";
+import { access, chmod, constants, lstat, mkdir, readdir, rmdir, unlink } from "fs/promises";
 import { join } from "path";
 
 export class Path {
@@ -10,35 +10,34 @@ export class Path {
         this.path = join(...paths);
     }
 
-    public async canAccess() {
-        return await new Promise<boolean>((resolve) => access(this.path, (err) => resolve(!err)));
+    public async canAccess(fac?: number) {
+        try {
+            await access(this.path, fac);
+
+            return true;
+        } catch {
+            return false;
+        }
     }
 
     public async canExecute() {
-        return await new Promise<boolean>((resolve) => access(this.path, constants.X_OK, (err) => resolve(!err)));
+        return await this.canAccess(constants.X_OK);
     }
 
     public async getStats() {
-        return await new Promise<Stats>(
-            (resolve, reject) => lstat(this.path, (err, stats) => (err ? reject(err) : resolve(stats))),
-        );
+        return await lstat(this.path);
     }
 
     public async getFiles() {
-        return await new Promise<Path[]>(
-            (resolve, reject) => readdir(
-                this.path,
-                (e, f) => (e ? reject(e) : resolve(f.map((value) => new Path(join(this.path, value))))),
-            ),
-        );
+        return (await readdir(this.path)).map((value) => new Path(join(this.path, value)));
     }
 
     public async changeMode(mode: number | string) {
-        await new Promise<void>((resolve, reject) => chmod(this.path, mode, (err) => (err ? reject(err) : resolve())));
+        await chmod(this.path, mode);
     }
 
     public async createDirectory() {
-        await new Promise<void>((resolve, reject) => mkdir(this.path, (err) => (err ? reject(err) : resolve())));
+        await mkdir(this.path);
     }
 
     public async delete() {
@@ -60,10 +59,10 @@ export class Path {
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     private async removeEmptyDirectory() {
-        await new Promise<void>((resolve, reject) => rmdir(this.path, (err) => (err ? reject(err) : resolve())));
+        await rmdir(this.path);
     }
 
     private async unlinkFile() {
-        await new Promise<void>((resolve, reject) => unlink(this.path, (err) => (err ? reject(err) : resolve())));
+        await unlink(this.path);
     }
 }
