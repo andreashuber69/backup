@@ -8,9 +8,9 @@ export const exec = async (command: string, logger: Logger) => {
 
     try {
         logger.writeLine(execSync(command, { encoding: "utf-8" }));
-    } catch (ex: unknown) {
-        logger.writeLine(`${ex}`);
-        throw ex;
+    } catch (error: unknown) {
+        logger.writeLine(`${error}`);
+        throw error;
     } finally {
         logger.writeOutputMarker("Output End");
         await logger.flush();

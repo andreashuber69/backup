@@ -34,8 +34,8 @@ try {
     }
 
     process.exitCode = 0;
-} catch (ex: unknown) {
-    console.error(`${ex}`);
+} catch (error: unknown) {
+    console.error(`${error}`);
     process.exitCode = 1;
 } finally {
     if (logger) {
