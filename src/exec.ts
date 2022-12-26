@@ -7,7 +7,7 @@ export const exec = async (command: string, logger: Logger) => {
     await logger.flush();
 
     try {
-        logger.writeLine(execSync(command, { encoding: "utf-8" }));
+        logger.writeLine(execSync(command, { encoding: "utf8" }));
     } catch (error: unknown) {
         logger.writeLine(`${error}`);
         throw error;
