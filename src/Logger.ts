@@ -76,8 +76,7 @@ export class Logger {
         return (`000${num}`).slice(-length);
     }
 
-    private constructor(private readonly stream: Readonly<WriteStream>) {
-    }
+    private constructor(private readonly stream: Readonly<WriteStream>) {}
 
     private writeInfoLine(name: string, value: string) {
         this.writeLine(Logger.formatTitle(name) + value);
