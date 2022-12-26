@@ -32,11 +32,11 @@ describe("Path", () => {
                     new Path(".", "src"),
                 ];
 
-                sut.forEach((path, index) => {
+                for (const [index, path] of sut.entries()) {
                     it(`should evaluate to ${expected[index]} for ${path.path}`, async () => {
                         expect(await checker(path)).to.equal(expected[index]);
                     });
-                });
+                }
             });
         };
 

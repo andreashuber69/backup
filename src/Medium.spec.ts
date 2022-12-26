@@ -3,12 +3,12 @@ import { expect } from "chai";
 import { Medium } from "./Medium.js";
 
 const check = (slotNames: readonly string[], expectedMediumNames: readonly string[]) => {
-    for (let index = 0; index < expectedMediumNames.length; ++index) {
+    for (const [index, expectedMediumName] of expectedMediumNames.entries()) {
         const medium = new Medium(slotNames, 1, index);
         const { name, backupCountSinceMediumStart, backupCountUntilMediumEnd } = medium;
 
         it(name, () => {
-            expect(name).to.equal(expectedMediumNames[index]);
+            expect(name).to.equal(expectedMediumName);
             expect(backupCountSinceMediumStart).to.equal(0);
             expect(backupCountUntilMediumEnd).to.equal(0);
         });
