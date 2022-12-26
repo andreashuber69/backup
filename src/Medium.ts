@@ -25,8 +25,8 @@ export class Medium {
         const backupCountSinceSlotStart = startBackupCount - (slotNumber * slotStartInterval);
         const cacheNumber = Math.floor(backupCountSinceSlotStart / cacheInterval) % cacheCount;
         const serialNumber = Math.floor(backupCountSinceSlotStart / mediaLifetime);
-        this.name =
-            `${slotNames[slotNumber]}${(cacheNumber + 1)}${String.fromCharCode("a".charCodeAt(0) + serialNumber)}`;
+        const letter = String.fromCodePoint(("a".codePointAt(0) ?? 0) + serialNumber);
+        this.name = `${slotNames[slotNumber]}${(cacheNumber + 1)}${letter}`;
         this.backupCountSinceMediumStart =
             (backupCountSinceSlotStart % mediaLifetime) - (cacheNumber * cacheInterval);
         this.backupCountUntilMediumEnd =
