@@ -1,6 +1,7 @@
 // https://github.com/andreashuber69/backup#--
 module.exports = {
-    extends: [
-        "@andreashuber69",
-    ],
+    env: {
+        node: true,
+    },
+    extends: ["@andreashuber69"],
 };
