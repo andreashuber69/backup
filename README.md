@@ -1,5 +1,6 @@
 <h1 align="center">
-  <img width="128" src="https://raw.githubusercontent.com/andreashuber69/backup/master/doc/icon.svg?sanitize=true">
+  <img width="128" src="https://raw.githubusercontent.com/andreashuber69/backup/master/doc/icon.svg?sanitize=true"><br>
+  backup
 </h1>
 <p align="center">
   <a href="https://github.com/andreashuber69/backup/releases/latest">
@@ -18,5 +19,3 @@
     <img src="https://img.shields.io/github/license/andreashuber69/backup.svg" alt="License">
   </a>
 </p>
-
-<h1 align="center">Backup</h1>
