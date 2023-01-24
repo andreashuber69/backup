@@ -1,4 +1,5 @@
 #!/bin/bash
+# https://github.com/andreashuber69/backup/blob/master/README.md#----backup
 # Formats the only connected SanDisk USB stick as a LUKS encrypted ext4 volume
 set -o errexit
 set -o nounset

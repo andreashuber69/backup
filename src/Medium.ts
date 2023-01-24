@@ -1,3 +1,4 @@
+// https://github.com/andreashuber69/backup/blob/master/README.md#----backup
 export class Medium {
     public readonly name: string;
     public readonly backupCountSinceMediumStart: number;

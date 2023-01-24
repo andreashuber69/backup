@@ -1,3 +1,4 @@
+// https://github.com/andreashuber69/backup/blob/master/README.md#----backup
 import { once } from "node:events";
 import { createWriteStream } from "node:fs";
 import { access, chmod, constants, lstat, mkdir, readdir, rmdir, unlink } from "node:fs/promises";

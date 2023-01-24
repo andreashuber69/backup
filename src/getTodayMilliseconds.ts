@@ -1,3 +1,4 @@
+// https://github.com/andreashuber69/backup/blob/master/README.md#----backup
 export const getTodayMilliseconds = () => {
     // We want to get the number of full days between start and today. The current timezone should be considered
     // such that when the clock moves past midnight in the current timezone then the number of days between start
