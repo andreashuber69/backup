@@ -15,6 +15,9 @@
   <a href="https://github.com/andreashuber69/backup/issues">
     <img src="https://img.shields.io/github/issues-raw/andreashuber69/backup.svg" alt="Issues">
   </a>
+  <a href="https://codeclimate.com/github/andreashuber69/backup/maintainability">
+    <img src="https://api.codeclimate.com/v1/badges/fce8471800029d733a84/maintainability" />
+  </a>
   <a href="https://github.com/andreashuber69/backup/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/andreashuber69/backup.svg" alt="License">
   </a>
