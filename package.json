@@ -29,7 +29,7 @@
     "lint": "eslint --report-unused-disable-directives 'src/**'",
     "test-no-coverage": "ts-mocha --loader=ts-node/esm 'src/**/*.spec.ts'",
     "test": "c8 --exclude 'src/**/*.spec.ts' --reporter=text --reporter=lcov npm run test-no-coverage",
-    "show-coverage": "lite-server --baseDir=coverage/lcov-report",
+    "show-coverage": "alive-server 'coverage/lcov-report'",
     "preci": "npm run lint",
     "ci": "npm test"
   },
@@ -37,10 +37,10 @@
     "@andreashuber69/eslint-config": "^1.1.4",
     "@types/chai": "^4.3.4",
     "@types/mocha": "^10.0.1",
+    "alive-server": "^1.2.9",
     "c8": "^7.12.0",
     "chai": "^4.3.7",
     "cspell": "^6.19.2",
-    "lite-server": "^2.6.1",
     "markdownlint-cli": "^0.33.0",
     "mocha": "^10.2.0",
     "ts-mocha": "^10.0.0"
