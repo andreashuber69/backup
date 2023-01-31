@@ -1,18 +1,20 @@
 {
   "version": "0.2",
-  "language": "en",
   "words": [
+    "cryptsetup",
+    "luks",
+    "lukss",
+    "mountpoint",
+    "udisksctl",
+    "wipefs"
   ],
-  "flagWords": [],
   "dictionaries": [
+    "bash",
     "typescript"
   ],
   "ignorePaths": [
-    "**/*.svg",
-    "coverage/**",
-    "node_modules/**",
-    "package.json",
-    "package-lock.json",
-    "tsconfig.json"
+    "/coverage/**",
+    "/package.json",
+    "/test-run/**"
   ]
 }
