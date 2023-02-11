@@ -28,8 +28,10 @@ export class Medium {
         const serialNumber = Math.floor(backupCountSinceSlotStart / mediaLifetime);
         const letter = String.fromCodePoint(("a".codePointAt(0) ?? 0) + serialNumber);
         this.name = `${slotNames[slotNumber]}${(cacheNumber + 1)}${letter}`;
+
         this.backupCountSinceMediumStart =
             (backupCountSinceSlotStart % mediaLifetime) - (cacheNumber * cacheInterval);
+
         this.backupCountUntilMediumEnd =
             mediaLifetime - this.backupCountSinceMediumStart - ((cacheCount - 1) * cacheInterval) - slotNames.length;
     }
