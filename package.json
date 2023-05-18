@@ -34,7 +34,7 @@
     "ci": "npm test"
   },
   "devDependencies": {
-    "@andreashuber69/eslint-config": "^1.1.21",
+    "@andreashuber69/eslint-config": "^1.1.22",
     "@types/chai": "^4.3.5",
     "@types/mocha": "^10.0.1",
     "alive-server": "^1.2.9",
@@ -48,9 +48,9 @@
   },
   "dependencies": {
     "@tsconfig/node-lts-strictest-esm": "^18.12.1",
-    "@types/node": "^18.16.9",
+    "@types/node": "^18.16.12",
     "ts-node": "^10.9.1",
-    "tslib": "^2.5.0",
+    "tslib": "^2.5.1",
     "typescript": "^5.0.4"
   }
 }
