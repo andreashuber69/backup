@@ -1,6 +1,6 @@
 // https://github.com/andreashuber69/backup/blob/master/README.md#----backup
 import { execSync } from "node:child_process";
-import type { Logger } from "./Logger";
+import type { Logger } from "./Logger.js";
 
 export const exec = async (command: string, logger: Logger) => {
     logger.writeMessage(`Executing Process: ${command}`);
