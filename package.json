@@ -18,7 +18,7 @@
     "name": "Andreas Huber"
   },
   "engines": {
-    "node": ">=14.18.0"
+    "node": ">=16.20.0"
   },
   "type": "module",
   "main": "src/main.ts",
@@ -34,7 +34,7 @@
     "ci": "npm test"
   },
   "devDependencies": {
-    "@andreashuber69/eslint-config": "^1.1.23",
+    "@andreashuber69/eslint-config": "^1.1.25",
     "@types/chai": "^4.3.5",
     "@types/mocha": "^10.0.1",
     "alive-server": "^1.2.9",
@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@tsconfig/node-lts-strictest-esm": "^18.12.1",
-    "@types/node": "^18.16.16",
+    "@types/node": "^18.16.17",
     "ts-node": "^10.9.1",
     "tslib": "^2.5.3",
     "typescript": "^5.1.3"
