@@ -1,8 +1,9 @@
+# https://github.com/andreashuber69/backup/blob/master/README.md#----backup
 os: linux
-dist: xenial
+dist: focal
 language: node_js
 node_js:
-- 16
+- lts/*
 
 script:
 - npm run ci
