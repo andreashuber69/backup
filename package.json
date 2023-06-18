@@ -18,7 +18,7 @@
     "name": "Andreas Huber"
   },
   "engines": {
-    "node": ">=18.16.18"
+    "node": ">=18.16"
   },
   "type": "module",
   "main": "src/main.ts",
