@@ -1,5 +1,6 @@
 // https://github.com/andreashuber69/backup/blob/master/README.md#----backup
-import { expect } from "chai";
+import assert from "node:assert";
+import { describe, it } from "node:test";
 
 import { Medium } from "./Medium.js";
 
@@ -9,9 +10,9 @@ const check = (slotNames: readonly string[], expectedMediumNames: readonly strin
         const { name, backupCountSinceMediumStart, backupCountUntilMediumEnd } = medium;
 
         it(name, () => {
-            expect(name).to.equal(expectedMediumName);
-            expect(backupCountSinceMediumStart).to.equal(0);
-            expect(backupCountUntilMediumEnd).to.equal(0);
+            assert(name === expectedMediumName);
+            assert(backupCountSinceMediumStart === 0);
+            assert(backupCountUntilMediumEnd === 0);
         });
     }
 };
