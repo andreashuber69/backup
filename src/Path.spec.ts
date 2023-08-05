@@ -9,9 +9,7 @@ type ExpectedArray = readonly [boolean, boolean, boolean];
 
 type PathArray = readonly [Path, Path, Path];
 
-type Method = "canAccess" | "canExecute" | "getFiles" | "getStats" ;
-
-describe("Path", () => {
+describe(Path.name, () => {
     let testRunPath: Path;
 
     before(async () => {
@@ -26,7 +24,7 @@ describe("Path", () => {
     });
 
     const checkResult =
-        (method: Method, checker: (sut: Readonly<Path>) => Promise<boolean>, ...expected: ExpectedArray) => {
+        (method: string, checker: (sut: Readonly<Path>) => Promise<boolean>, ...expected: ExpectedArray) => {
             describe(method, () => {
                 const sut: PathArray = [
                     new Path(".", "234987298374"),
@@ -58,12 +56,12 @@ describe("Path", () => {
         }
     };
 
-    checkResult("canAccess", async (sut) => await sut.canAccess(), false, true, true);
-    checkResult("canExecute", async (sut) => await sut.canExecute(), false, false, true);
-    checkResult("getStats", getStatsChecker, false, true, true);
-    checkResult("getFiles", getFilesChecker, false, false, true);
+    checkResult(Path.prototype.canAccess.name, async (sut) => await sut.canAccess(), false, true, true);
+    checkResult(Path.prototype.canExecute.name, async (sut) => await sut.canExecute(), false, false, true);
+    checkResult(Path.prototype.getStats.name, getStatsChecker, false, true, true);
+    checkResult(Path.prototype.getFiles.name, getFilesChecker, false, false, true);
 
-    describe("changeMode", () => {
+    describe(Path.prototype.changeMode.name, () => {
         let sut: Path;
         before(() => (sut = new Path(testRunPath.path, `${Date.now()}`)));
 
@@ -88,7 +86,7 @@ describe("Path", () => {
         });
     });
 
-    describe("createDirectory", () => {
+    describe(Path.prototype.createDirectory.name, () => {
         it("should fail to create an already existing directory", async () => {
             try {
                 await testRunPath.createDirectory();
@@ -111,7 +109,7 @@ describe("Path", () => {
         await once(stream, "close");
     };
 
-    describe("delete", () => {
+    describe(Path.prototype.delete.name, () => {
         let sut: Path;
         let filePath: Path;
         let directoryPath: Path;
