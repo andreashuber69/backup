@@ -1,5 +1,6 @@
 // https://github.com/andreashuber69/backup/blob/master/README.md#----backup
-import { execSync } from "node:child_process";
+import { exec as nodeExec } from "node:child_process";
+import { promisify } from "node:util";
 import type { Logger } from "./Logger.js";
 
 export const exec = async (command: string, logger: Logger) => {
@@ -8,7 +9,9 @@ export const exec = async (command: string, logger: Logger) => {
     await logger.flush();
 
     try {
-        logger.writeLine(execSync(command, { encoding: "utf8" }));
+        const { stdout, stderr } = await promisify(nodeExec)(command, { encoding: "utf8" });
+        logger.writeLine(stdout);
+        logger.writeLine(stderr);
     } catch (error: unknown) {
         logger.writeLine(`${error}`);
         throw error;
