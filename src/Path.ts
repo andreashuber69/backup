@@ -5,11 +5,11 @@ import { access, chmod, constants, lstat, mkdir, readdir, rmdir, unlink } from "
 import { join } from "node:path";
 
 export class Path {
-    public readonly path: string;
-
     public constructor(...paths: readonly string[]) {
         this.path = join(...paths);
     }
+
+    public readonly path: string;
 
     public async canAccess(fac?: number) {
         try {

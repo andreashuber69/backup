@@ -1,9 +1,5 @@
 // https://github.com/andreashuber69/backup/blob/master/README.md#----backup
 export class Medium {
-    public readonly name: string;
-    public readonly backupCountSinceMediumStart: number;
-    public readonly backupCountUntilMediumEnd: number;
-
     public constructor(
         slotNames: readonly string[],
         cacheCount: number,
@@ -35,4 +31,8 @@ export class Medium {
         this.backupCountUntilMediumEnd =
             mediaLifetime - this.backupCountSinceMediumStart - ((cacheCount - 1) * cacheInterval) - slotNames.length;
     }
+
+    public readonly name: string;
+    public readonly backupCountSinceMediumStart: number;
+    public readonly backupCountUntilMediumEnd: number;
 }
