@@ -9,7 +9,7 @@ type ExpectedArray = readonly [boolean, boolean, boolean];
 
 type PathArray = readonly [Path, Path, Path];
 
-describe(Path.name, () => {
+await describe(Path.name, async () => {
     let testRunPath: Path;
 
     before(async () => {
@@ -24,8 +24,8 @@ describe(Path.name, () => {
     });
 
     const checkResult =
-        (method: string, checker: (sut: Readonly<Path>) => Promise<boolean>, ...expected: ExpectedArray) => {
-            describe(method, () => {
+        async (method: string, checker: (sut: Readonly<Path>) => Promise<boolean>, ...expected: ExpectedArray) => {
+            await describe(method, async () => {
                 const sut: PathArray = [
                     new Path(".", "234987298374"),
                     new Path(".", "LICENSE"),
@@ -33,7 +33,8 @@ describe(Path.name, () => {
                 ];
 
                 for (const [index, path] of sut.entries()) {
-                    it(`should evaluate to ${expected[index]} for ${path.path}`, async () => {
+                    // eslint-disable-next-line no-await-in-loop
+                    await it(`should evaluate to ${expected[index]} for ${path.path}`, async () => {
                         assert(await checker(path) === expected[index]);
                     });
                 }
@@ -56,16 +57,16 @@ describe(Path.name, () => {
         }
     };
 
-    checkResult(Path.prototype.canAccess.name, async (sut) => await sut.canAccess(), false, true, true);
-    checkResult(Path.prototype.canExecute.name, async (sut) => await sut.canExecute(), false, false, true);
-    checkResult(Path.prototype.getStats.name, getStatsChecker, false, true, true);
-    checkResult(Path.prototype.getFiles.name, getFilesChecker, false, false, true);
+    await checkResult(Path.prototype.canAccess.name, async (sut) => await sut.canAccess(), false, true, true);
+    await checkResult(Path.prototype.canExecute.name, async (sut) => await sut.canExecute(), false, false, true);
+    await checkResult(Path.prototype.getStats.name, getStatsChecker, false, true, true);
+    await checkResult(Path.prototype.getFiles.name, getFilesChecker, false, false, true);
 
-    describe(Path.prototype.changeMode.name, () => {
+    await describe(Path.prototype.changeMode.name, async () => {
         let sut: Path;
         before(() => (sut = new Path(testRunPath.path, `${Date.now()}`)));
 
-        it("should fail to change the mode of a missing file", async () => {
+        await it("should fail to change the mode of a missing file", async () => {
             try {
                 await sut.changeMode(0o777);
             } catch (error: unknown) {
@@ -76,7 +77,7 @@ describe(Path.name, () => {
             throw new Error("did not throw as expected");
         });
 
-        it("should change the mode of an existing file", async () => {
+        await it("should change the mode of an existing file", async () => {
             await sut.createDirectory();
 
             await sut.changeMode(0o000);
@@ -86,8 +87,8 @@ describe(Path.name, () => {
         });
     });
 
-    describe(Path.prototype.createDirectory.name, () => {
-        it("should fail to create an already existing directory", async () => {
+    await describe(Path.prototype.createDirectory.name, async () => {
+        await it("should fail to create an already existing directory", async () => {
             try {
                 await testRunPath.createDirectory();
             } catch (error: unknown) {
@@ -109,7 +110,7 @@ describe(Path.name, () => {
         await once(stream, "close");
     };
 
-    describe(Path.prototype.delete.name, () => {
+    await describe(Path.prototype.delete.name, async () => {
         let sut: Path;
         let filePath: Path;
         let directoryPath: Path;
@@ -125,8 +126,8 @@ describe(Path.name, () => {
             await sut.changeMode(0o555);
         });
 
-        const expectDeleteToFail = (getSut: () => Path) => {
-            it("should fail to delete a file in a read-only directory", async () => {
+        const expectDeleteToFail = async (getSut: () => Path) => {
+            await it("should fail to delete a file in a read-only directory", async () => {
                 try {
                     await getSut().delete();
                 } catch (error: unknown) {
@@ -138,10 +139,10 @@ describe(Path.name, () => {
             });
         };
 
-        expectDeleteToFail(() => filePath);
-        expectDeleteToFail(() => directoryPath);
+        await expectDeleteToFail(() => filePath);
+        await expectDeleteToFail(() => directoryPath);
 
-        it("should delete an existing non-empty directory", async () => {
+        await it("should delete an existing non-empty directory", async () => {
             await sut.changeMode(0o777);
 
             await sut.delete();
@@ -150,8 +151,8 @@ describe(Path.name, () => {
         });
     });
 
-    describe(Path.prototype.openWrite.name, () => {
-        it("should open a new file for writing", async () => {
+    await describe(Path.prototype.openWrite.name, async () => {
+        await it("should open a new file for writing", async () => {
             const sut = new Path(testRunPath.path, `${Date.now()}.txt`);
 
             await createTextFile(sut);
@@ -161,7 +162,7 @@ describe(Path.name, () => {
             assert(stats.isFile());
         });
 
-        it("should fail to open a new file in a non-existent directory", async () => {
+        await it("should fail to open a new file in a non-existent directory", async () => {
             const sut = new Path(testRunPath.path, `${Date.now()}`, `${Date.now()}.txt`);
 
             try {

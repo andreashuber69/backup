@@ -4,12 +4,13 @@ import { describe, it } from "node:test";
 
 import { Medium } from "./Medium.js";
 
-const check = (slotNames: readonly string[], expectedMediumNames: readonly string[]) => {
+const check = async (slotNames: readonly string[], expectedMediumNames: readonly string[]) => {
     for (const [index, expectedMediumName] of expectedMediumNames.entries()) {
         const medium = new Medium(slotNames, 1, index);
         const { name, backupCountSinceMediumStart, backupCountUntilMediumEnd } = medium;
 
-        it(name, () => {
+        // eslint-disable-next-line no-await-in-loop
+        await it(name, () => {
             assert(name === expectedMediumName);
             assert(backupCountSinceMediumStart === 0);
             assert(backupCountUntilMediumEnd === 0);
@@ -17,10 +18,10 @@ const check = (slotNames: readonly string[], expectedMediumNames: readonly strin
     }
 };
 
-describe("Medium", () => {
+await describe("Medium", async () => {
     const slotNames = ["One"] as const;
 
-    describe(`with slot names ${slotNames.join(", ")}`, () => {
+    await describe(`with slot names ${slotNames.join(", ")}`, async () => {
         const expectedMediumNames = [
             "One1a",
             "One1b",
@@ -37,6 +38,6 @@ describe("Medium", () => {
             "One1m",
         ] as const;
 
-        check(slotNames, expectedMediumNames);
+        await check(slotNames, expectedMediumNames);
     });
 });
