@@ -1,5 +1,7 @@
 <h1 align="center">
-  <img width="128" src="https://raw.githubusercontent.com/andreashuber69/backup/master/doc/icon.svg?sanitize=true"><br>
+  <img
+    width="128" alt="logo"
+    src="https://raw.githubusercontent.com/andreashuber69/backup/master/doc/icon.svg?sanitize=true"><br>
   backup
 </h1>
 <p align="center">
