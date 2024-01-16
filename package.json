@@ -41,7 +41,7 @@
     "typescript": "^5.3.3"
   },
   "devDependencies": {
-    "@andreashuber69/eslint-config": "^1.1.80",
+    "@andreashuber69/eslint-config": "^1.1.81",
     "c8": "^9.1.0",
     "coveralls": "^3.1.1",
     "cspell": "^8.3.2",
