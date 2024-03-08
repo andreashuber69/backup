@@ -5,9 +5,11 @@
   ],
   "compilerOptions": {
     "importHelpers": true,
+    "noEmit": true,
     "verbatimModuleSyntax": true
   },
   "include": [
-    "src/**/*"
+    "./.eslintrc.cjs",
+    "./src/**/*.ts"
   ]
 }
