@@ -14,8 +14,8 @@
   ],
   "ignorePaths": [
     "/cc-test-reporter",
-    "/coverage/**",
+    "/coverage/",
     "/package.json",
-    "/test-run/**"
+    "/test-run/"
   ]
 }

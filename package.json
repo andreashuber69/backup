@@ -27,12 +27,10 @@
     "start": "tsx './src/main.ts'",
     "prelint": "cspell '**' && markdownlint '**/*.md'",
     "lint": "eslint --ext .cjs,.ts --report-unused-disable-directives '.'",
-    "pretest-no-coverage": "tsc",
     "test-no-coverage": "node --import tsx --test src/*.spec.ts",
     "test": "c8 --exclude 'src/*.spec.ts' --reporter=text --reporter=lcov npm run test-no-coverage",
     "show-coverage": "vite 'coverage/lcov-report' --logLevel error --open",
-    "preci": "npm run lint",
-    "ci": "npm test"
+    "ci": "npm run lint && tsc && npm test"
   },
   "dependencies": {
     "@tsconfig/node-lts": "^20.1.1",
