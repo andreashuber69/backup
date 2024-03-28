@@ -33,18 +33,18 @@
     "ci": "npm run lint && tsc && npm test"
   },
   "dependencies": {
-    "@tsconfig/node-lts": "^20.1.1",
-    "@tsconfig/strictest": "^2.0.3",
+    "@tsconfig/node-lts": "^20.1.3",
+    "@tsconfig/strictest": "^2.0.5",
     "tslib": "^2.6.2",
     "tsx": "^4.7.1",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.3"
   },
   "devDependencies": {
-    "@andreashuber69/eslint-config": "^1.1.95",
+    "@andreashuber69/eslint-config": "^1.2.6",
     "c8": "^9.1.0",
     "coveralls": "^3.1.1",
-    "cspell": "^8.6.0",
+    "cspell": "^8.6.1",
     "markdownlint-cli": "^0.39.0",
-    "vite": "^5.1.6"
+    "vite": "^5.2.6"
   }
 }
