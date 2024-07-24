@@ -1,4 +1,5 @@
 // https://github.com/andreashuber69/backup/blob/master/README.md#----backup
+
 // eslint-disable-next-line import/no-commonjs, import/unambiguous
 module.exports = {
     env: {

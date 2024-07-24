@@ -1,4 +1,5 @@
 // https://github.com/andreashuber69/backup/blob/master/README.md#----backup
+
 import { once } from "node:events";
 
 export const requestInput = async (prompt: string) => {

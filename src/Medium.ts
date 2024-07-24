@@ -1,14 +1,22 @@
 // https://github.com/andreashuber69/backup/blob/master/README.md#----backup
+
 export class Medium {
     public constructor(
         slotNames: readonly string[],
         cacheCount: number,
         backupCountSinceStart: number,
     ) {
-        const cacheInterval = slotNames.length * slotNames.length; // How many backups from one to the next cache
-        const cacheCycle = cacheCount * cacheInterval; // How many backups to cycle through all caches
-        const slotStartInterval = cacheCycle + slotNames.length + 1; // How many backups between two slot starts
-        const mediaLifetime = cacheCycle * slotNames.length; // How many backups before a single medium is retired
+        /** How many backups from one to the next cache */
+        const cacheInterval = slotNames.length * slotNames.length;
+
+        /** How many backups to cycle through all caches */
+        const cacheCycle = cacheCount * cacheInterval;
+
+        /** How many backups between two slot starts */
+        const slotStartInterval = cacheCycle + slotNames.length + 1;
+
+        /** How many backups before a single medium is retired */
+        const mediaLifetime = cacheCycle * slotNames.length;
 
         // The last number is the *total* amount of backups that are made during the lifetime of a single medium and is
         // not to be confused with how many times a single medium is written to.
