@@ -8,8 +8,5 @@
     "noEmit": true,
     "verbatimModuleSyntax": true
   },
-  "include": [
-    ".eslintrc.cjs",
-    "src/**/*.ts"
-  ]
+  "include": ["src/**/*.ts"]
 }
