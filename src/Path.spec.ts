@@ -1,8 +1,7 @@
 // https://github.com/andreashuber69/backup/blob/master/README.md#----backup
 
-import assert from "node:assert";
 import { once } from "node:events";
-import { before, describe, it } from "node:test";
+import { beforeAll, describe, expect, it } from "vitest";
 
 import { Path } from "./Path.js";
 
@@ -10,10 +9,10 @@ type ExpectedArray = readonly [boolean, boolean, boolean];
 
 type PathArray = readonly [Path, Path, Path];
 
-await describe(Path.name, async () => {
+describe(Path.name, () => {
     let testRunPath: Path;
 
-    before(async () => {
+    beforeAll(async () => {
         testRunPath = new Path("test-run");
 
         if (await testRunPath.canAccess()) {
@@ -25,8 +24,8 @@ await describe(Path.name, async () => {
     });
 
     const checkResult =
-        async (method: string, checker: (sut: Readonly<Path>) => Promise<boolean>, ...expected: ExpectedArray) => {
-            await describe(method, async () => {
+        (method: string, checker: (sut: Readonly<Path>) => Promise<boolean>, ...expected: ExpectedArray) => {
+            describe(method, () => {
                 const sut: PathArray = [
                     new Path(".", "234987298374"),
                     new Path(".", "LICENSE"),
@@ -34,9 +33,8 @@ await describe(Path.name, async () => {
                 ];
 
                 for (const [index, path] of sut.entries()) {
-                    // eslint-disable-next-line no-await-in-loop
-                    await it(`should evaluate to ${expected[index]} for ${path.path}`, async () => {
-                        assert(await checker(path) === expected[index]);
+                    it(`should evaluate to ${expected[index]} for ${path.path}`, async () => {
+                        expect(await checker(path) === expected[index]);
                     });
                 }
             });
@@ -58,42 +56,42 @@ await describe(Path.name, async () => {
         }
     };
 
-    await checkResult(Path.prototype.canAccess.name, async (sut) => await sut.canAccess(), false, true, true);
-    await checkResult(Path.prototype.canExecute.name, async (sut) => await sut.canExecute(), false, false, true);
-    await checkResult(Path.prototype.getStats.name, getStatsChecker, false, true, true);
-    await checkResult(Path.prototype.getFiles.name, getFilesChecker, false, false, true);
+    checkResult(Path.prototype.canAccess.name, async (sut) => await sut.canAccess(), false, true, true);
+    checkResult(Path.prototype.canExecute.name, async (sut) => await sut.canExecute(), false, false, true);
+    checkResult(Path.prototype.getStats.name, getStatsChecker, false, true, true);
+    checkResult(Path.prototype.getFiles.name, getFilesChecker, false, false, true);
 
-    await describe(Path.prototype.changeMode.name, async () => {
+    describe(Path.prototype.changeMode.name, () => {
         let sut: Path;
-        before(() => (sut = new Path(testRunPath.path, `${Date.now()}`)));
+        beforeAll(() => (sut = new Path(testRunPath.path, `${Date.now()}`)));
 
-        await it("should fail to change the mode of a missing file", async () => {
+        it("should fail to change the mode of a missing file", async () => {
             try {
                 await sut.changeMode(0o777);
             } catch (error: unknown) {
-                assert(error instanceof Error && error.message.startsWith("ENOENT: no such file or directory"));
+                expect(error instanceof Error && error.message.startsWith("ENOENT: no such file or directory"));
                 return;
             }
 
             throw new Error("did not throw as expected");
         });
 
-        await it("should change the mode of an existing file", async () => {
+        it("should change the mode of an existing file", async () => {
             await sut.createDirectory();
 
             await sut.changeMode(0o000);
-            assert(((await sut.getStats()).mode & 0o777) === 0o000);
+            expect(((await sut.getStats()).mode & 0o777) === 0o000);
             await sut.changeMode(0o777);
-            assert(((await sut.getStats()).mode & 0o777) === 0o777);
+            expect(((await sut.getStats()).mode & 0o777) === 0o777);
         });
     });
 
-    await describe(Path.prototype.createDirectory.name, async () => {
-        await it("should fail to create an already existing directory", async () => {
+    describe(Path.prototype.createDirectory.name, () => {
+        it("should fail to create an already existing directory", async () => {
             try {
                 await testRunPath.createDirectory();
             } catch (error: unknown) {
-                assert(error instanceof Error && error.message.startsWith("EEXIST: file already exists"));
+                expect(error instanceof Error && error.message.startsWith("EEXIST: file already exists"));
                 return;
             }
 
@@ -111,12 +109,12 @@ await describe(Path.name, async () => {
         await once(stream, "close");
     };
 
-    await describe(Path.prototype.delete.name, async () => {
+    describe(Path.prototype.delete.name, () => {
         let sut: Path;
         let filePath: Path;
         let directoryPath: Path;
 
-        before(async () => {
+        beforeAll(async () => {
             sut = new Path(testRunPath.path, `${Date.now()}`);
             await sut.createDirectory();
             filePath = new Path(sut.path, `${Date.now()}.txt`);
@@ -127,12 +125,12 @@ await describe(Path.name, async () => {
             await sut.changeMode(0o555);
         });
 
-        const expectDeleteToFail = async (getSut: () => Path) => {
-            await it("should fail to delete a file in a read-only directory", async () => {
+        const expectDeleteToFail = (getSut: () => Path) => {
+            it("should fail to delete a file in a read-only directory", async () => {
                 try {
                     await getSut().delete();
                 } catch (error: unknown) {
-                    assert(error instanceof Error && error.message.startsWith("EACCES: permission denied"));
+                    expect(error instanceof Error && error.message.startsWith("EACCES: permission denied"));
                     return;
                 }
 
@@ -140,36 +138,36 @@ await describe(Path.name, async () => {
             });
         };
 
-        await expectDeleteToFail(() => filePath);
-        await expectDeleteToFail(() => directoryPath);
+        expectDeleteToFail(() => filePath);
+        expectDeleteToFail(() => directoryPath);
 
-        await it("should delete an existing non-empty directory", async () => {
+        it("should delete an existing non-empty directory", async () => {
             await sut.changeMode(0o777);
 
             await sut.delete();
 
-            assert(!(await sut.canAccess()));
+            expect(!(await sut.canAccess()));
         });
     });
 
-    await describe(Path.prototype.openWrite.name, async () => {
-        await it("should open a new file for writing", async () => {
+    describe(Path.prototype.openWrite.name, () => {
+        it("should open a new file for writing", async () => {
             const sut = new Path(testRunPath.path, `${Date.now()}.txt`);
 
             await createTextFile(sut);
 
             const stats = await sut.getStats();
-            assert(!stats.isDirectory());
-            assert(stats.isFile());
+            expect(!stats.isDirectory());
+            expect(stats.isFile());
         });
 
-        await it("should fail to open a new file in a non-existent directory", async () => {
+        it("should fail to open a new file in a non-existent directory", async () => {
             const sut = new Path(testRunPath.path, `${Date.now()}`, `${Date.now()}.txt`);
 
             try {
                 await sut.openWrite();
             } catch (error: unknown) {
-                assert(error instanceof Error && error.message.startsWith("ENOENT: no such file or directory"));
+                expect(error instanceof Error && error.message.startsWith("ENOENT: no such file or directory"));
                 return;
             }
 
