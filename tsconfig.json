@@ -4,9 +4,7 @@
     "@tsconfig/node-lts/tsconfig"
   ],
   "compilerOptions": {
-    "noEmit": true,
-    "importHelpers": true,
-    "verbatimModuleSyntax": true
+    "noEmit": true
   },
   "include": ["src/**/*"]
 }
