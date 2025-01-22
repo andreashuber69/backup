@@ -1,6 +1,6 @@
 // https://github.com/andreashuber69/backup/blob/master/README.md#----backup
 
-import { Medium } from "./Medium.js";
+import { Medium } from "./Medium.ts";
 
 export const getMedium = (todayMilliseconds: number) => {
     const slotNames = [

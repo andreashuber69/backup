@@ -3,7 +3,7 @@
 import { once } from "node:events";
 import { beforeAll, describe, expect, it } from "vitest";
 
-import { Path } from "./Path.js";
+import { Path } from "./Path.ts";
 
 type ExpectedArray = readonly [boolean, boolean, boolean];
 

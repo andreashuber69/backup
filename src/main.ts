@@ -1,11 +1,11 @@
 // https://github.com/andreashuber69/backup/blob/master/README.md#----backup
 
-import { exec } from "./exec.js";
-import { getMedium } from "./getMedium.js";
-import { getTodayMilliseconds } from "./getTodayMilliseconds.js";
-import { Logger } from "./Logger.js";
-import { Path } from "./Path.js";
-import { requestInput } from "./requestInput.js";
+import { exec } from "./exec.ts";
+import { getMedium } from "./getMedium.ts";
+import { getTodayMilliseconds } from "./getTodayMilliseconds.ts";
+import { Logger } from "./Logger.ts";
+import { Path } from "./Path.ts";
+import { requestInput } from "./requestInput.ts";
 
 const todayMilliseconds = getTodayMilliseconds();
 const medium = getMedium(todayMilliseconds);

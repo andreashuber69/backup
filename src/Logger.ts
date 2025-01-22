@@ -3,8 +3,8 @@
 import { once } from "node:events";
 import type { WriteStream } from "node:fs";
 
-import type { Medium } from "./Medium.js";
-import type { Path } from "./Path.js";
+import type { Medium } from "./Medium.ts";
+import type { Path } from "./Path.ts";
 
 export class Logger {
     public static async create(path: Readonly<Path>) {

@@ -2,7 +2,7 @@
 
 import { describe, expect, it } from "vitest";
 
-import { Medium } from "./Medium.js";
+import { Medium } from "./Medium.ts";
 
 const check = (slotNames: readonly string[], expectedMediumNames: readonly string[]) => {
     for (const [index, expectedMediumName] of expectedMediumNames.entries()) {

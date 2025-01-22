@@ -2,7 +2,7 @@
 
 import { exec as nodeExec } from "node:child_process";
 import { promisify } from "node:util";
-import type { Logger } from "./Logger.js";
+import type { Logger } from "./Logger.ts";
 
 export const exec = async (command: string, logger: Logger) => {
     logger.writeMessage(`Executing Process: ${command}`);
