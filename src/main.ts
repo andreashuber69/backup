@@ -31,7 +31,7 @@ try {
         logger.writeOutputMarker("Backup Start");
         logger.writeMediumInfo(new Date(todayMilliseconds), medium);
         const fileAndDirectory = `--file=${new Path(mediumRoot.path, "files.tar.gz").path} --directory=/home/${user}`;
-        await exec(`tar --create ${fileAndDirectory} Documents Pictures Videos`, logger);
+        await exec(`tar --create ${fileAndDirectory} Documents Music Pictures Videos`, logger);
         await exec(`tar --compare ${fileAndDirectory}`, logger);
     }
 
