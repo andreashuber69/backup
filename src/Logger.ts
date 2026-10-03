@@ -42,7 +42,7 @@ export class Logger {
     public writeOutputMarker(marker: string) {
         const lined = ` [${marker}] `;
         const leftPadding = Math.floor((Logger.logWidth - lined.length) / 2);
-        const rightPadding = Logger.logWidth - marker.length - leftPadding;
+        const rightPadding = Logger.logWidth - lined.length - leftPadding;
         this.writeLine("#".repeat(Math.max(0, leftPadding)) + lined + "#".repeat(Math.max(0, rightPadding)));
     }
 
