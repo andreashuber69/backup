@@ -10,5 +10,12 @@ export default defineConfig({
             include: ["src/Medium.ts", "src/Path.ts"],
             reporter: ["lcov", "text"],
         },
+        projects: [
+            {
+                test: {
+                    name: "node",
+                },
+            },
+        ],
     },
 });
