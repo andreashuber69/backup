@@ -13,7 +13,7 @@ export const getMedium = (todayMilliseconds: number) => {
         "Sunday",
     ] as const;
 
-    const startMilliseconds = Date.UTC(2000, 3, 10);
+    const startMilliseconds = Date.UTC(1996, 6, 1);
 
     return new Medium(slotNames, 2, (todayMilliseconds - startMilliseconds) / 24 / 60 / 60 / 1000);
 };

@@ -7,7 +7,7 @@ export class Medium {
         backupCountSinceStart: number,
     ) {
         /** How many backups from one to the next cache */
-        const cacheInterval = slotNames.length * slotNames.length;
+        const cacheInterval = slotNames.length * (slotNames.length + 1);
 
         /** How many backups to cycle through all caches */
         const cacheCycle = cacheCount * cacheInterval;
