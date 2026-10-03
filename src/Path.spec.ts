@@ -1,5 +1,6 @@
 // https://github.com/andreashuber69/backup/blob/master/README.md#----backup
 
+import { randomUUID } from "node:crypto";
 import { once } from "node:events";
 import { beforeAll, describe, expect, it } from "vitest";
 
@@ -63,7 +64,7 @@ describe(Path.name, () => {
 
     describe(Path.prototype.changeMode.name, () => {
         let sut: Path;
-        beforeAll(() => (sut = new Path(testRunPath.path, `${Date.now()}`)));
+        beforeAll(() => (sut = new Path(testRunPath.path, randomUUID())));
 
         it("should fail to change the mode of a missing file", async () => {
             try {
@@ -115,11 +116,11 @@ describe(Path.name, () => {
         let directoryPath: Path;
 
         beforeAll(async () => {
-            sut = new Path(testRunPath.path, `${Date.now()}`);
+            sut = new Path(testRunPath.path, randomUUID());
             await sut.createDirectory();
-            filePath = new Path(sut.path, `${Date.now()}.txt`);
+            filePath = new Path(sut.path, `${randomUUID()}.txt`);
             await createTextFile(filePath);
-            directoryPath = new Path(sut.path, `${Date.now()}`);
+            directoryPath = new Path(sut.path, randomUUID());
             await directoryPath.createDirectory();
 
             await sut.changeMode(0o555);
@@ -152,7 +153,7 @@ describe(Path.name, () => {
 
     describe(Path.prototype.openWrite.name, () => {
         it("should open a new file for writing", async () => {
-            const sut = new Path(testRunPath.path, `${Date.now()}.txt`);
+            const sut = new Path(testRunPath.path, `${randomUUID()}.txt`);
 
             await createTextFile(sut);
 
@@ -162,7 +163,7 @@ describe(Path.name, () => {
         });
 
         it("should fail to open a new file in a non-existent directory", async () => {
-            const sut = new Path(testRunPath.path, `${Date.now()}`, `${Date.now()}.txt`);
+            const sut = new Path(testRunPath.path, randomUUID(), `${randomUUID()}.txt`);
 
             try {
                 await sut.openWrite();
