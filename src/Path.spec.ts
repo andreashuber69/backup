@@ -35,7 +35,7 @@ describe(Path.name, () => {
 
                 for (const [index, path] of sut.entries()) {
                     it(`should evaluate to ${expected[index]} for ${path.path}`, async () => {
-                        expect(await checker(path) === expected[index]);
+                        expect(await checker(path) === expected[index]).toBe(true);
                     });
                 }
             });
@@ -70,7 +70,10 @@ describe(Path.name, () => {
             try {
                 await sut.changeMode(0o777);
             } catch (error: unknown) {
-                expect(error instanceof Error && error.message.startsWith("ENOENT: no such file or directory"));
+                expect(error instanceof Error && error.message.startsWith("ENOENT: no such file or directory")).toBe(
+                    true,
+                );
+
                 return;
             }
 
@@ -81,9 +84,9 @@ describe(Path.name, () => {
             await sut.createDirectory();
 
             await sut.changeMode(0o000);
-            expect(((await sut.getStats()).mode & 0o777) === 0o000);
+            expect(((await sut.getStats()).mode & 0o777) === 0o000).toBe(true);
             await sut.changeMode(0o777);
-            expect(((await sut.getStats()).mode & 0o777) === 0o777);
+            expect(((await sut.getStats()).mode & 0o777) === 0o777).toBe(true);
         });
     });
 
@@ -92,7 +95,7 @@ describe(Path.name, () => {
             try {
                 await testRunPath.createDirectory();
             } catch (error: unknown) {
-                expect(error instanceof Error && error.message.startsWith("EEXIST: file already exists"));
+                expect(error instanceof Error && error.message.startsWith("EEXIST: file already exists")).toBe(true);
                 return;
             }
 
@@ -131,7 +134,7 @@ describe(Path.name, () => {
                 try {
                     await getSut().delete();
                 } catch (error: unknown) {
-                    expect(error instanceof Error && error.message.startsWith("EACCES: permission denied"));
+                    expect(error instanceof Error && error.message.startsWith("EACCES: permission denied")).toBe(true);
                     return;
                 }
 
@@ -147,7 +150,7 @@ describe(Path.name, () => {
 
             await sut.delete();
 
-            expect(!(await sut.canAccess()));
+            expect(!(await sut.canAccess())).toBe(true);
         });
     });
 
@@ -158,8 +161,8 @@ describe(Path.name, () => {
             await createTextFile(sut);
 
             const stats = await sut.getStats();
-            expect(!stats.isDirectory());
-            expect(stats.isFile());
+            expect(!stats.isDirectory()).toBe(true);
+            expect(stats.isFile()).toBe(true);
         });
 
         it("should fail to open a new file in a non-existent directory", async () => {
@@ -168,7 +171,10 @@ describe(Path.name, () => {
             try {
                 await sut.openWrite();
             } catch (error: unknown) {
-                expect(error instanceof Error && error.message.startsWith("ENOENT: no such file or directory"));
+                expect(error instanceof Error && error.message.startsWith("ENOENT: no such file or directory")).toBe(
+                    true,
+                );
+
                 return;
             }
 
