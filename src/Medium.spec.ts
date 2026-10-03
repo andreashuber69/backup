@@ -10,9 +10,9 @@ const check = (slotNames: readonly string[], expectedMediumNames: readonly strin
         const { name, backupCountSinceMediumStart, backupCountUntilMediumEnd } = medium;
 
         it(name, () => {
-            expect(name === expectedMediumName);
-            expect(backupCountSinceMediumStart === 0);
-            expect(backupCountUntilMediumEnd === 0);
+            expect(name).toBe(expectedMediumName);
+            expect(backupCountSinceMediumStart).toBe(0);
+            expect(backupCountUntilMediumEnd).toBe(0);
         });
     }
 };
