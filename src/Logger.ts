@@ -47,7 +47,7 @@ export class Logger {
     }
 
     public async flush() {
-        await new Promise<void>((resolve, reject) => this.stream.write("", (e) => (e ? reject(e) : resolve())));
+        await new Promise<void>((resolve, reject) => void this.stream.write("", (e) => (e ? reject(e) : resolve())));
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
