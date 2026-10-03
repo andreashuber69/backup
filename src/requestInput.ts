@@ -1,12 +1,13 @@
 // https://github.com/andreashuber69/backup/blob/master/README.md#----backup
 
-import { once } from "node:events";
+import { createInterface } from "node:readline/promises";
 
 export const requestInput = async (prompt: string) => {
-    process.stdout.write(prompt);
-    const { stdin } = process;
-    const result = `${await once(stdin, "data")}`.trim();
-    stdin.pause();
+    const rl = createInterface({ input: process.stdin, output: process.stdout });
 
-    return result;
+    try {
+        return await rl.question(prompt);
+    } finally {
+        rl.close();
+    }
 };
