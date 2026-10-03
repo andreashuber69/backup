@@ -10,6 +10,8 @@ export const exec = async (command: string, logger: Logger) => {
     await logger.flush();
 
     try {
+        // The alternative would add ~8 lines of code, hurting readability
+        // eslint-disable-next-line @typescript-eslint/strict-void-return
         const { stdout, stderr } = await promisify(nodeExec)(command, { encoding: "utf8" });
         logger.writeLine(stdout);
         logger.writeLine(stderr);
