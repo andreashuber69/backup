@@ -34,8 +34,6 @@ try {
         await exec(`tar --create ${fileAndDirectory} Documents Music Pictures`, logger);
         await exec(`tar --compare ${fileAndDirectory}`, logger);
     }
-
-    process.exitCode = 0;
 } catch (error: unknown) {
     console.error(`${error}`);
     process.exitCode = 1;
