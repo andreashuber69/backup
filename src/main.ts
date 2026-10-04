@@ -35,7 +35,13 @@ try {
         await exec(`tar --compare ${fileAndDirectory}`, logger);
     }
 } catch (error: unknown) {
-    console.error(`${error}`);
+    const errorString = `${error}`;
+    console.error(errorString);
+
+    if (logger) {
+        logger.writeLine(errorString);
+    }
+
     process.exitCode = 1;
 } finally {
     if (logger) {
