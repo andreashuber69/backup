@@ -30,8 +30,12 @@ try {
         logger = await Logger.create(new Path(mediumRoot.path, "log.txt"));
         logger.writeOutputMarker("Backup Start");
         logger.writeMediumInfo(new Date(todayMilliseconds), medium);
-        const fileAndDirectory = `--file=${new Path(mediumRoot.path, "files.tar.gz").path} --directory=/home/${user}`;
+        const archive = new Path(mediumRoot.path, "files.tar.gz");
+        const fileAndDirectory = `--file=${archive.path} --directory=/home/${user}`;
         await exec(`tar --create ${fileAndDirectory} Documents Music Pictures`, logger);
+        await archive.sync();
+        // Ask kernel to drop caches
+        await exec(`dd if=${archive.path} iflag=nocache count=0`, logger);
         await exec(`tar --compare ${fileAndDirectory}`, logger);
     }
 } catch (error: unknown) {
