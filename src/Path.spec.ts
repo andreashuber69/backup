@@ -187,6 +187,7 @@ describe(Path.name, () => {
             const sut = new Path(testRunPath.path, `${randomUUID()}.txt`);
 
             await createTextFile(sut);
+            // This has no testable effect, so we're only making sure that it doesn't throw.
             await sut.sync();
         });
 
