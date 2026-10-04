@@ -181,4 +181,29 @@ describe(Path.name, () => {
             throw new Error("did not throw as expected");
         });
     });
+
+    describe(Path.prototype.sync.name, () => {
+        it("should write changes to disk for an existing file", async () => {
+            const sut = new Path(testRunPath.path, `${randomUUID()}.txt`);
+
+            await createTextFile(sut);
+            await sut.sync();
+        });
+
+        it("should fail to write changes to disk for an non-existent file", async () => {
+            const sut = new Path(testRunPath.path, `${randomUUID()}.txt`);
+
+            try {
+                await sut.sync();
+            } catch (error: unknown) {
+                expect(error instanceof Error && error.message.startsWith("ENOENT: no such file or directory")).toBe(
+                    true,
+                );
+
+                return;
+            }
+
+            throw new Error("did not throw as expected");
+        });
+    });
 });

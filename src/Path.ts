@@ -2,7 +2,7 @@
 
 import { once } from "node:events";
 import { createWriteStream } from "node:fs";
-import { access, chmod, constants, lstat, mkdir, readdir, rmdir, unlink } from "node:fs/promises";
+import { access, chmod, constants, lstat, mkdir, open, readdir, rmdir, unlink } from "node:fs/promises";
 import { join } from "node:path";
 
 export class Path {
@@ -56,6 +56,16 @@ export class Path {
         await once(result, "open");
 
         return result;
+    }
+
+    public async sync() {
+        const handle = await open(this.path, "r");
+
+        try {
+            await handle.sync();
+        } finally {
+            await handle.close();
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
