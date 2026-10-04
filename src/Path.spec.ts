@@ -190,7 +190,7 @@ describe(Path.name, () => {
             await sut.sync();
         });
 
-        it("should fail to write changes to disk for an non-existent file", async () => {
+        it("should fail to write changes to disk for a non-existent file", async () => {
             const sut = new Path(testRunPath.path, `${randomUUID()}.txt`);
 
             try {
