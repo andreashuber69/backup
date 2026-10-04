@@ -63,7 +63,7 @@ export class Logger {
         const minutes = Logger.formatNumber(time.getUTCMinutes(), 2);
         const seconds = Logger.formatNumber(time.getUTCSeconds(), 2);
 
-        return `${hours}:${minutes}:${seconds}.${Logger.formatNumber(time.getUTCMilliseconds(), 3)}`;
+        return `${hours}:${minutes}:${seconds}.${Logger.formatNumber(time.getUTCMilliseconds(), 3)} UTC`;
     }
 
     private static formatDate(date: Readonly<Date>) {
